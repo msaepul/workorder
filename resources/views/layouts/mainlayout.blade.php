@@ -4,11 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AdminLTE 3 | @yield('title')</title>
+    <title>SIEDP | @yield('title')</title>
 
     <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
     <!-- Ionicons -->
@@ -66,14 +65,13 @@
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
-                            class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="index3.html" class="nav-link">Home</a>
+                    <a href="Admin" class="nav-link">Work Order</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
+                    <a href="Adminspr" class="nav-link">Sparepart</a>
                 </li>
             </ul>
 
@@ -87,8 +85,7 @@
                     <div class="navbar-search-block">
                         <form class="form-inline">
                             <div class="input-group input-group-sm">
-                                <input class="form-control form-control-navbar" type="search" placeholder="Search"
-                                    aria-label="Search">
+                                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
                                 <div class="input-group-append">
                                     <button class="btn btn-navbar" type="submit">
                                         <i class="fas fa-search"></i>
@@ -112,8 +109,7 @@
                         <a href="#" class="dropdown-item">
                             <!-- Message Start -->
                             <div class="media">
-                                <img src="dist/img/user1-128x128.jpg" alt="User Avatar"
-                                    class="img-size-50 mr-3 img-circle">
+                                <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
                                         Brad Diesel
@@ -129,13 +125,11 @@
                         <a href="#" class="dropdown-item">
                             <!-- Message Start -->
                             <div class="media">
-                                <img src="dist/img/user8-128x128.jpg" alt="User Avatar"
-                                    class="img-size-50 img-circle mr-3">
+                                <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
                                         John Pierce
-                                        <span class="float-right text-sm text-muted"><i
-                                                class="fas fa-star"></i></span>
+                                        <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
                                     </h3>
                                     <p class="text-sm">I got your message bro</p>
                                     <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
@@ -147,13 +141,11 @@
                         <a href="#" class="dropdown-item">
                             <!-- Message Start -->
                             <div class="media">
-                                <img src="dist/img/user3-128x128.jpg" alt="User Avatar"
-                                    class="img-size-50 img-circle mr-3">
+                                <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
                                 <div class="media-body">
                                     <h3 class="dropdown-item-title">
                                         Nora Silvester
-                                        <span class="float-right text-sm text-warning"><i
-                                                class="fas fa-star"></i></span>
+                                        <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
                                     </h3>
                                     <p class="text-sm">The subject goes here</p>
                                     <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
@@ -224,84 +216,83 @@
           <i class="fas fa-th-large"></i>
         </a>
       </li> --}}
-            </ul>
+
         </nav>
         <!-- /.navbar -->
         @yield('content')
-    </div>
-    <footer class="main-footer">
-        <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
-        All rights reserved.
-        <div class="float-right d-none d-sm-inline-block">
-            <b>Version</b> 3.2.0
-        </div>
-    </footer><!-- ./wrapper -->
-    </div>
-    <!-- jQuery -->
-    <script src="plugins/jquery/jquery.min.js"></script>
-    <!-- jQuery UI 1.11.4 -->
-    <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
-    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-        $.widget.bridge('uibutton', $.ui.button)
-    </script>
-    <!-- Bootstrap 4 -->
-    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- bs-custom-file-input -->
-    <script src="plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+            All rights reserved.
+            <div class="float-right d-none d-sm-inline-block">
+                <b>Version</b> 3.2.0
+            </div>
+        </footer><!-- ./wrapper -->
+        <!-- jQuery -->
+        <script src="plugins/jquery/jquery.min.js"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <script>
+            $.widget.bridge('uibutton', $.ui.button)
+        </script>
+        <!-- Bootstrap 4 -->
+        <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- bs-custom-file-input -->
+        <script src="plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 
-    <!-- ChartJS -->
-    <script src="plugins/chart.js/Chart.min.js"></script>
-    <!-- Sparkline -->
-    <script src="plugins/sparklines/sparkline.js"></script>
-    <!-- JQVMap -->
-    <script src="plugins/jqvmap/jquery.vmap.min.js"></script>
-    <script src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-    <!-- jQuery Knob Chart -->
-    <script src="plugins/jquery-knob/jquery.knob.min.js"></script>
-    <!-- daterangepicker -->
-    <script src="plugins/moment/moment.min.js"></script>
-    <script src="plugins/daterangepicker/daterangepicker.js"></script>
-    <!-- Tempusdominus Bootstrap 4 -->
-    <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-    <!-- Summernote -->
-    <script src="plugins/summernote/summernote-bs4.min.js"></script>
-    <!-- overlayScrollbars -->
-    <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-    <!-- Select2 -->
-    <script src="plugins/select2/js/select2.full.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="dist/js/adminlte.js"></script>
+        <!-- ChartJS -->
+        <script src="plugins/chart.js/Chart.min.js"></script>
+        <!-- Sparkline -->
+        <script src="plugins/sparklines/sparkline.js"></script>
+        <!-- JQVMap -->
+        <script src="plugins/jqvmap/jquery.vmap.min.js"></script>
+        <script src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+        <!-- jQuery Knob Chart -->
+        <script src="plugins/jquery-knob/jquery.knob.min.js"></script>
+        <!-- daterangepicker -->
+        <script src="plugins/moment/moment.min.js"></script>
+        <script src="plugins/daterangepicker/daterangepicker.js"></script>
+        <!-- Tempusdominus Bootstrap 4 -->
+        <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+        <!-- Summernote -->
+        <script src="plugins/summernote/summernote-bs4.min.js"></script>
+        <!-- overlayScrollbars -->
+        <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+        <!-- Select2 -->
+        <script src="plugins/select2/js/select2.full.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="dist/js/adminlte.js"></script>
 
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="dist/js/pages/dashboard.js"></script>
-    <script>
-        $(function() {
-            //Initialize Select2 Elements
-            $('.select2').select2()
+        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+        <script src="dist/js/pages/dashboard.js"></script>
+        <script>
+            $(function() {
+                //Initialize Select2 Elements
+                $('.select2').select2()
 
-            //Initialize Select2 Elements
-            $('.select2bs4').select2({
-                theme: 'bootstrap4'
-            })
-        });
-    </script>
-    <script>
-        function disableperangkat(that) {
-            console.log(that.value);
-            if (that.value == "hardware") {
-                document.getElementById("jenis").disabled = false;
+                //Initialize Select2 Elements
+                $('.select2bs4').select2({
+                    theme: 'bootstrap4'
+                })
+            });
+        </script>
+        <script>
+            function disableperangkat(that) {
+                console.log(that.value);
+                if (that.value == "hardware") {
+                    document.getElementById("jenis").disabled = false;
 
-            } else {
-                document.getElementById("jenis").disabled =true;
+                } else {
+                    document.getElementById("jenis").disabled = true;
+                }
             }
-        }
-    </script>
-    <script>
-        $(function() {
-            bsCustomFileInput.init();
-        });
-    </script>
+        </script>
+        <script>
+            $(function() {
+                bsCustomFileInput.init();
+            });
+        </script>
+
 </body>
 
 </html>

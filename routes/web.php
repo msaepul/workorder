@@ -36,6 +36,7 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('Admin', [AdminController::class, 'index'])->middleware('only_admin');
+    Route::get('Adminspr', [AdminController::class, 'dashboardspr'])->middleware('only_admin');
     Route::get('Gallery', [AdminController::class, 'gallery'])->middleware('only_admin');
     Route::get('Cabang', [CabangController::class, 'index'])->middleware('only_cabang');
     Route::get('404', [AllController::class, 'index']);
