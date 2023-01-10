@@ -23,22 +23,17 @@ class User extends Authenticatable
      * @var array<int, string>
      */
 
-    protected $table = "users";
-    protected $primarykey = "id";
-    protected $fillable = [
-        'nama_lengkap',
-        'username',
-        'password',
-        'cabang_id',
-        'departemen_id',
-    ];
+    protected $table        =   'tb_login';
+    protected $primaryKey   =   'id';
+
+    protected $fillable     = ['dept', 'cabang', 'nama_lengkap', 'email', 'password', 'spassword', 'no_telegram', 'no_wa', 'level', 'spassword'];
     public function cabang()
     {
-       return $this->belongsTo(Cabang::class);
+        return $this->belongsTo(Cabang::class);
     }
     public function departemen()
     {
-       return $this->belongsTo(Departemen::class);
+        return $this->belongsTo(Departemen::class);
     }
 
 
@@ -63,6 +58,6 @@ class User extends Authenticatable
 
     protected $attributes = [
         'role' => 2,
-        
+
     ];
 }

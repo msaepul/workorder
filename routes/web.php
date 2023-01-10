@@ -21,12 +21,12 @@ use App\Http\Controllers\MasterDataController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('login');
 })->middleware('auth');
 
 Route::middleware('guest')->group(function () {
     Route::get('login', [AuthController::class, 'login'])->name('login');
-    Route::post('login', [AuthController::class, 'authenticating']);
+    Route::post('login', [AuthController::class, 'authenticating'])->name('authenticating');
     Route::get('register', [AuthController::class, 'register']);
     Route::post('register', [AuthController::class, 'registerProses']);
 });
@@ -35,9 +35,9 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('logout', [AuthController::class, 'logout']);
-    Route::get('Admin', [AdminController::class, 'index'])->middleware('only_admin');
-    Route::get('Adminspr', [AdminController::class, 'dashboardspr'])->middleware('only_admin');
-    Route::get('Gallery', [AdminController::class, 'gallery'])->middleware('only_admin');
+    Route::get('Admin', [AdminController::class, 'index']);
+    Route::get('Adminspr', [AdminController::class, 'dashboardspr']);
+    Route::get('Gallery', [AdminController::class, 'gallery']);
     Route::get('Cabang', [CabangController::class, 'index'])->middleware('only_cabang');
     Route::get('404', [AllController::class, 'index']);
 
@@ -46,22 +46,22 @@ Route::middleware('auth')->group(function () {
 
     Route::get('Datawo', [WorkorderController::class, 'datawo'])->name('Dataworkorder');
 
-    Route::get('TPMRingan', [TPMController::class, 'TPMRingan'])->name('TPMRingan')->middleware('only_admin');
-    Route::get('TPMBerat', [TPMController::class, 'TPMBerat'])->name('TPMBerat')->middleware('only_admin');
-    Route::get('JadwalTPM', [TPMController::class, 'JadwalTPM'])->name('JadwalTPM')->middleware('only_admin');
+    Route::get('TPMRingan', [TPMController::class, 'TPMRingan'])->name('TPMRingan');
+    Route::get('TPMBerat', [TPMController::class, 'TPMBerat'])->name('TPMBerat');
+    Route::get('JadwalTPM', [TPMController::class, 'JadwalTPM'])->name('JadwalTPM');
 
-    Route::get('user', [MasterDataController::class, 'user'])->name('user')->middleware('only_admin');
-    Route::post('user', [MasterDataController::class, 'userProses'])->name('user_proses')->middleware('only_admin');
+    Route::get('user', [MasterDataController::class, 'user'])->name('user');
+    Route::post('user', [MasterDataController::class, 'userProses'])->name('user_proses');
     Route::patch('/user/{id}', ['as' => 'user.update', 'uses' => 'App\Http\Controllers\MasterDataController@updateUser']);
     Route::delete('/delete/{id}', ['as' => 'user.delete', 'uses' => 'App\Http\Controllers\MasterDataController@deleteUser']);
 
 
-    Route::delete('user/{$id}', [MasterDataController::class, 'delete'])->middleware('only_admin');
+    Route::delete('user/{$id}', [MasterDataController::class, 'delete']);
 
 
-    Route::get('perangkat', [MasterDataController::class, 'perangkat'])->name('perangkat')->middleware('only_admin');
-    Route::post('perangkat', [MasterDataController::class, 'perangkatproses'])->name('perangkat_proses')->middleware('only_admin');
+    Route::get('perangkat', [MasterDataController::class, 'perangkat'])->name('perangkat');
+    Route::post('perangkat', [MasterDataController::class, 'perangkatproses'])->name('perangkat_proses');
     Route::get('perangkat', [WorkorderController::class, 'create'])->name('Workorder_create');
 
-    Route::get('sparepart', [MasterDataController::class, 'sparepart'])->name('sparepart')->middleware('only_admin');
+    Route::get('sparepart', [MasterDataController::class, 'sparepart'])->name('sparepart');
 });
