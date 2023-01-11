@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Cabang extends Model
 {
+    protected $table = "tb_cabang";
+    protected $primarykey = "id";
     protected $fillable = [
-        'id','cabang'
+        'id', 'cabang', 'ket'
     ];
 
     public function user()

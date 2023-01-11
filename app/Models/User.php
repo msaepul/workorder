@@ -27,9 +27,10 @@ class User extends Authenticatable
     protected $primaryKey   =   'id';
 
     protected $fillable     = ['dept', 'cabang', 'nama_lengkap', 'email', 'password', 'spassword', 'no_telegram', 'no_wa', 'level', 'spassword'];
+
     public function cabang()
     {
-        return $this->belongsTo(Cabang::class);
+        return $this->belongsTo(Cabang::class, 'cabang');
     }
     public function departemen()
     {

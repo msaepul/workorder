@@ -15,7 +15,7 @@ if ($length < 1) { throw new \RangeException('Length must be a positive integer'
     return $hasil_tgl;
     }
     }
-    $cabang = Auth::user()->cabang->kode_cabang;
+    $cabang = cabang();
     $sdraft = 'draft' . $cabang;
     $bulan = date('F');
     $monthnow = date('m', time());
