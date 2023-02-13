@@ -38,14 +38,14 @@
                         </div>
                         @include('Masterdata.user.modaladduser')
                     </div>
-         
+
                     <!-- /.card-header -->
                     <div class="card-body">
                         <table id="example2" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                  <th>Nama Lengkap</th>
+                                    <th>Nama Lengkap</th>
                                     <th>Username</th>
                                     <th>Cabang</th>
                                     <th>Departemen</th>
@@ -57,17 +57,17 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $user->nama_lengkap }}</td>
-                                        <td>{{ $user->username }}</td>
-                                        <td>{{ $user->cabang->cabang }}</td>
-                                        <td>{{ $user->departemen->departemen }}</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>{{ $user->caban }}</td>
+                                        <td>{{ $user->dept }}</td>
                                         <td> <button type="button" class="btn btn-success" data-toggle="modal"
-                                                data-target="#modal-edit{{$user->id}}">
+                                                data-target="#modal-edit{{ $user->id }}">
                                                 <i class="nav-icon fas fa-pen"></i>Edit
                                             </button> <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                data-target="#modal-delete{{$user->id}}">
+                                                data-target="#modal-delete{{ $user->id }}">
                                                 <i class="nav-icon fas fa-trash"></i> hapus
                                             </button></td>
-                                            @include('Masterdata.user.modaledit')
+                                        @include('Masterdata.user.modaledit')
                                     </tr>
                                 @endforeach
 
