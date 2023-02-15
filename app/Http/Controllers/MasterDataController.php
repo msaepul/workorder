@@ -68,6 +68,11 @@ class MasterDataController extends Controller
     $perangkat = perangkat::all();
     return view('Masterdata.perangkat.perangkat', compact('perangkat'));
   }
+  public function tambahperangkat()
+  {
+    
+    return view('Masterdata.perangkat.addperangkat');
+  }
   public function sparepart()
   {
     return view('Masterdata.sparepart');

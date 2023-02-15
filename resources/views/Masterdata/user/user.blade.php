@@ -58,7 +58,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $user->nama_lengkap }}</td>
                                         <td>{{ $user->email }}</td>
-                                        <td>{{ $user->caban }}</td>
+                                        <td>{{ $user }}</td>
                                         <td>{{ $user->dept }}</td>
                                         <td> <button type="button" class="btn btn-success" data-toggle="modal"
                                                 data-target="#modal-edit{{ $user->id }}">

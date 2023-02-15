@@ -33,9 +33,9 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-perangkat">
+                            <a href="tambah-perangkat" type="button" class="btn btn-primary" >
                                 <i class="nav-icon fas fa-plus"></i> Tambah Perangkat
-                            </button>
+                            </a>
 
                         </div>
                         @include('Masterdata.perangkat.modaladdperangkat')
