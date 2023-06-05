@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="Admin" class="brand-link">
+    <a href="Dashboard" class="brand-link">
         <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
             style="opacity: .8">
         <span class="brand-text font-weight-light">SO EDP</span>
@@ -40,8 +40,8 @@
                 <li class="nav-header">MENU UTAMA</li>
 
                 <li class="nav-item menu-open">
-                    <a href="Admin"
-                        @if (request()->route()->uri == 'Admin') class="nav-link active"
+                    <a href="Dashboard"
+                        @if (request()->route()->uri == 'Dashboard') class="nav-link active"
      
             @else
             class="nav-link " @endif>
@@ -144,13 +144,42 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="#" class="nav-link ">
+                            <i class="nav-icon fas fa-tree"></i>
+                            <p>
+                                Asset
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item ">
+                                <a href="TPMRingan"
+                                    @if (request()->route()->uri == 'TPMRingan') class="nav-link active"
+                      @else
+                      class="nav-link " @endif>
+                                    <i class="far fa-circle nav-icon "></i>
+                                    <p>TPM Ringan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a
+                                    href="TPMBerat"@if (request()->route()->uri == 'TPMBerat') class="nav-link active"
+                      @else
+                      class="nav-link " @endif>
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>TPM Berat</p>
+                                </a>
+    
+                        </ul>
+                    </li>
+                    <li class="nav-item">
                         <a href="perangkat"
                             @if (request()->route()->uri == 'perangkat') class="nav-link active"
               @else
               class="nav-link " @endif>
                             <i class="nav-icon fas fa-laptop"></i>
                             <p>
-                                Perangkat
+                                Asset
                             </p>
                         </a>
                     </li>

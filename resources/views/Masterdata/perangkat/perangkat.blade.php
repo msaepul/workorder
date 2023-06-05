@@ -1,5 +1,4 @@
-@extends('layouts.main2layout')
-@extends('layouts.side')
+@extends('layouts.mainlayout')
 
 @section('title', 'Master Data Perangkat')
 

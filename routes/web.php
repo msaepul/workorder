@@ -35,7 +35,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('logout', [AuthController::class, 'logout']);
-    Route::get('Admin', [AdminController::class, 'index']);
+    Route::get('Dashboard', [AdminController::class, 'index']);
     Route::get('Adminspr', [AdminController::class, 'dashboardspr']);
     Route::get('Gallery', [AdminController::class, 'gallery']);
     Route::get('Cabang', [CabangController::class, 'index'])->middleware('only_cabang');
@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::post('Workorder', [WorkorderController::class, 'woproses'])->name('Workorder_proses');
 
     Route::get('Datawo', [WorkorderController::class, 'datawo'])->name('Dataworkorder');
-
+    
     Route::get('TPMRingan', [TPMController::class, 'TPMRingan'])->name('TPMRingan');
     Route::get('TPMBerat', [TPMController::class, 'TPMBerat'])->name('TPMBerat');
     Route::get('JadwalTPM', [TPMController::class, 'JadwalTPM'])->name('JadwalTPM');

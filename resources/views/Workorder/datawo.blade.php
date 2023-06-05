@@ -1,9 +1,7 @@
-@extends('layouts.main2layout')
+@extends('layouts.mainlayout')
 
-<!-- Main Sidebar Container -->
-@extends('layouts.side')
 
-@section('title', 'Data WO')
+@section('title', 'Data Order')
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
