@@ -1,5 +1,4 @@
 @extends('layouts.mainlayout')
-@extends('layouts.side')
 
 @section('title', 'TPM')
 

@@ -1,5 +1,4 @@
-@extends('layouts.main2layout')
-@extends('layouts.side')
+@extends('layouts.mainlayout')
 
 @section('title', 'Master Data User')
 
@@ -58,7 +57,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $user->nama_lengkap }}</td>
                                         <td>{{ $user->email }}</td>
-                                        <td>{{ $user }}</td>
+                                        <td>{{ $user ->cabang }}</td>
                                         <td>{{ $user->dept }}</td>
                                         <td> <button type="button" class="btn btn-success" data-toggle="modal"
                                                 data-target="#modal-edit{{ $user->id }}">
@@ -88,4 +87,25 @@
     <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+     <!-- jQuery -->
+     <script src="plugins/jquery/jquery.min.js"></script>
+    <script>
+        $(function() {
+            $("#example1").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
 @endsection

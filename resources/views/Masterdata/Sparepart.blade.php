@@ -1,7 +1,6 @@
-@extends('layouts.main2layout')
-  @extends('layouts.side')
-  
-  @section('title', 'Master Data User')
+@extends('layouts.mainlayout')
+
+  @section('title', 'Master Data Sparepart')
 
   @section('content')
   <!-- Content Wrapper. Contains page content -->

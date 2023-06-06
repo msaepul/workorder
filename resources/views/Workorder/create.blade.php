@@ -175,13 +175,7 @@
                         </div> --}}
 
                                 <h5 class="text-bold mt-5">Uraian Masalah :</h5>
-                                <div class="form-group row">
-                                    <label for="lokasi" class="col-sm-2 col-form-label">Lokasi</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control @error('lokasi') is-invalid @enderror"
-                                            name="lokasi" id="lokasi" value="">
-                                    </div>
-                                </div>
+
                                 <div class="form-group row">
                                     <label for="obyek" class="col-sm-2 col-form-label">Obyek</label>
                                     <div class="col-sm-10">
@@ -190,7 +184,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="keadaan" class="col-sm-2 col-form-label">Keadaan</label>
+                                    <label for="keadaan" class="col-sm-2 col-form-label">Informasi Keluhan</label>
                                     <div class="col-sm-10">
                                         <textarea class="form-control @error('keadaan') is-invalid @enderror" name="keadaan" rows="4" cols="82"
                                             style="resize: none;"></textarea>
