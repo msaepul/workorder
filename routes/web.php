@@ -66,4 +66,6 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('sparepart', [MasterDataController::class, 'sparepart'])->name('sparepart');
+    Route::post('sparepart', [MasterDataController::class, 'sparepartproses'])->name('sparepart_proses');
+    Route::get('tambah-sparepart', [MasterDataController::class, 'tambahsparepart'])->name('tambah_sparepart');
 });

@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Models\Cabang;
 use App\Models\Departemen;
 use App\Models\perangkat;
+use App\Models\brand;
+use App\Models\type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
@@ -65,7 +67,10 @@ class MasterDataController extends Controller
   }
   public function perangkat()
   {
-    $perangkat = perangkat::all();
+    $perangkat = Perangkat::join('tb_brand', 'tb_perangkat.id_brand', '=', 'tb_brand.id')
+    ->join('tb_type', 'tb_perangkat.id_type', '=', 'tb_type.id')
+    ->select('tb_perangkat.*', 'tb_brand.name_brand AS brand_name', 'tb_type.name_type AS type_name')
+    ->get();
     return view('Masterdata.perangkat.perangkat', compact('perangkat'));
   }
   public function tambahperangkat()
@@ -75,6 +80,11 @@ class MasterDataController extends Controller
   }
   public function sparepart()
   {
-    return view('Masterdata.sparepart');
+    return view('Masterdata.sparepart.sparepart');
+  }
+  public function tambahsparepart()
+  {
+    
+    return view('Masterdata.sparepart.addsparepart');
   }
 }
