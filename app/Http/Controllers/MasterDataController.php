@@ -67,10 +67,12 @@ class MasterDataController extends Controller
   }
   public function perangkat()
   {
-    $perangkat = Perangkat::join('tb_brand', 'tb_perangkat.id_brand', '=', 'tb_brand.id')
-    ->join('tb_type', 'tb_perangkat.id_type', '=', 'tb_type.id')
-    ->select('tb_perangkat.*', 'tb_brand.name_brand AS brand_name', 'tb_type.name_type AS type_name')
-    ->get();
+
+    $perangkat = perangkat::with('type', 'brand','user.cabang')->get();
+    // $perangkat = Perangkat::join('tb_brand', 'tb_perangkat.id_brand', '=', 'tb_brand.id')
+    // ->join('tb_type', 'tb_perangkat.id_type', '=', 'tb_type.id')
+    // ->select('tb_perangkat.*', 'tb_brand.name_brand AS brand_name', 'tb_type.name_type AS type_name')
+    // ->get();
     return view('Masterdata.perangkat.perangkat', compact('perangkat'));
   }
   public function tambahperangkat()

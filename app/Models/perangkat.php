@@ -10,7 +10,7 @@ class perangkat extends Model
     use HasFactory;
 
     protected $table = "tb_perangkat";
-    protected $primarykey = "id";
+    protected $primaryKey = "id";
     protected $fillable = [
         'id',
         'nama_perangkat',
@@ -28,4 +28,23 @@ class perangkat extends Model
         'deleted_at'
         
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function cabang()
+    {
+        return $this->belongsTo(Cabang::class, 'user_id');
+    }
+    public function type()
+    {
+        return $this->belongsTo(type::class, 'id');
+    }
+
+    public function brand()
+    {
+        return $this->belongsTo(brand::class, 'id');
+    }
+  
 }

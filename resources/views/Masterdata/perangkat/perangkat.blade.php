@@ -57,13 +57,13 @@
                                 <tbody>
                                     <tr>
                                         @foreach ($perangkat as $device)
+                                        <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $device->nama_perangkat }}</td>
-                                            <td>{{ $device->jenis_perangkat }}
-                                            </td>
+                                            <td>{{ $device->jenis_perangkat }}</td>
                                             <td>{{ $device->spesifikasi }}</td>
-                                            <td>{{ $device->brand_name }} / {{ $device->type_name }}</td>
-                                            <td>{{ $device->user_id }}</td>
+                                            <td>{{ $device->brand->name_brand }} / {{ $device->type->name_type }}</td>
+                                            <td>{{ $device->user->cabang }}</td>
                                             <td>{{ $device->status }}</td>
                                             <td><button type="button" class="btn btn-success" data-toggle="modal"
                                                     data-target="#modal-perangkat">

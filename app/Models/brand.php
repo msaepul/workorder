@@ -18,4 +18,8 @@ class brand extends Model
         'deleted_at'
         
     ];
+    public function perangkat()
+    {
+        return $this->hasMany(perangkat::class, 'id_brand');
+    }
 }
