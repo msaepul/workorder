@@ -8,6 +8,7 @@ use App\Models\Departemen;
 use App\Models\perangkat;
 use App\Models\brand;
 use App\Models\type;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
@@ -16,11 +17,14 @@ class MasterDataController extends Controller
 {
   public function user()
   {
+    
+    $users = DB::table('tb_login')
+    ->join('tb_cabang', 'tb_login.cabang', '=', 'tb_cabang.id')
+    ->select('tb_login.*', 'tb_cabang.ket', 'tb_cabang.cabang')
+    ->get();
 
-    $departemen = Departemen::all();
-    $cabang = Cabang::all();
-    $users = User::with('cabang', 'departemen')->paginate(100);
-    return view('Masterdata.user.user', compact('departemen', 'cabang', 'users'));
+    // $users = User::with('cabang')->get();
+    return view('Masterdata.user.user', compact('users'));
   }
   public function userProses(Request $request)
   {
@@ -37,10 +41,9 @@ class MasterDataController extends Controller
 
     $user = User::create($request->all());
 
-    $departemen = Departemen::all();
-    $cabang = Cabang::all();
-    $users = User::with('cabang', 'departemen')->paginate(100);
-    return view('Masterdata.user.user', compact('departemen', 'cabang', 'users'));
+
+    $users = User::with('Cabang')->get();
+    return view('Masterdata.user.user', compact('users'));
   }
 
 
@@ -65,21 +68,68 @@ class MasterDataController extends Controller
     $user = User::find($id);
     $user->delete();
   }
+
+
+
   public function perangkat()
   {
 
-    $perangkat = perangkat::with('type', 'brand','user.cabang')->get();
-    // $perangkat = Perangkat::join('tb_brand', 'tb_perangkat.id_brand', '=', 'tb_brand.id')
-    // ->join('tb_type', 'tb_perangkat.id_type', '=', 'tb_type.id')
-    // ->select('tb_perangkat.*', 'tb_brand.name_brand AS brand_name', 'tb_type.name_type AS type_name')
-    // ->get();
+    // $perangkat = perangkat::with('type', 'brand','user.cabang')->get();
+    $perangkat = Perangkat::join('tb_brand', 'tb_perangkat.id_brand', '=', 'tb_brand.id')
+    ->join('tb_type', 'tb_perangkat.id_type', '=', 'tb_type.id')
+    ->join('tb_cabang', 'tb_perangkat.cabang_id', '=', 'tb_cabang.id')
+    ->select('tb_perangkat.*', 'tb_brand.name_brand AS brand_name', 'tb_type.name_type AS type_name', 'tb_cabang.cabang AS cabang_name')
+    ->get();
     return view('Masterdata.perangkat.perangkat', compact('perangkat'));
   }
+  
   public function tambahperangkat()
   {
-    
+  
     return view('Masterdata.perangkat.addperangkat');
   }
+
+  public function perangkatproses(Request $request)
+{
+    // Validasi inputan
+    $validatedData = $request->validate([
+        'nama_perangkat' => 'required',
+        'jenis_perangkat' => 'required',
+        'nama_brand' => 'required',
+        'nama_type' => 'required',
+        'spesifikasi' => 'required',
+        'tgl_pbl' => 'required',
+        'dept' => 'required',
+        'user_id' => 'required',
+        'id_teamviewer' => 'required',
+        'id_anydesk' => 'required',
+        'ip' => 'required',
+        'macaddress' => 'required',
+        // tambahkan validasi untuk kolom lainnya
+    ]);
+
+    // Buat objek Device baru
+    $device = new Device;
+    $device->nama_perangkat = $request->input('nama_perangkat');
+    $device->jenis_perangkat = $request->input('jenis_perangkat');
+    $device->id_brand = $request->input('nama_brand');
+    $device->id_type = $request->input('nama_type');
+    $device->spesifikasi = $request->input('spesifikasi');
+    $device->date_purchase = $request->input('tgl_pbl');
+    $device->user_id = $request->input('user_id');
+    $device->cabang_id = 101;
+    $device->id_teamviewer = $request->input('id_teamviewer');
+    $device->id_anydesk = $request->input('id_anydesk');
+    $device->ip = $request->input('ip');
+    $device->mac_address = $request->input('macaddress');
+    // set kolom lainnya
+
+    // Simpan perangkat ke database
+    $device->save();
+
+    return redirect()->route('perangkat')->with('success', 'Perangkat berhasil ditambahkan.');
+}
+
   public function sparepart()
   {
     return view('Masterdata.sparepart.sparepart');

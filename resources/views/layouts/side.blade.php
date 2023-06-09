@@ -169,14 +169,14 @@
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>TPM Berat</p>
                                 </a>
-    
+
                         </ul>
                     </li>
                     <li class="nav-item">
                         <a href="perangkat"
                             @if (request()->route()->uri == 'perangkat') class="nav-link active"
-              @else
-              class="nav-link " @endif>
+                            @elseif (request()->route()->uri == 'tambah-perangkat') class="nav-link active"
+                               @else class="nav-link " @endif>
                             <i class="nav-icon fas fa-laptop"></i>
                             <p>
                                 Asset

@@ -11,8 +11,8 @@ class perangkat extends Model
 
     protected $table = "tb_perangkat";
     protected $primaryKey = "id";
+
     protected $fillable = [
-        'id',
         'nama_perangkat',
         'jenis_perangkat',
         'id_brand',
@@ -20,6 +20,7 @@ class perangkat extends Model
         'spesifikasi',
         'date_purchase',
         'user_id',
+        'cabang_id',
         'id_teamviewer',
         'id_anydesk',
         'ip',
@@ -42,9 +43,9 @@ class perangkat extends Model
         return $this->belongsTo(type::class, 'id');
     }
 
-    public function brand()
-    {
-        return $this->belongsTo(brand::class, 'id');
-    }
+    // public function brand()
+    // {
+    //     return $this->belongsTo(brand::class, 'id');
+    // }
   
 }

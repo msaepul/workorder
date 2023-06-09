@@ -58,10 +58,13 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('user/{$id}', [MasterDataController::class, 'delete']);
 
-
     Route::get('perangkat', [MasterDataController::class, 'perangkat'])->name('perangkat');
-    Route::post('perangkat', [MasterDataController::class, 'perangkatproses'])->name('perangkat_proses');
-    Route::get('tambah-perangkat', [MasterDataController::class, 'tambahperangkat'])->name('tambah_perangkat');
+    Route::post('perangkat-proses', [MasterDataController::class, 'perangkatproses'])->name('perangkat_proses');
+    Route::get('add-perangkat', [MasterDataController::class, 'tambahperangkat'])->name('add_perangkat');
+    
+
+    // Route::resource('perangkat', MasterDataController::class);
+
 
 
 

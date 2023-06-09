@@ -12,10 +12,11 @@
                 <form action="user" method="post">
                     @csrf
                     <div class="row input-group mb-3">
-                        <div class="col-md-4"><input type="text" class="form-control" placeholder="No inventaris" id="no_inventaris" name="no_inventaris"
-                            required></div>
-                        <div class="col-md-4 ms-auto"><input type="text" class="form-control" placeholder="Jenis Perangkat" id="jenis_perangkat" name="jenis_perangkat"
-                            required></div>
+                        <div class="col-md-4"><input type="text" class="form-control" placeholder="No inventaris"
+                                id="no_inventaris" name="no_inventaris" required></div>
+                        <div class="col-md-4 ms-auto"><input type="text" class="form-control"
+                                placeholder="Jenis Perangkat" id="jenis_perangkat" name="jenis_perangkat" required>
+                        </div>
                     </div>
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Full name" id="nama_lengkap"
@@ -45,8 +46,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4"><input type="email" class="form-control" placeholder="Email" id="username" name="username"
-                            required></div>
+                        <div class="col-md-4"><input type="email" class="form-control" placeholder="Email"
+                                id="username" name="username" required></div>
                         <div class="col-md-4 ms-auto">.col-md-4 .ms-auto</div>
                     </div>
                     <p><b>Informasi Perangkat Lanjutan</b></p>
@@ -76,5 +77,5 @@
                 <button type="submit" class="btn btn-primary">Tambah</button>
             </div>
         </div>
-        </form> 
+        </form>
     </div>

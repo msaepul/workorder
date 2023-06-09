@@ -5,7 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 
-
+use App\Models\Cabang;
 // use App\Models\Departemen;
 use Laravel\Sanctum\HasApiTokens;
 use JetBrains\PhpStorm\Deprecated;
@@ -30,8 +30,9 @@ class User extends Authenticatable
 
     public function cabang()
     {
-        return $this->belongsTo(Cabang::class, 'cabang');
+        return $this->belongsTo(Cabang::class,'id','cabang');
     }
+    
     public function departemen()
     {
         return $this->belongsTo(Departemen::class);
