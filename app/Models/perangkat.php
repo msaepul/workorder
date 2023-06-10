@@ -21,6 +21,7 @@ class perangkat extends Model
         'date_purchase',
         'user_id',
         'cabang_id',
+        'dept_id',
         'id_teamviewer',
         'id_anydesk',
         'ip',

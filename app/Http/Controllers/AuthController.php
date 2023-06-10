@@ -36,10 +36,11 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
 
-
+            $user = auth()->user();
+            session(['cabang'=> $user->cabang],['dept'=>$user->dept]);
             return redirect('/Dashboard');
 
-            // $request->session()->regenerate();
+           
 
             // return redirect()->intended('dashboard');
 

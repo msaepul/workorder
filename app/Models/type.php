@@ -14,8 +14,10 @@ class type extends Model
     protected $fillable = [
         'id',
         'name_type',
+        'ket_type',
+        'updated_at',
         'created_at',
-        'deleted_at'
+        
         
     ];
     public function perangkat()

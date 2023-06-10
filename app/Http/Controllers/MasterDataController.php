@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\Cabang;
-use App\Models\Departemen;
-use App\Models\perangkat;
-use App\Models\brand;
-use App\Models\type;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use App\Models\Dept;
+use App\Models\type;
+use App\Models\User;
+use App\Models\brand;
+use App\Models\Cabang;
+use App\Models\perangkat;
+use App\Models\Departemen;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class MasterDataController extends Controller
 {
@@ -85,8 +87,15 @@ class MasterDataController extends Controller
   
   public function tambahperangkat()
   {
-  
-    return view('Masterdata.perangkat.addperangkat');
+    $depts = Dept::all();
+    $brands = Brand::all();
+    $types = Type::all();
+
+    $cabang =session('cabang');
+   
+    // $users = User::all();
+    $users = DB::table('tb_login')->where('cabang', $cabang)->get();
+    return view('Masterdata.perangkat.addperangkat' , compact('brands','types','depts','users'));
   }
 
   public function perangkatproses(Request $request)
@@ -106,26 +115,39 @@ class MasterDataController extends Controller
         'ip' => 'required',
         'macaddress' => 'required',
         // tambahkan validasi untuk kolom lainnya
-    ]);
-
+    ],[
+      'nama_perangkat.required' => 'Kolom Nama Perangkat harus diisi.',
+      'jenis_perangkat.required' => 'Kolom Jenis Perangkat harus diisi.',
+      'nama_brand.required' => 'Kolom Brand harus diisi.',
+      'nama_type.required' => 'Kolom Type harus diisi.',
+      'spesifikasi.required' => 'Kolom Spesifikasi harus diisi.',
+      'tgl_pbl.required' => 'Kolom Tanggal Pembelian harus diisi.',
+      'user_id.required' => 'Kolom Pengguna / Departemen harus diisi.',
+      'id_teamviewer.required' => 'Kolom ID Teamviewer harus diisi.',
+      'id_anydesk.required' => 'Kolom ID Anydesk harus diisi.',
+      'ip.required' => 'Kolom IP harus diisi.',
+      'macaddress.required' => 'Kolom Mac Address harus diisi.',
+      // tambahkan pesan untuk aturan validasi lainnya
+  ]);
+  
     // Buat objek Device baru
-    $device = new Device;
-    $device->nama_perangkat = $request->input('nama_perangkat');
-    $device->jenis_perangkat = $request->input('jenis_perangkat');
-    $device->id_brand = $request->input('nama_brand');
-    $device->id_type = $request->input('nama_type');
-    $device->spesifikasi = $request->input('spesifikasi');
-    $device->date_purchase = $request->input('tgl_pbl');
-    $device->user_id = $request->input('user_id');
-    $device->cabang_id = 101;
-    $device->id_teamviewer = $request->input('id_teamviewer');
-    $device->id_anydesk = $request->input('id_anydesk');
-    $device->ip = $request->input('ip');
-    $device->mac_address = $request->input('macaddress');
+    $perangkat = new perangkat;
+    $perangkat->nama_perangkat = $request->input('nama_perangkat');
+    $perangkat->jenis_perangkat = $request->input('jenis_perangkat');
+    $perangkat->id_brand = $request->input('nama_brand');
+    $perangkat->id_type = $request->input('nama_type');
+    $perangkat->spesifikasi = $request->input('spesifikasi');
+    $perangkat->date_purchase = $request->input('tgl_pbl');
+    $perangkat->user_id = $request->input('user_id');
+    $perangkat->cabang_id = $request->input('cabang_id');
+    $perangkat->id_teamviewer = $request->input('id_teamviewer');
+    $perangkat->id_anydesk = $request->input('id_anydesk');
+    $perangkat->ip = $request->input('ip');
+    $perangkat->mac_address = $request->input('macaddress');
     // set kolom lainnya
 
     // Simpan perangkat ke database
-    $device->save();
+    $perangkat->save();
 
     return redirect()->route('perangkat')->with('success', 'Perangkat berhasil ditambahkan.');
 }
@@ -138,5 +160,45 @@ class MasterDataController extends Controller
   {
     
     return view('Masterdata.sparepart.addsparepart');
+  }
+
+  public function brandproses(Request $request)
+  {
+    $validatedData = $request->validate([
+      'nama_brand' => 'required',
+    ],[
+      'nama_perangkat.required' => 'Kolom Nama Perangkat harus diisi.',
+    ]);
+
+    $brand = new brand;
+    $brand->name_brand = $request->input('nama_brand');
+    $brand->ket_brand = $request->input('ket_brand');
+
+      // Simpan brand ke database
+      $brand->save();
+
+
+      return redirect()->back();
+
+  }
+
+  public function typeproses(Request $request)
+  {
+    $validatedData = $request->validate([
+      'nama_type' => 'required',
+    ],[
+      'nama_perangkat.required' => 'Kolom Nama Perangkat harus diisi.',
+    ]);
+
+    $type = new type;
+    $type->name_type = $request->input('nama_type');
+    $type->ket_type = $request->input('ket_type');
+
+      // Simpan type ke database
+      $type->save();
+
+
+      return redirect()->back();
+
   }
 }

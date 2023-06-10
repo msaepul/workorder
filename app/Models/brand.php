@@ -14,6 +14,7 @@ class brand extends Model
     protected $fillable = [
         'id',
         'name_brand',
+        'ket_brand',
         'created_at',
         'deleted_at'
         

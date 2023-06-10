@@ -64,7 +64,12 @@ Route::middleware('auth')->group(function () {
     
 
     // Route::resource('perangkat', MasterDataController::class);
+    
+    //proses input brand ke db
+    Route::post('brand-proses', [MasterDataController::class, 'brandproses'])->name('brand_proses');
 
+    //proses input type ke db
+     Route::post('type-proses', [MasterDataController::class, 'typeproses'])->name('type_proses');
 
 
 
