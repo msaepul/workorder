@@ -66,7 +66,7 @@
                                     <label for="nama_brand" class="text-end">Brand/merk</label>
                                 </div>
                                 <div class="col-12 col-sm-7">
-                                    <select class="form-control select2" id="nama_brand" name="nama_brand"
+                                    <select class="form-control" id="nama_brand" name="nama_brand"
                                         value="{{ old('nama_brand') }}">
                                         <option value="">Pilih Brand</option>
                                         @foreach ($brands as $brand)
@@ -127,7 +127,7 @@
                                     <label for="user_id" class="text-end">Pengguna / Departemen</label>
                                 </div>
                                 <div class="col-12 col-sm-7">
-                                    <select class="form-control select2" id="user_id" name="user_id"
+                                    <select class="form-control" id="user_id" name="user_id"
                                         value="{{ old('user_id') }}">
                                         <option value="">Pilih User</option>
                                         @foreach ($users as $user)

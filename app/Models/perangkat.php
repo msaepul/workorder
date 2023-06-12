@@ -26,6 +26,7 @@ class perangkat extends Model
         'id_anydesk',
         'ip',
         'mac_address',
+        'status',
         'created_at',
         'deleted_at'
         

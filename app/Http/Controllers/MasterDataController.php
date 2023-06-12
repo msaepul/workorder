@@ -108,12 +108,8 @@ class MasterDataController extends Controller
         'nama_type' => 'required',
         'spesifikasi' => 'required',
         'tgl_pbl' => 'required',
-        'dept' => 'required',
         'user_id' => 'required',
-        'id_teamviewer' => 'required',
-        'id_anydesk' => 'required',
-        'ip' => 'required',
-        'macaddress' => 'required',
+        'status' => 'required',
         // tambahkan validasi untuk kolom lainnya
     ],[
       'nama_perangkat.required' => 'Kolom Nama Perangkat harus diisi.',
@@ -123,10 +119,7 @@ class MasterDataController extends Controller
       'spesifikasi.required' => 'Kolom Spesifikasi harus diisi.',
       'tgl_pbl.required' => 'Kolom Tanggal Pembelian harus diisi.',
       'user_id.required' => 'Kolom Pengguna / Departemen harus diisi.',
-      'id_teamviewer.required' => 'Kolom ID Teamviewer harus diisi.',
-      'id_anydesk.required' => 'Kolom ID Anydesk harus diisi.',
-      'ip.required' => 'Kolom IP harus diisi.',
-      'macaddress.required' => 'Kolom Mac Address harus diisi.',
+      'status.required' => 'Kolom Status harus diisi.',
       // tambahkan pesan untuk aturan validasi lainnya
   ]);
   
@@ -144,6 +137,7 @@ class MasterDataController extends Controller
     $perangkat->id_anydesk = $request->input('id_anydesk');
     $perangkat->ip = $request->input('ip');
     $perangkat->mac_address = $request->input('macaddress');
+    $perangkat->status = $request->input('status');
     // set kolom lainnya
 
     // Simpan perangkat ke database
