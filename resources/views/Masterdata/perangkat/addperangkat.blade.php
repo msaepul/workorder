@@ -48,47 +48,37 @@
                                 </div>
                                 <div class="col-12 col-md-7 col-sm-7">
                                     <input type="text" id="nama_perangkat" class="form-control" name="nama_perangkat"
-                                        value="{{ old('nama_perangkat') }}" />
+                                        placeholder="Masukkan No Inventaris" value="{{ old('nama_perangkat') }}" />
                                 </div>
                             </div>
                             <div class="form-group row pb-2 ">
-                                <div class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-lg-end ">
+                                <div
+                                    class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end ">
                                     <label for="jenis_perangkat" class="text-end">Jenis Perangkat</label>
                                 </div>
                                 <div class="col-12 col-sm-7">
-                                    <input type="text" id="jenis_perangkat" class="form-control" name="jenis_perangkat"
-                                        value="{{ old('jenis_perangkat') }}" />
-                                </div>
-                            </div>
-                            <div class="form-group row pb-2 ">
-                                <div
-                                    class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end">
-                                    <label for="nama_brand" class="text-end">Brand/merk</label>
-                                </div>
-                                <div class="col-12 col-sm-7">
-                                    <select class="form-control select2" id="nama_brand" name="nama_brand"
-                                        value="{{ old('nama_brand') }}">
-                                        <option value="">Pilih Brand</option>
-                                        @foreach ($brands as $brand)
-                                            <option value="{{ $brand->id }}">{{ $brand->name_brand }}</option>
+                                    <select class="form-control select2" id="id_jenis" name="id_jenis" style="width: 100%;"
+                                        value="{{ old('id_jenis') }}">
+
+                                        <option value="">Pilih
+                                            Jenis</option>
+                                        @foreach ($jeniss as $jenis)
+                                            <option value="{{ $jenis->id }}">{{ $jenis->jenis_perangkat }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div
-                                    class="col-12 col-md-2 col-sm-2 d-flex align-items-center justify-content-sm-start justify-content-lg-start">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#myModalbrand" class="btn btn-primary">New</button>
-                                </div>
                             </div>
+
                             <div class="form-group row pb-2 ">
                                 <div
                                     class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end">
                                     <label for="nama_type" class="text-end">Type</label>
                                 </div>
                                 <div class="col-12 col-sm-7">
-                                    <select class="form-control" id="nama_type" name="nama_type"
-                                        value="{{ old('nama_type') }}">
-                                        <option value="">Pilih type</option>
+                                    <select class="form-control select2" id="nama_type" name="nama_type"
+                                        style="width: 100%;" value="{{ old('nama_type') }}">
+                                        <option value="">Pilih
+                                            type</option>
                                         @foreach ($types as $type)
                                             <option value="{{ $type->id }}">{{ $type->name_type }}</option>
                                         @endforeach
@@ -103,11 +93,33 @@
                             <div class="form-group row pb-2 ">
                                 <div
                                     class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end">
+                                    <label for="nama_brand" class="text-end">Brand/merk</label>
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                    <select class="form-control select2" id="nama_brand" name="nama_brand"
+                                        style="width: 100%;" value="{{ old('nama_brand') }}">
+
+                                        <option value="">Pilih
+                                            Brand</option>
+                                        @foreach ($brands as $brand)
+                                            <option value="{{ $brand->id }}">{{ $brand->name_brand }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div
+                                    class="col-12 col-md-2 col-sm-2 d-flex align-items-center justify-content-sm-start justify-content-lg-start">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#myModalbrand" class="btn btn-primary">New</button>
+                                </div>
+                            </div>
+                            <div class="form-group row pb-2 ">
+                                <div
+                                    class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end">
                                     <label for="spesifikasi" class="text-end">Spesifikasi</label>
                                 </div>
                                 <div class="col-12 col-sm-7">
-                                    <textarea class="form-control" id="spesifikasi" name="spesifikasi" rows="4" cols="50"
-                                        value="{{ old('spesifikasi') }}"></textarea>
+                                    <textarea class="form-control" id="spesifikasi" name="spesifikasi" placeholder="Spesifikasi perangkat" rows="4"
+                                        cols="50" value="{{ old('spesifikasi') }}"></textarea>
                                 </div>
                             </div>
                             <div class="form-group row pb-2 ">
@@ -124,11 +136,11 @@
                             <div class="form-group row pb-2 ">
                                 <div
                                     class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end">
-                                    <label for="user_id" class="text-end">Pengguna / Departemen</label>
+                                    <label for="user_id" class="text-end">User / Dept</label>
                                 </div>
                                 <div class="col-12 col-sm-7">
-                                    <select class="form-control select2" id="user_id" name="user_id"
-                                        value="{{ old('user_id') }}">
+                                    <select class="form-control select2 " id="user_id" name="user_id"
+                                        style="width: 100%;" value="{{ old('user_id') }}">
                                         <option value="">Pilih User</option>
                                         @foreach ($users as $user)
                                             <option value="{{ $user->id }}">{{ $user->nama_lengkap }} ||
@@ -142,8 +154,8 @@
                                     class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end">
                                     <label for="nama_status" class="text-end">Status</label>
                                 </div>
-                                <div class="col-12 col-sm-7">
-                                    <select class="form-control" id="status" name="status"
+                                <div class="col-12 col-sm-7 ">
+                                    <select class="form-control" id="status" name="status"style="width: 100%;"
                                         value="{{ old('status') }}">
                                         <option value="">Pilih Status</option>
 
@@ -157,7 +169,7 @@
                                 value="{{ $user->cabang }}">
 
 
-                            <div class="form-group row pb-2">
+                            <div class="form-group row">
                                 <div
                                     class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end">
 
@@ -178,7 +190,8 @@
                                         <label for="ip" class="text-end">IP</label>
                                     </div>
                                     <div class="col-12 col-sm-7">
-                                        <input type="text" id="ip" class="form-control" name="ip" />
+                                        <input type="text" id="ip" class="form-control" name="ip"
+                                            placeholder="IP Address" />
                                     </div>
                                 </div>
                                 <div class="form-group row pb-2">
@@ -187,7 +200,8 @@
                                         <label for="macaddress" class="text-end">Mac address</label>
                                     </div>
                                     <div class="col-12 col-sm-7">
-                                        <input type="text" id="macaddress" class="form-control" name="macaddress" />
+                                        <input type="text" id="macaddress" class="form-control" name="macaddress"
+                                            placeholder="Mac address" />
                                     </div>
                                 </div>
                                 <div class="form-group row pb-2 ">
@@ -197,7 +211,8 @@
                                     </div>
                                     <div class="col-12 col-sm-7">
                                         <input type="text" id="id_teamviewer" class="form-control"
-                                            name="id_teamviewer" value="{{ old('id_teamviewer') }}" />
+                                            name="id_teamviewer" placeholder="ID teamviewer"
+                                            value="{{ old('id_teamviewer') }}" />
                                     </div>
                                 </div>
                                 <div class="form-group row pb-2 ">
@@ -206,9 +221,64 @@
                                         <label for="id_anydesk" class="text-end">ID Anydesk</label>
                                     </div>
                                     <div class="col-12 col-sm-7">
-                                        <input type="text" id="id_anydesk" class="form-control" name="id_anydesk" />
+                                        <input type="text" id="id_anydesk" class="form-control" name="id_anydesk"
+                                            placeholder="ID Anydesk" />
                                     </div>
                                 </div>
+
+                            </div>
+                            <div class="form-group row">
+                                <div
+                                    class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end">
+                                </div>
+                                <div class="col-12 col-sm-7">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" id="optionalpurchase" class="form-check-input"
+                                            name="optional" value="show">
+                                        <strong> Show Purchase Information</strong>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div id="optionalpurchase-info" style="display: none;">
+                                <div class="form-group row pb-2">
+                                    <div
+                                        class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end">
+                                        <label for="nopo" class="text-end">No PO</label>
+                                    </div>
+                                    <div class="col-12 col-sm-7">
+                                        <input type="text" id="nopo" class="form-control" name="nopo"
+                                            placeholder="Nomor PO" />
+                                    </div>
+                                </div>
+                                <div class="form-group row pb-2 ">
+                                    <div
+                                        class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end">
+                                        <label for="supplier" class="text-end">Supplier</label>
+                                    </div>
+                                    <div class="col-12 col-sm-7">
+                                        <input type="text" id="supplier" class="form-control" name="supplier"
+                                            placeholder="Supplier" value="{{ old('supplier') }}" />
+                                    </div>
+                                </div>
+                                <div class="form-group row pb-2">
+
+                                    <div
+                                        class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end">
+                                        <label for="ip" class="text-end">Harga</label>
+                                    </div>
+                                    <div class="col-12 col-sm-7">
+                                        <div class="input-group w-50">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Rp</span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="harga"
+                                                id="harga" name="harga">
+                                        </div>
+
+                                    </div>
+                                </div>
+
 
                             </div>
 
@@ -223,7 +293,17 @@
                                     }
                                 });
                             </script>
+                            <script>
+                                document.getElementById('optionalpurchase').addEventListener('change', function() {
+                                    var optionalInfo = document.getElementById('optionalpurchase-info');
 
+                                    if (this.checked) {
+                                        optionalInfo.style.display = 'block';
+                                    } else {
+                                        optionalInfo.style.display = 'none';
+                                    }
+                                });
+                            </script>
 
                             <div class="form-group">
                                 <div class="card-footer">

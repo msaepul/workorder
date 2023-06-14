@@ -61,6 +61,10 @@ Route::middleware('auth')->group(function () {
     Route::get('perangkat', [MasterDataController::class, 'perangkat'])->name('perangkat');
     Route::post('perangkat-proses', [MasterDataController::class, 'perangkatproses'])->name('perangkat_proses');
     Route::get('add-perangkat', [MasterDataController::class, 'tambahperangkat'])->name('add_perangkat');
+
+
+ Route::get('/getbyid', [MasterDataController::class, 'getTypeByJenis'])->name('getbyid');
+    Route::get('/cobaadd-perangkat', [MasterDataController::class, 'cobatambahperangkat'])->name('cobaadd_perangkat');
     
 
     // Route::resource('perangkat', MasterDataController::class);

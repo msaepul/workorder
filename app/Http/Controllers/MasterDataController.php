@@ -8,6 +8,7 @@ use App\Models\type;
 use App\Models\User;
 use App\Models\brand;
 use App\Models\Cabang;
+use App\Models\Jenis;
 use App\Models\perangkat;
 use App\Models\Departemen;
 use Illuminate\Http\Request;
@@ -78,24 +79,26 @@ class MasterDataController extends Controller
 
     // $perangkat = perangkat::with('type', 'brand','user.cabang')->get();
     $perangkat = Perangkat::join('tb_brand', 'tb_perangkat.id_brand', '=', 'tb_brand.id')
+    ->join('tb_jenis', 'tb_perangkat.id_jenis','=','tb_jenis.id')
     ->join('tb_type', 'tb_perangkat.id_type', '=', 'tb_type.id')
     ->join('tb_cabang', 'tb_perangkat.cabang_id', '=', 'tb_cabang.id')
-    ->select('tb_perangkat.*', 'tb_brand.name_brand AS brand_name', 'tb_type.name_type AS type_name', 'tb_cabang.cabang AS cabang_name')
+    ->select('tb_perangkat.*', 'tb_brand.name_brand AS brand_name', 'tb_type.name_type AS type_name', 'tb_cabang.cabang AS cabang_name', 'tb_jenis.jenis_perangkat AS jenis_perangkat')
     ->get();
     return view('Masterdata.perangkat.perangkat', compact('perangkat'));
   }
   
   public function tambahperangkat()
-  {
+  {$jeniss = Jenis::all();
     $depts = Dept::all();
     $brands = Brand::all();
     $types = Type::all();
+    
 
     $cabang =session('cabang');
    
     // $users = User::all();
     $users = DB::table('tb_login')->where('cabang', $cabang)->get();
-    return view('Masterdata.perangkat.addperangkat' , compact('brands','types','depts','users'));
+    return view('Masterdata.perangkat.addperangkat' , compact('brands','types','depts','users','jeniss'));
   }
 
   public function perangkatproses(Request $request)
@@ -103,7 +106,7 @@ class MasterDataController extends Controller
     // Validasi inputan
     $validatedData = $request->validate([
         'nama_perangkat' => 'required',
-        'jenis_perangkat' => 'required',
+        'id_jenis' => 'required',
         'nama_brand' => 'required',
         'nama_type' => 'required',
         'spesifikasi' => 'required',
@@ -113,7 +116,7 @@ class MasterDataController extends Controller
         // tambahkan validasi untuk kolom lainnya
     ],[
       'nama_perangkat.required' => 'Kolom Nama Perangkat harus diisi.',
-      'jenis_perangkat.required' => 'Kolom Jenis Perangkat harus diisi.',
+      'id_jenis.required' => 'Kolom Jenis Perangkat harus diisi.',
       'nama_brand.required' => 'Kolom Brand harus diisi.',
       'nama_type.required' => 'Kolom Type harus diisi.',
       'spesifikasi.required' => 'Kolom Spesifikasi harus diisi.',
@@ -126,7 +129,7 @@ class MasterDataController extends Controller
     // Buat objek Device baru
     $perangkat = new perangkat;
     $perangkat->nama_perangkat = $request->input('nama_perangkat');
-    $perangkat->jenis_perangkat = $request->input('jenis_perangkat');
+    $perangkat->id_jenis = $request->input('id_jenis');
     $perangkat->id_brand = $request->input('nama_brand');
     $perangkat->id_type = $request->input('nama_type');
     $perangkat->spesifikasi = $request->input('spesifikasi');
@@ -138,6 +141,9 @@ class MasterDataController extends Controller
     $perangkat->ip = $request->input('ip');
     $perangkat->mac_address = $request->input('macaddress');
     $perangkat->status = $request->input('status');
+    $perangkat->nopo = $request->input('nopo');
+    $perangkat->supplier = $request->input('supplier');
+    $perangkat->harga = $request->input('harga');
     // set kolom lainnya
 
     // Simpan perangkat ke database
@@ -185,6 +191,7 @@ class MasterDataController extends Controller
     ]);
 
     $type = new type;
+    $type->id_jenis = $request->input('id_jenis');
     $type->name_type = $request->input('nama_type');
     $type->ket_type = $request->input('ket_type');
 
@@ -195,4 +202,35 @@ class MasterDataController extends Controller
       return redirect()->back();
 
   }
+  // public function getTypeByJenis(Request $request)
+  // {
+  //     // Mendapatkan jenis perangkat yang dipilih dari permintaan AJAX
+  //     $selectedJenisId = $request->input('selectedJenisId');
+
+  //     // Query database untuk mendapatkan daftar type perangkat berdasarkan jenis perangkat
+  //     $types = Type::where('id_jenis', $selectedJenisId)->get();
+
+  //     // Mengembalikan data type perangkat dalam format JSON
+  //     return response()->json($types);
+  // }
+
+  // public function cobatambahperangkat(Request $request)
+  // {
+    
+  
+  //   $jeniss = Jenis::all();
+  //   $depts = Dept::all();
+  //   $brands = Brand::all();
+  //   $types = Type::all();
+    
+
+  //   $cabang =session('cabang');
+   
+  //   // $users = User::all();
+  //   $users = DB::table('tb_login')->where('cabang', $cabang)->get();
+  //   return view('Masterdata.perangkat.cobaaddperangkat' , compact('brands','types','depts','users','jeniss'));
+  // }
+
+
+  
 }

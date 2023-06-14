@@ -13,6 +13,7 @@ class type extends Model
     protected $primarykey = "id";
     protected $fillable = [
         'id',
+        'id_jenis',
         'name_type',
         'ket_type',
         'updated_at',

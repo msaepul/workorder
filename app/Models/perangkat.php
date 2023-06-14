@@ -14,7 +14,7 @@ class perangkat extends Model
 
     protected $fillable = [
         'nama_perangkat',
-        'jenis_perangkat',
+        'id_jenis',
         'id_brand',
         'id_type',
         'spesifikasi',
@@ -27,6 +27,10 @@ class perangkat extends Model
         'ip',
         'mac_address',
         'status',
+        'nopo',
+        'supplier',
+        'harga',
+
         'created_at',
         'deleted_at'
         

@@ -278,6 +278,7 @@
                 bsCustomFileInput.init();
             });
         </script>
+
         <script>
             $(function() {
                 //Initialize Select2 Elements
