@@ -1,6 +1,6 @@
 @extends('layouts.mainlayout')
 
-@section('title', 'Master Data User')
+@section('title', 'Master Data Perangkat')
 
 @section('content')
     <!-- Content Wrapper. Contains page content -->
@@ -65,14 +65,13 @@
                                                 <td>{{ $device->cabang_name }}</td>
                                                 <td>{{ $device->status }}</td>
                                                 <td>
-                                                    <button type="button" class="btn btn-success" data-toggle="modal"
-                                                        data-target="#modal-perangkat">
-                                                        <i class="nav-icon fas fa-pen"></i>lihat
-                                                    </button>
-                                                    <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                        data-target="">
-                                                        <i class="nav-icon fas fa-trash"></i> hapus
-                                                    </button>
+                                                    <a href="{{ route('edit-perangkat', $device->id) }}">Edit</a>
+
+                                                    <form action="{{ 'destroy_perangkat', $device->id }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit">Hapus</button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach

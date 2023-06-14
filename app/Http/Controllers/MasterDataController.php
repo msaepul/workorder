@@ -20,11 +20,11 @@ class MasterDataController extends Controller
 {
   public function user()
   {
-    
+
     $users = DB::table('tb_login')
-    ->join('tb_cabang', 'tb_login.cabang', '=', 'tb_cabang.id')
-    ->select('tb_login.*', 'tb_cabang.ket', 'tb_cabang.cabang')
-    ->get();
+      ->join('tb_cabang', 'tb_login.cabang', '=', 'tb_cabang.id')
+      ->select('tb_login.*', 'tb_cabang.ket', 'tb_cabang.cabang')
+      ->get();
 
     // $users = User::with('cabang')->get();
     return view('Masterdata.user.user', compact('users'));
@@ -79,42 +79,43 @@ class MasterDataController extends Controller
 
     // $perangkat = perangkat::with('type', 'brand','user.cabang')->get();
     $perangkat = Perangkat::join('tb_brand', 'tb_perangkat.id_brand', '=', 'tb_brand.id')
-    ->join('tb_jenis', 'tb_perangkat.id_jenis','=','tb_jenis.id')
-    ->join('tb_type', 'tb_perangkat.id_type', '=', 'tb_type.id')
-    ->join('tb_cabang', 'tb_perangkat.cabang_id', '=', 'tb_cabang.id')
-    ->select('tb_perangkat.*', 'tb_brand.name_brand AS brand_name', 'tb_type.name_type AS type_name', 'tb_cabang.cabang AS cabang_name', 'tb_jenis.jenis_perangkat AS jenis_perangkat')
-    ->get();
+      ->join('tb_jenis', 'tb_perangkat.id_jenis', '=', 'tb_jenis.id')
+      ->join('tb_type', 'tb_perangkat.id_type', '=', 'tb_type.id')
+      ->join('tb_cabang', 'tb_perangkat.cabang_id', '=', 'tb_cabang.id')
+      ->select('tb_perangkat.*', 'tb_brand.name_brand AS brand_name', 'tb_type.name_type AS type_name', 'tb_cabang.cabang AS cabang_name', 'tb_jenis.jenis_perangkat AS jenis_perangkat')
+      ->get();
     return view('Masterdata.perangkat.perangkat', compact('perangkat'));
   }
-  
+
   public function tambahperangkat()
-  {$jeniss = Jenis::all();
+  {
+    $jeniss = Jenis::all();
     $depts = Dept::all();
     $brands = Brand::all();
     $types = Type::all();
-    
 
-    $cabang =session('cabang');
-   
+
+    $cabang = session('cabang');
+
     // $users = User::all();
     $users = DB::table('tb_login')->where('cabang', $cabang)->get();
-    return view('Masterdata.perangkat.addperangkat' , compact('brands','types','depts','users','jeniss'));
+    return view('Masterdata.perangkat.addperangkat', compact('brands', 'types', 'depts', 'users', 'jeniss'));
   }
 
   public function perangkatproses(Request $request)
-{
+  {
     // Validasi inputan
     $validatedData = $request->validate([
-        'nama_perangkat' => 'required',
-        'id_jenis' => 'required',
-        'nama_brand' => 'required',
-        'nama_type' => 'required',
-        'spesifikasi' => 'required',
-        'tgl_pbl' => 'required',
-        'user_id' => 'required',
-        'status' => 'required',
-        // tambahkan validasi untuk kolom lainnya
-    ],[
+      'nama_perangkat' => 'required',
+      'id_jenis' => 'required',
+      'nama_brand' => 'required',
+      'nama_type' => 'required',
+      'spesifikasi' => 'required',
+      'tgl_pbl' => 'required',
+      'user_id' => 'required',
+      'status' => 'required',
+      // tambahkan validasi untuk kolom lainnya
+    ], [
       'nama_perangkat.required' => 'Kolom Nama Perangkat harus diisi.',
       'id_jenis.required' => 'Kolom Jenis Perangkat harus diisi.',
       'nama_brand.required' => 'Kolom Brand harus diisi.',
@@ -124,8 +125,8 @@ class MasterDataController extends Controller
       'user_id.required' => 'Kolom Pengguna / Departemen harus diisi.',
       'status.required' => 'Kolom Status harus diisi.',
       // tambahkan pesan untuk aturan validasi lainnya
-  ]);
-  
+    ]);
+
     // Buat objek Device baru
     $perangkat = new perangkat;
     $perangkat->nama_perangkat = $request->input('nama_perangkat');
@@ -150,7 +151,35 @@ class MasterDataController extends Controller
     $perangkat->save();
 
     return redirect()->route('perangkat')->with('success', 'Perangkat berhasil ditambahkan.');
-}
+  }
+
+  //edit perangkat
+  public function editperangkat($id)
+  {
+    // Mengambil data berdasarkan ID
+    $data = perangkat::findOrFail($id);
+
+    // Menampilkan form edit dengan data yang sudah ada
+    return view('masterdata.perangkat.editperangkat', compact('data'));
+  }
+
+  public function updateperangkat(Request $request, $id)
+  {
+    // Validasi inputan
+    $validatedData = $request->validate([
+      'field1' => 'required',
+      'field2' => 'required',
+      // tambahkan validasi untuk kolom lainnya
+    ]);
+
+    // Update data di database
+    $data = perangkat::findOrFail($id);
+    $data->update($validatedData);
+
+    // Redirect ke halaman index atau ke halaman detail data yang diupdate
+    return redirect()->route('nama-route');
+  }
+
 
   public function sparepart()
   {
@@ -158,15 +187,18 @@ class MasterDataController extends Controller
   }
   public function tambahsparepart()
   {
-    
+
     return view('Masterdata.sparepart.addsparepart');
   }
+
+
+
 
   public function brandproses(Request $request)
   {
     $validatedData = $request->validate([
       'nama_brand' => 'required',
-    ],[
+    ], [
       'nama_perangkat.required' => 'Kolom Nama Perangkat harus diisi.',
     ]);
 
@@ -174,19 +206,18 @@ class MasterDataController extends Controller
     $brand->name_brand = $request->input('nama_brand');
     $brand->ket_brand = $request->input('ket_brand');
 
-      // Simpan brand ke database
-      $brand->save();
+    // Simpan brand ke database
+    $brand->save();
 
 
-      return redirect()->back();
-
+    return redirect()->back();
   }
 
   public function typeproses(Request $request)
   {
     $validatedData = $request->validate([
       'nama_type' => 'required',
-    ],[
+    ], [
       'nama_perangkat.required' => 'Kolom Nama Perangkat harus diisi.',
     ]);
 
@@ -195,12 +226,11 @@ class MasterDataController extends Controller
     $type->name_type = $request->input('nama_type');
     $type->ket_type = $request->input('ket_type');
 
-      // Simpan type ke database
-      $type->save();
+    // Simpan type ke database
+    $type->save();
 
 
-      return redirect()->back();
-
+    return redirect()->back();
   }
   // public function getTypeByJenis(Request $request)
   // {
@@ -216,21 +246,21 @@ class MasterDataController extends Controller
 
   // public function cobatambahperangkat(Request $request)
   // {
-    
-  
+
+
   //   $jeniss = Jenis::all();
   //   $depts = Dept::all();
   //   $brands = Brand::all();
   //   $types = Type::all();
-    
+
 
   //   $cabang =session('cabang');
-   
+
   //   // $users = User::all();
   //   $users = DB::table('tb_login')->where('cabang', $cabang)->get();
   //   return view('Masterdata.perangkat.cobaaddperangkat' , compact('brands','types','depts','users','jeniss'));
   // }
 
 
-  
+
 }
