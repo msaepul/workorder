@@ -44,7 +44,8 @@
     <div class="wrapper">
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__shake" src="{{ asset('img/AdminLTELogo.png') }}" alt="AdminLTELogo" height="120">
+            <img class="animation__shake" src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="AdminLTELogo"
+                height="120">
 
         </div>
 
@@ -278,6 +279,12 @@
                     theme: 'bootstrap4'
                 })
             });
+        </script>
+        <script>
+            // Menghilangkan pesan alert setelah 5 detik
+            setTimeout(function() {
+                document.getElementById('myAlert').remove();
+            }, 10000);
         </script>
 
 </body>

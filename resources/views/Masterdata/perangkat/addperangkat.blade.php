@@ -32,14 +32,19 @@
                     <div class="card card-primary card-outline col-12 col-md-8">
                         <div class="card-body">
                             @if ($errors->any())
-                                <div class="alert alert-danger">
+                                <div id="myAlert" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>Error!</strong> Terdapat beberapa masalah dalam pengisian formulir:
                                     <ul>
                                         @foreach ($errors->all() as $error)
                                             <li>{{ $error }}</li>
                                         @endforeach
                                     </ul>
+
                                 </div>
+
+
                             @endif
+
 
                             <div class="form-group row pb-2">
                                 <div
@@ -58,14 +63,16 @@
                                 </div>
                                 <div class="col-12 col-sm-7">
                                     <select class="form-control select2bs4" id="id_jenis" name="id_jenis"
-                                        style="width: 100%;" value="{{ old('id_jenis') }}">
-
-                                        <option value="">Pilih
-                                            Jenis</option>
+                                        style="width: 100%;">
+                                        <option value="">Pilih Jenis</option>
                                         @foreach ($jeniss as $jenis)
-                                            <option value="{{ $jenis->id }}">{{ $jenis->jenis_perangkat }}</option>
+                                            <option value="{{ $jenis->id }}"
+                                                @if (old('id_jenis') == $jenis->id) selected @endif>
+                                                {{ $jenis->jenis_perangkat }}</option>
                                         @endforeach
                                     </select>
+
+
                                 </div>
                             </div>
 
@@ -76,13 +83,16 @@
                                 </div>
                                 <div class="col-12 col-sm-7">
                                     <select class="form-control select2" id="nama_type" name="nama_type"
-                                        style="width: 100%;" value="{{ old('nama_type') }}">
-                                        <option value="">Pilih
-                                            type</option>
+                                        style="width: 100%;">
+                                        <option value="">Pilih type</option>
                                         @foreach ($types as $type)
-                                            <option value="{{ $type->id }}">{{ $type->name_type }}</option>
+                                            <option value="{{ $type->id }}"
+                                                @if (old('nama_type') == $type->id) selected @endif>{{ $type->name_type }}
+                                            </option>
                                         @endforeach
                                     </select>
+
+
                                 </div>
                                 <div
                                     class="col-12 col-md-2 col-sm-2 d-flex align-items-center justify-content-sm-start justify-content-lg-start">
@@ -97,14 +107,15 @@
                                 </div>
                                 <div class="col-12 col-sm-7">
                                     <select class="form-control select2" id="nama_brand" name="nama_brand"
-                                        style="width: 100%;" value="{{ old('nama_brand') }}">
-
-                                        <option value="">Pilih
-                                            Brand</option>
+                                        style="width: 100%;">
+                                        <option value="">Pilih Brand</option>
                                         @foreach ($brands as $brand)
-                                            <option value="{{ $brand->id }}">{{ $brand->name_brand }}</option>
+                                            <option value="{{ $brand->id }}"
+                                                @if (old('nama_brand') == $brand->id) selected @endif>{{ $brand->name_brand }}
+                                            </option>
                                         @endforeach
                                     </select>
+
                                 </div>
                                 <div
                                     class="col-12 col-md-2 col-sm-2 d-flex align-items-center justify-content-sm-start justify-content-lg-start">
@@ -119,19 +130,11 @@
                                 </div>
                                 <div class="col-12 col-sm-7">
                                     <textarea class="form-control" id="spesifikasi" name="spesifikasi" placeholder="Spesifikasi perangkat" rows="4"
-                                        cols="50" value="{{ old('spesifikasi') }}"></textarea>
+                                        cols="50">{{ old('spesifikasi') }}</textarea>
+
                                 </div>
                             </div>
-                            <div class="form-group row pb-2 ">
-                                <div
-                                    class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end">
-                                    <label for="tgl_pbl" class="text-end">Tanggal Pembelian</label>
-                                </div>
-                                <div class="col-12 col-sm-7">
-                                    <input type="date" class="form-control w-50" id="tgl_pbl" name="tgl_pbl"
-                                        value="{{ old('tgl_pbl') }}">
-                                </div>
-                            </div>
+
 
                             <div class="form-group row pb-2 ">
                                 <div
@@ -139,14 +142,15 @@
                                     <label for="user_id" class="text-end">User / Dept</label>
                                 </div>
                                 <div class="col-12 col-sm-7">
-                                    <select class="form-control select2 " id="user_id" name="user_id"
-                                        style="width: 100%;" value="{{ old('user_id') }}">
+                                    <select class="form-control select2" id="user_id" name="user_id" style="width: 100%;">
                                         <option value="">Pilih User</option>
                                         @foreach ($users as $user)
-                                            <option value="{{ $user->id }}">{{ $user->nama_lengkap }} ||
-                                                {{ $user->dept }}</option>
+                                            <option value="{{ $user->id }}"
+                                                @if (old('user_id') == $user->id) selected @endif>{{ $user->nama_lengkap }}
+                                                || {{ $user->dept }}</option>
                                         @endforeach
                                     </select>
+
                                 </div>
                             </div>
                             <div class="form-group row pb-2 ">
@@ -155,14 +159,16 @@
                                     <label for="nama_status" class="text-end">Status</label>
                                 </div>
                                 <div class="col-12 col-sm-7 ">
-                                    <select class="form-control" id="status" name="status"style="width: 100%;"
-                                        value="{{ old('status') }}">
+                                    <select class="form-control" id="status" name="status" style="width: 100%;">
                                         <option value="">Pilih Status</option>
-
-                                        <option value="USED">Digunakan</option>
-                                        <option value="BROKEN">Rusak</option>
-                                        <option value="IN STOCK">Stok</option>
+                                        <option value="USED" @if (old('status') == 'USED') selected @endif>Digunakan
+                                        </option>
+                                        <option value="BROKEN" @if (old('status') == 'BROKEN') selected @endif>Rusak
+                                        </option>
+                                        <option value="IN STOCK" @if (old('status') == 'IN STOCK') selected @endif>Stok
+                                        </option>
                                     </select>
+
                                 </div>
                             </div>
                             <input type="hidden" class="form-control w-50" id="cabang_id" name="cabang_id"
@@ -241,6 +247,16 @@
                             </div>
 
                             <div id="optionalpurchase-info" style="display: none;">
+                                <div class="form-group row pb-2 ">
+                                    <div
+                                        class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end">
+                                        <label for="tgl_pbl" class="text-end">Tanggal Pembelian</label>
+                                    </div>
+                                    <div class="col-12 col-sm-7">
+                                        <input type="date" class="form-control w-50" id="tgl_pbl" name="tgl_pbl"
+                                            value="{{ old('tgl_pbl') }}">
+                                    </div>
+                                </div>
                                 <div class="form-group row pb-2">
                                     <div
                                         class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end">
@@ -305,9 +321,12 @@
                                 });
                             </script>
 
+
                             <div class="form-group">
                                 <div class="card-footer">
-                                    <input type="button" class="btn btn-secondary float-start" value="Cancel">
+                                    <input type="button" class="btn btn-secondary float-start" value="Cancel"
+                                        onclick="window.history.back();">
+
                                     <input type="submit" class="btn btn-primary float-end" value="Tambah">
                                 </div>
                             </div>

@@ -65,14 +65,18 @@
                                                 <td>{{ $device->cabang_name }}</td>
                                                 <td>{{ $device->status }}</td>
                                                 <td>
-                                                    <a href="{{ route('edit-perangkat', $device->id) }}">Edit</a>
+                                                    <a href="{{ route('edit-perangkat', $device->id) }}"
+                                                        class="btn btn-primary">Edit</a>
 
-                                                    <form action="{{ 'destroy_perangkat', $device->id }}" method="POST">
+                                                    <form action="{{ route('destroy_perangkat', $device->id) }}"
+                                                        method="POST" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit">Hapus</button>
+                                                        <button type="submit" class="btn btn-danger"
+                                                            onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
                                                     </form>
                                                 </td>
+
                                             </tr>
                                         @endforeach
                                     </tbody>

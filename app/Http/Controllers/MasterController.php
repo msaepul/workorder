@@ -163,8 +163,11 @@ class MasterController extends Controller
         $types = Type::all();
         $cabang = session('cabang');
         $users = DB::table('tb_login')->where('cabang', $cabang)->get();
+
+
         // Mengambil data berdasarkan ID
         $data = perangkat::findOrFail($id);
+        
 
         // Menampilkan form edit dengan data yang sudah ada
         return view('masterdata.perangkat.editperangkat', compact('users', 'jeniss', 'depts', 'brands', 'types', 'data'));
@@ -172,20 +175,71 @@ class MasterController extends Controller
 
     public function updateperangkat(Request $request, $id)
     {
-        // Validasi inputan
+
+              // Validasi inputan
         $validatedData = $request->validate([
-            'field1' => 'required',
-            'field2' => 'required',
+            'nama_perangkat' => 'required',
+            'id_jenis' => 'required',
+            'nama_brand' => 'required',
+            'nama_type' => 'required',
+            'spesifikasi' => 'required',
+            'tgl_pbl' => 'required',
+            'user_id' => 'required',
+            'status' => 'required',
             // tambahkan validasi untuk kolom lainnya
+        ], [
+            'nama_perangkat.required' => 'Kolom Nama Perangkat harus diisi.',
+            'id_jenis.required' => 'Kolom Jenis Perangkat harus diisi.',
+            'nama_brand.required' => 'Kolom Brand harus diisi.',
+            'nama_type.required' => 'Kolom Type harus diisi.',
+            'spesifikasi.required' => 'Kolom Spesifikasi harus diisi.',
+            'tgl_pbl.required' => 'Kolom Tanggal Pembelian harus diisi.',
+            'user_id.required' => 'Kolom Pengguna / Departemen harus diisi.',
+            'status.required' => 'Kolom Status harus diisi.',
+            // tambahkan pesan untuk aturan validasi lainnya
         ]);
+  
 
-        // Update data di database
+        // Perbarui data yang ada di basis data
         $data = perangkat::findOrFail($id);
-        $data->update($validatedData);
+        
+        $data->nama_perangkat = $request->nama_perangkat;
+        $data->id_jenis = $request->id_jenis;
+        $data->id_brand = $request->nama_brand;
+        $data->id_type = $request->nama_type;
+        $data->spesifikasi = $request->spesifikasi;
+        $data->date_purchase = $request->tgl_pbl;
+        $data->user_id = $request->user_id;
+        $data->cabang_id = $request->cabang_id;
+        $data->id_teamviewer = $request->id_teamviewer;
+        $data->id_anydesk = $request->id_anydesk;
+        $data->ip = $request->ip;
+        $data->mac_address = $request->macaddress;
+        $data->status = $request->status;
+        $data->nopo = $request->nopo;
+        $data->supplier = $request->supplier;
+        $data->harga = $request->harga;
+        // set kolom lainnya
+        
+        // tambahkan atribut lainnya sesuai kebutuhan
+        $data->save();
+    
 
-        // Redirect ke halaman index atau ke halaman detail data yang diupdate
-        return redirect()->route('nama-route');
+        // Redirect ke halaman sukses atau halaman lain yang diinginkan
+        return redirect()->route('perangkat')->with('success', 'Perangkat berhasil diperbarui.');
     }
+
+    public function hapusperangkat($id)
+{
+    $data = Perangkat::findOrFail($id);
+    $data->delete();
+
+    // Setelah menghapus data, Anda dapat melakukan tindakan lainnya,
+    // seperti mengirimkan respon atau mengalihkan pengguna ke halaman lain.
+
+    return redirect()->route('perangkat')->with('success', 'Data berhasil dihapus');
+}
+
 
 
     public function sparepart()

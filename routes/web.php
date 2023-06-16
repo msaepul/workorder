@@ -34,6 +34,7 @@ Route::middleware('guest')->group(function () {
 
 
 Route::middleware('auth')->group(function () {
+    $random = random_str(7);
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('Dashboard', [AdminController::class, 'index']);
     Route::get('Adminspr', [AdminController::class, 'dashboardspr']);
@@ -62,9 +63,9 @@ Route::middleware('auth')->group(function () {
     Route::post('perangkat-proses', [MasterController::class, 'perangkatproses'])->name('perangkat_proses');
     Route::get('add-perangkat', [MasterController::class, 'tambahperangkat'])->name('add_perangkat');
     Route::get('/edit-perangkat/{id}', [MasterController::class, 'editperangkat'])->name('edit-perangkat');
-
-
+    // Route::put('/perangkat/{id}', [MasterController::class, 'editperangkat'])->name('update-perangkat');
     Route::put('/perangkat/{id}', [MasterController::class, 'updateperangkat'])->name('update_perangkat');
+    
     Route::delete('/perangkat/{id}', [MasterController::class, 'hapusperangkat'])->name('destroy_perangkat');
 
 

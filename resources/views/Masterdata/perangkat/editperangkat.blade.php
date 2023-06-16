@@ -11,7 +11,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Tambah Perangkat</h1>
+                        <h1>Edit Perangkat</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -25,21 +25,28 @@
 
         <!-- Main content -->
         <section class="content center">
-            <form action="{{ route('perangkat_proses') }}" method="POST">
+            <form action="{{ route('update_perangkat', $data->id) }}" method="POST">
                 @csrf
+                @method('PUT')
                 <div class="d-flex justify-content-center">
                     <!-- Default box -->
                     <div class="card card-primary card-outline col-12 col-md-8">
+                        @if ($errors->any())
+                            <div id="myAlert" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Error!</strong> Terdapat beberapa masalah dalam pengisian formulir:
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+
+                            </div>
+                        @endif
+                        <div class="card-header">
+                            <h5> {{ $data->nama_perangkat }}</h5>
+                        </div>
                         <div class="card-body">
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
+
 
                             <div class="form-group row pb-2">
                                 <div
@@ -48,7 +55,7 @@
                                 </div>
                                 <div class="col-12 col-md-7 col-sm-7">
                                     <input type="text" id="nama_perangkat" class="form-control" name="nama_perangkat"
-                                        placeholder="Masukkan No Inventaris" value="{{ old('nama_perangkat') }}" />
+                                        placeholder="Masukkan No Inventaris" value="{{ $data->nama_perangkat }}" />
                                 </div>
                             </div>
                             <div class="form-group row pb-2 ">
@@ -58,14 +65,16 @@
                                 </div>
                                 <div class="col-12 col-sm-7">
                                     <select class="form-control select2bs4" id="id_jenis" name="id_jenis"
-                                        style="width: 100%;" value="{{ old('id_jenis') }}">
-
-                                        <option value="">Pilih
-                                            Jenis</option>
+                                        style="width: 100%;">
+                                        <option value="">Pilih Jenis</option>
                                         @foreach ($jeniss as $jenis)
-                                            <option value="{{ $jenis->id }}">{{ $jenis->jenis_perangkat }}</option>
+                                            <option value="{{ $jenis->id }}"
+                                                {{ $data->id_jenis == $jenis->id ? 'selected' : '' }}>
+                                                {{ $jenis->jenis_perangkat }}
+                                            </option>
                                         @endforeach
                                     </select>
+
                                 </div>
                             </div>
 
@@ -75,12 +84,15 @@
                                     <label for="nama_type" class="text-end">Type</label>
                                 </div>
                                 <div class="col-12 col-sm-7">
-                                    <select class="form-control select2" id="nama_type" name="nama_type"
-                                        style="width: 100%;" value="{{ old('nama_type') }}">
-                                        <option value="">Pilih
-                                            type</option>
+
+                                    <select class="form-control select2bs4" id="nama_type" name="nama_type"
+                                        style="width: 100%;">
+                                        <option value="">Pilih Jenis</option>
                                         @foreach ($types as $type)
-                                            <option value="{{ $type->id }}">{{ $type->name_type }}</option>
+                                            <option value="{{ $type->id }}"
+                                                {{ $data->id_type == $type->id ? 'selected' : '' }}>
+                                                {{ $type->name_type }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -96,13 +108,14 @@
                                     <label for="nama_brand" class="text-end">Brand/merk</label>
                                 </div>
                                 <div class="col-12 col-sm-7">
-                                    <select class="form-control select2" id="nama_brand" name="nama_brand"
-                                        style="width: 100%;" value="{{ old('nama_brand') }}">
-
-                                        <option value="">Pilih
-                                            Brand</option>
+                                    <select class="form-control select2bs4" id="nama_brand" name="nama_brand"
+                                        style="width: 100%;">
+                                        <option value="">Pilih Jenis</option>
                                         @foreach ($brands as $brand)
-                                            <option value="{{ $brand->id }}">{{ $brand->name_brand }}</option>
+                                            <option value="{{ $brand->id }}"
+                                                {{ $data->id_brand == $brand->id ? 'selected' : '' }}>
+                                                {{ $brand->name_brand }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -119,19 +132,11 @@
                                 </div>
                                 <div class="col-12 col-sm-7">
                                     <textarea class="form-control" id="spesifikasi" name="spesifikasi" placeholder="Spesifikasi perangkat" rows="4"
-                                        cols="50" value="{{ old('spesifikasi') }}"></textarea>
+                                        cols="50">{{ old('spesifikasi', $data->spesifikasi) }}</textarea>
+
                                 </div>
                             </div>
-                            <div class="form-group row pb-2 ">
-                                <div
-                                    class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end">
-                                    <label for="tgl_pbl" class="text-end">Tanggal Pembelian</label>
-                                </div>
-                                <div class="col-12 col-sm-7">
-                                    <input type="date" class="form-control w-50" id="tgl_pbl" name="tgl_pbl"
-                                        value="{{ old('tgl_pbl') }}">
-                                </div>
-                            </div>
+
 
                             <div class="form-group row pb-2 ">
                                 <div
@@ -139,12 +144,14 @@
                                     <label for="user_id" class="text-end">User / Dept</label>
                                 </div>
                                 <div class="col-12 col-sm-7">
-                                    <select class="form-control select2 " id="user_id" name="user_id"
-                                        style="width: 100%;" value="{{ old('user_id') }}">
+                                    <select class="form-control select2 " id="user_id" name="user_id" style="width: 100%;"
+                                        value="{{ old('user_id') }}">
                                         <option value="">Pilih User</option>
                                         @foreach ($users as $user)
-                                            <option value="{{ $user->id }}">{{ $user->nama_lengkap }} ||
-                                                {{ $user->dept }}</option>
+                                            <option value="{{ $user->id }}"
+                                                {{ $data->user_id == $user->id ? 'selected' : '' }}>
+                                                {{ $user->nama_lengkap }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -155,14 +162,16 @@
                                     <label for="nama_status" class="text-end">Status</label>
                                 </div>
                                 <div class="col-12 col-sm-7 ">
-                                    <select class="form-control" id="status" name="status"style="width: 100%;"
-                                        value="{{ old('status') }}">
+                                    <select class="form-control" id="status" name="status" style="width: 100%;">
                                         <option value="">Pilih Status</option>
-
-                                        <option value="USED">Digunakan</option>
-                                        <option value="BROKEN">Rusak</option>
-                                        <option value="IN STOCK">Stok</option>
+                                        <option value="USED" {{ $data->status == 'USED' ? 'selected' : '' }}>Digunakan
+                                        </option>
+                                        <option value="BROKEN" {{ $data->status == 'BROKEN' ? 'selected' : '' }}>Rusak
+                                        </option>
+                                        <option value="IN STOCK" {{ $data->status == 'IN STOCK' ? 'selected' : '' }}>Stok
+                                        </option>
                                     </select>
+
                                 </div>
                             </div>
                             <input type="hidden" class="form-control w-50" id="cabang_id" name="cabang_id"
@@ -191,7 +200,7 @@
                                     </div>
                                     <div class="col-12 col-sm-7">
                                         <input type="text" id="ip" class="form-control" name="ip"
-                                            placeholder="IP Address" />
+                                            placeholder="IP Address" value="{{ $data->ip }}" />
                                     </div>
                                 </div>
                                 <div class="form-group row pb-2">
@@ -201,7 +210,7 @@
                                     </div>
                                     <div class="col-12 col-sm-7">
                                         <input type="text" id="macaddress" class="form-control" name="macaddress"
-                                            placeholder="Mac address" />
+                                            placeholder="Mac address" value="{{ $data->mac_address }}" />
                                     </div>
                                 </div>
                                 <div class="form-group row pb-2 ">
@@ -212,7 +221,7 @@
                                     <div class="col-12 col-sm-7">
                                         <input type="text" id="id_teamviewer" class="form-control"
                                             name="id_teamviewer" placeholder="ID teamviewer"
-                                            value="{{ old('id_teamviewer') }}" />
+                                            value="{{ $data->id_teamviewer }}" />
                                     </div>
                                 </div>
                                 <div class="form-group row pb-2 ">
@@ -222,7 +231,7 @@
                                     </div>
                                     <div class="col-12 col-sm-7">
                                         <input type="text" id="id_anydesk" class="form-control" name="id_anydesk"
-                                            placeholder="ID Anydesk" />
+                                            placeholder="ID Anydesk" value="{{ $data->id_anydesk }}" />
                                     </div>
                                 </div>
 
@@ -248,7 +257,7 @@
                                     </div>
                                     <div class="col-12 col-sm-7">
                                         <input type="text" id="nopo" class="form-control" name="nopo"
-                                            placeholder="Nomor PO" />
+                                            placeholder="Nomor PO" value="{{ $data->nopo }}" />
                                     </div>
                                 </div>
                                 <div class="form-group row pb-2 ">
@@ -258,7 +267,19 @@
                                     </div>
                                     <div class="col-12 col-sm-7">
                                         <input type="text" id="supplier" class="form-control" name="supplier"
-                                            placeholder="Supplier" value="{{ old('supplier') }}" />
+                                            placeholder="Supplier" value="{{ $data->supplier }}" />
+                                    </div>
+                                </div>
+                                <div class="form-group row pb-2 ">
+                                    <div
+                                        class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end">
+                                        <label for="tgl_pbl" class="text-end">Tanggal Pembelian
+                                        </label>
+                                    </div>
+                                    <div class="col-12 col-sm-7">
+                                        <input type="date" class="form-control w-50" id="tgl_pbl" name="tgl_pbl"
+                                            value="{{ $data->date_purchase }}">
+
                                     </div>
                                 </div>
                                 <div class="form-group row pb-2">
@@ -273,7 +294,7 @@
                                                 <span class="input-group-text">Rp</span>
                                             </div>
                                             <input type="text" class="form-control" placeholder="harga"
-                                                id="harga" name="harga">
+                                                id="harga" name="harga" value="{{ $data->harga }}">
                                         </div>
 
                                     </div>
@@ -307,8 +328,10 @@
 
                             <div class="form-group">
                                 <div class="card-footer">
-                                    <input type="button" class="btn btn-secondary float-start" value="Cancel">
-                                    <input type="submit" class="btn btn-primary float-end" value="Tambah">
+                                    <input type="button" class="btn btn-secondary float-start" value="Cancel"
+                                        onclick="window.history.back();">
+
+                                    <input type="submit" class="btn btn-primary float-end" value="Edit">
                                 </div>
                             </div>
                         </div>
