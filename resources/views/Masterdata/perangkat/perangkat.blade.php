@@ -39,6 +39,18 @@
 
                             <!-- /.card-header -->
                             <div class="card-body">
+                                @if (session('success'))
+                                    <div id="success-alert" class="alert alert-success">
+                                        {{ session('success') }}
+                                    </div>
+                                @endif
+
+                                <script>
+                                    setTimeout(function() {
+                                        document.getElementById('success-alert').style.display = 'none';
+                                    }, 5000);
+                                </script>
+
                                 <table id="example2" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>

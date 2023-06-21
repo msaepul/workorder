@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CabangController;
 use App\Http\Controllers\WorkorderController;
 use App\Http\Controllers\MasterController;
+use App\Http\Controllers\SparepartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,21 +60,24 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('user/{$id}', [MasterController::class, 'delete']);
 
+    //Routing Master Data Perangkat
     Route::get('perangkat', [MasterController::class, 'perangkat'])->name('perangkat');
     Route::post('perangkat-proses', [MasterController::class, 'perangkatproses'])->name('perangkat_proses');
     Route::get('add-perangkat', [MasterController::class, 'tambahperangkat'])->name('add_perangkat');
     Route::get('/edit-perangkat/{id}', [MasterController::class, 'editperangkat'])->name('edit-perangkat');
     // Route::put('/perangkat/{id}', [MasterController::class, 'editperangkat'])->name('update-perangkat');
     Route::put('/perangkat/{id}', [MasterController::class, 'updateperangkat'])->name('update_perangkat');
-    
     Route::delete('/perangkat/{id}', [MasterController::class, 'hapusperangkat'])->name('destroy_perangkat');
 
+    //Routing Master Data Sparepart   
+    Route::get('sparepart', [SparepartController::class, 'sparepart'])->name('sparepart');
+    Route::get('sparepart/create', [SparepartController::class, 'createsparepart'])->name('add_sparepart');
+    Route::post('/spareparts', [SparepartController::class, 'storesparepart'])->name('sparepart_proses');
+    Route::get('/spareparts/{id}/edit', [SparepartController::class, 'editsparepart'])->name('sparepart_edit');
+    Route::put('/spareparts/{id}', [SparepartController::class, 'updatesparepart'])->name('sparepart_update');
 
-
-    Route::get('/getbyid', [MasterController::class, 'getTypeByJenis'])->name('getbyid');
-    Route::get('/cobaadd-perangkat', [MasterController::class, 'cobatambahperangkat'])->name('cobaadd_perangkat');
-
-
+    // Route::get('/getbyid', [MasterController::class, 'getTypeByJenis'])->name('getbyid');
+    // Route::get('/cobaadd-perangkat', [MasterController::class, 'cobatambahperangkat'])->name('cobaadd_perangkat');
     // Route::resource('perangkat', MasterController::class);
 
     //proses input brand ke db
@@ -81,10 +85,4 @@ Route::middleware('auth')->group(function () {
 
     //proses input type ke db
     Route::post('type-proses', [MasterController::class, 'typeproses'])->name('type_proses');
-
-
-
-    Route::get('sparepart', [MasterController::class, 'sparepart'])->name('sparepart');
-    Route::post('sparepart', [MasterController::class, 'sparepartproses'])->name('sparepart_proses');
-    Route::get('tambah-sparepart', [MasterController::class, 'tambahsparepart'])->name('tambah_sparepart');
 });

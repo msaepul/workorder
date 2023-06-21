@@ -7,8 +7,8 @@ use App\Models\Dept;
 use App\Models\type;
 use App\Models\User;
 use App\Models\brand;
-use App\Models\Cabang;
 use App\Models\Jenis;
+use App\Models\Cabang;
 use App\Models\perangkat;
 use App\Models\Departemen;
 use Illuminate\Http\Request;
@@ -167,7 +167,7 @@ class MasterController extends Controller
 
         // Mengambil data berdasarkan ID
         $data = perangkat::findOrFail($id);
-        
+
 
         // Menampilkan form edit dengan data yang sudah ada
         return view('masterdata.perangkat.editperangkat', compact('users', 'jeniss', 'depts', 'brands', 'types', 'data'));
@@ -176,7 +176,7 @@ class MasterController extends Controller
     public function updateperangkat(Request $request, $id)
     {
 
-              // Validasi inputan
+        // Validasi inputan
         $validatedData = $request->validate([
             'nama_perangkat' => 'required',
             'id_jenis' => 'required',
@@ -198,11 +198,11 @@ class MasterController extends Controller
             'status.required' => 'Kolom Status harus diisi.',
             // tambahkan pesan untuk aturan validasi lainnya
         ]);
-  
+
 
         // Perbarui data yang ada di basis data
         $data = perangkat::findOrFail($id);
-        
+
         $data->nama_perangkat = $request->nama_perangkat;
         $data->id_jenis = $request->id_jenis;
         $data->id_brand = $request->nama_brand;
@@ -220,38 +220,27 @@ class MasterController extends Controller
         $data->supplier = $request->supplier;
         $data->harga = $request->harga;
         // set kolom lainnya
-        
+
         // tambahkan atribut lainnya sesuai kebutuhan
         $data->save();
-    
+
+
+
 
         // Redirect ke halaman sukses atau halaman lain yang diinginkan
         return redirect()->route('perangkat')->with('success', 'Perangkat berhasil diperbarui.');
     }
 
     public function hapusperangkat($id)
-{
-    $data = Perangkat::findOrFail($id);
-    $data->delete();
-
-    // Setelah menghapus data, Anda dapat melakukan tindakan lainnya,
-    // seperti mengirimkan respon atau mengalihkan pengguna ke halaman lain.
-
-    return redirect()->route('perangkat')->with('success', 'Data berhasil dihapus');
-}
-
-
-
-    public function sparepart()
     {
-        return view('Masterdata.sparepart.sparepart');
-    }
-    public function tambahsparepart()
-    {
+        $data = Perangkat::findOrFail($id);
+        $data->delete();
 
-        return view('Masterdata.sparepart.addsparepart');
-    }
+        // Setelah menghapus data, Anda dapat melakukan tindakan lainnya,
+        // seperti mengirimkan respon atau mengalihkan pengguna ke halaman lain.
 
+        return redirect()->route('perangkat')->with('success', 'Data berhasil dihapus');
+    }
 
 
 

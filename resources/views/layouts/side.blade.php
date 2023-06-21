@@ -144,7 +144,7 @@
                             </p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a href="#" class="nav-link ">
                             <i class="nav-icon fas fa-tree"></i>
                             <p>
@@ -172,7 +172,7 @@
                                 </a>
 
                         </ul>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a href="perangkat"
                             @if (request()->route()->uri == 'perangkat') class="nav-link active"
@@ -185,7 +185,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="sparepart"
+                        <a href="{{ route('sparepart') }}"
                             @if (request()->route()->uri == 'sparepart') class="nav-link active"
               @else
               class="nav-link " @endif>
