@@ -35,8 +35,34 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
 
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <style>
+        .circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #ff0000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .circle:hover {
+            background-color: #0056b3;
+        }
+
+        .tooltip {
+            background-color: #000;
+            color: #fff;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+    </style>
 </head>
 
 
@@ -286,6 +312,13 @@
                 document.getElementById('myAlert').remove();
             }, 10000);
         </script>
+
+        <script>
+            setTimeout(function() {
+                document.getElementById('success-alert').style.display = 'none';
+            }, 5000);
+        </script>
+
 
 </body>
 

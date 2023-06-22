@@ -30,14 +30,42 @@ class SparepartController extends Controller
     {
         $sparepart = Sparepart::all();
         $cabang = session('cabang');
-
-
-
-
         return view('Masterdata.sparepart.addsparepart', compact('sparepart', 'cabang'));
     }
 
     public function storesparepart(Request $request)
+    {
+        $request->validate([
+            'nama_sparepart' => 'required',
+
+        ]);
+
+
+        $sparepart = new Sparepart;
+        $sparepart->nama_sparepart = $request->input('nama_sparepart');
+        $sparepart->supplier = $request->input('supplier');
+        $sparepart->stok = 0;
+        $sparepart->harga =0;
+        $sparepart->id_cabang = $request->input('id_cabang');
+
+        $sparepart->save();
+
+        // Sparepart::create($request->all());
+        // // Membuat data sparepart baru berdasarkan data yang diambil dari request
+
+        return redirect()->route('add_sparepart')->with('success', 'Data sparepart berhasil ditambahkan.');
+        // Melakukan redirect dan menyertakan pesan sukses
+    }
+
+    public function updateUser(Request $request, $id)
+    {
+        $user = User::find($id);
+        $input = $request->all();
+        $user->fill($input)->save();
+
+        return redirect('user');
+    }
+    public function updatesparepart(Request $request, $id)
     {
         $request->validate([
             'nama_sparepart' => 'required',
@@ -48,7 +76,7 @@ class SparepartController extends Controller
         ]);
 
 
-        $sparepart = new Sparepart;
+        $sparepart = Sparepart::find($id);
         $sparepart->nama_sparepart = $request->input('nama_sparepart');
         $sparepart->supplier = $request->input('supplier');
         $sparepart->stok = $request->input('stok');
@@ -85,5 +113,33 @@ class SparepartController extends Controller
         // seperti mengirimkan respon atau mengalihkan pengguna ke halaman lain.
 
         return redirect()->route('sparepart')->with('success', 'Data berhasil dihapus');
+    }
+
+    public function update(Request $request)
+    {
+        $request->validate([
+            'nama_sparepart' => 'required',
+            'supplier' => 'required',
+            'stok' => 'required|numeric',
+            'harga' => 'required',
+            'tgl_pbl' => 'required|date',
+        ]);
+
+
+        $sparepart = new Sparepart;
+        $sparepart->nama_sparepart = $request->input('nama_sparepart');
+        $sparepart->supplier = $request->input('supplier');
+        $sparepart->stok = $request->input('stok');
+        $sparepart->harga = $request->input('harga');
+        $sparepart->tgl_pbl = $request->input('tgl_pbl');
+        $sparepart->id_cabang = $request->input('id_cabang');
+
+        $sparepart->save();
+
+        // Sparepart::create($request->all());
+        // // Membuat data sparepart baru berdasarkan data yang diambil dari request
+
+        return redirect()->route('sparepart')->with('success', 'Data sparepart berhasil ditambahkan.');
+        // Melakukan redirect dan menyertakan pesan sukses
     }
 }

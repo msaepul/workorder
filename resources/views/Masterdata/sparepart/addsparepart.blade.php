@@ -37,6 +37,25 @@
                             </h3>
                         </div>
                         <div class="card-body pad table-responsive">
+                            @if (session('success'))
+                                <div id="success-alert" class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+                            @if ($errors->any())
+                                <div id="myAlert" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <strong>Error!</strong> Terdapat beberapa masalah dalam pengisian formulir:
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+
+                                </div>
+
+
+                            @endif
+
                             <div class="row pb-2">
                                 <div class="col-md-4">
                                     <label for="nama_barang">Tgl PO</label>
@@ -70,7 +89,12 @@
                                 value="{{ $cabang }}">
                             <table class="table table-bordered text-center pb-2">
                                 <tr>
-                                    <th>Nama Barang</th>
+
+                                    <th>Nama Barang
+                                        <a href="#myModalsparepart" data-toggle="modal" data-toggle="tooltip"
+                                            title="Tambah sparepart" class="circle float-right">+</a>
+
+                                    </th>
                                     <th>qty</th>
                                     <th>Harga</th>
                                     <th>Total Harga</th>
@@ -81,8 +105,16 @@
                                 <tr>
 
                                     <td style="width: 35%;">
-                                        <input type="text" class="form-control" name="nama_barang"
-                                            value="{{ old('nama_barang') }}">
+                                        <select class="form-control select2" id="nama_sparepart" name="nama_sparepart"
+                                            style="width: 100%;">
+                                            <option value="">Pilih Sparepart</option>
+                                            @foreach ($sparepart as $part)
+                                                <option value="{{ $part->id }}"
+                                                    @if (old('nama_part') == $part->id) selected @endif>
+                                                    {{ $part->nama_sparepart }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </td>
                                     <td style="width: 100px;">
                                         <input type="text" class="form-control" name="qty"
@@ -127,7 +159,7 @@
                 </div>
                 <!-- /.col -->
             </form>
-            {{-- @include('Masterdata.modal.modaladdbrand') --}}
+            @include('Masterdata.modal.modaladdsparepart')
     </div>
     {{-- @include('Masterdata.modal.modaladdtype') --}}
 
