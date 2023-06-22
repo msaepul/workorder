@@ -75,24 +75,15 @@ class SparepartController extends Controller
     }
 
 
-
-    public function updatesparepart(Request $request, $id)
+    
+    public function hapussparepart($id)
     {
-        $request->validate([
-            'nama_sparepart' => 'required',
-            'supplier' => 'required',
-            'stok' => 'required|numeric',
-            'harga' => 'required|numeric',
-            'tgl_pbl' => 'required|date',
-        ]);
+        $data = Sparepart::findOrFail($id);
+        $data->delete();
 
-        $sparepart = Sparepart::findOrFail($id);
-        // Melakukan pengecekan apakah data dengan ID yang diberikan ditemukan atau tidak
+        // Setelah menghapus data, Anda dapat melakukan tindakan lainnya,
+        // seperti mengirimkan respon atau mengalihkan pengguna ke halaman lain.
 
-        $sparepart->update($request->all());
-        // Mengupdate data sparepart dengan data yang diambil dari request
-
-        return redirect()->route('sparepart.index')->with('success', 'Data sparepart berhasil diperbarui.');
-        // Melakukan redirect dan menyertakan pesan sukses
+        return redirect()->route('sparepart')->with('success', 'Data berhasil dihapus');
     }
 }

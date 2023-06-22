@@ -28,117 +28,111 @@
             <form action="{{ route('sparepart_proses') }}" method="POST">
                 @csrf
                 <div class="d-flex justify-content-center">
-                    <!-- Default box -->
-                    <div class="card card-primary card-outline col-12 col-md-8">
-                        <div class="card-body">
-                            @if ($errors->any())
-                                <div id="myAlert" class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <strong>Error!</strong> Terdapat beberapa masalah dalam pengisian formulir:
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
 
+                    <div class="card card-primary card-outline col-12 col-md-10">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-edit"></i>
+                                Tx add sparepart
+                            </h3>
+                        </div>
+                        <div class="card-body pad table-responsive">
+                            <div class="row pb-2">
+                                <div class="col-md-4">
+                                    <label for="nama_barang">Tgl PO</label>
+                                    <input type="date" class="form-control" name="nama_barang"
+                                        value="{{ old('nama_barang') }}">
                                 </div>
-
-
-                            @endif
-
-
-                            <div class="form-group row pb-2">
-                                <div
-                                    class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end">
-                                    <label for="nama_sparepart" class="text-end">Nama sparepart</label>
+                                <div class="col-md-3">
+                                    <label for="qty">No PO</label>
+                                    <input type="text" class="form-control" name="qty" value="{{ old('qty') }}">
                                 </div>
-                                <div class="col-12 col-md-7 col-sm-7">
-                                    <input type="text" id="nama_sparepart" class="form-control" name="nama_sparepart"
-                                        placeholder="Masukkan Nama Sparepart" value="{{ old('nama_sparepart') }}" />
+                                <div class="col-md-3">
+                                    <label for="harga_terbaru">Supplier</label>
+                                    <input type="text" class="form-control" name="harga_terbaru"
+                                        value="{{ old('harga_terbaru') }}">
+                                </div>
+                                <div class="col-md-2 d-flex flex-column">
+                                    <div class="mt-auto">
+                                        <button class="btn btn-primary tambah-item-btn">Tambah Supplier</button>
+                                    </div>
                                 </div>
                             </div>
 
+                            <hr>
+                            <div class="bg-primary rounded d-flex align-items-center justify-content-center">
+                                <span class="text-white fw-bold fs-10">Rincian Barang</span>
+                            </div>
 
-                            <div class="form-group row pb-2 ">
-                                <div
-                                    class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end">
-                                    <label for="tgl_pbl" class="text-end">Tanggal Pembelian</label>
-                                </div>
-                                <div class="col-12 col-sm-7">
-                                    <input type="date" class="form-control w-50" id="tgl_pbl" name="tgl_pbl"
-                                        value="{{ old('tgl_pbl') }}">
-                                </div>
-                            </div>
-                            <div class="form-group row pb-2">
-                                <div
-                                    class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end">
-                                    <label for="nopo" class="text-end">No PO</label>
-                                </div>
-                                <div class="col-12 col-sm-7">
-                                    <input type="text" id="nopo" class="form-control" name="nopo"
-                                        placeholder="Nomor PO" />
-                                </div>
-                            </div>
-                            <div class="form-group row pb-2 ">
-                                <div
-                                    class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end">
-                                    <label for="supplier" class="text-end">Supplier </label>
-                                </div>
-                                <div class="col-12 col-sm-7">
-                                    <input type="text" id="supplier" class="form-control" name="supplier"
-                                        placeholder="Supplier" value="{{ old('supplier') }}" />
-                                </div>
-                            </div>
+
+
                             <input type="hidden" class="form-control w-50" id="id_cabang" name="id_cabang"
                                 value="{{ $cabang }}">
-                            <div class="form-group row pb-2">
+                            <table class="table table-bordered text-center pb-2">
+                                <tr>
+                                    <th>Nama Barang</th>
+                                    <th>qty</th>
+                                    <th>Harga</th>
+                                    <th>Total Harga</th>
+                                    <th>
+                                        <bold>+/-</bold>
+                                    </th>
+                                </tr>
+                                <tr>
 
-                                <div
-                                    class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end">
-                                    <label for="ip" class="text-end">Qty</label>
-                                </div>
-                                <div class="col-12 col-sm-7">
-                                    <div class="input-group w-50">
-                                        <input type="numeric" class="form-control" placeholder="QTY" id="qty"
-                                            name="stok">
-                                    </div>
+                                    <td style="width: 35%;">
+                                        <input type="text" class="form-control" name="nama_barang"
+                                            value="{{ old('nama_barang') }}">
+                                    </td>
+                                    <td style="width: 100px;">
+                                        <input type="text" class="form-control" name="qty"
+                                            value="{{ old('qty') }}">
+                                    </td>
 
-                                </div>
-                            </div>
-                            <div class="form-group row pb-2">
-
-                                <div
-                                    class="col-12 col-md-3 col-sm-3 d-flex align-items-center justify-content-sm-end justify-content-lg-end">
-                                    <label for="ip" class="text-end">Harga</label>
-                                </div>
-                                <div class="col-12 col-sm-7">
-                                    <div class="input-group w-50">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">Rp</span>
+                                    <td>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Rp</span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="harga" id="harga"
+                                                name="harga">
                                         </div>
-                                        <input type="text" class="form-control" placeholder="harga" id="harga"
-                                            name="harga">
-                                    </div>
 
-                                </div>
-                            </div>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" name="nama_barang"
+                                            value="{{ old('nama_barang') }}" disabled>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-transparent"><i class="fas fa-plus text-primary"></i>
+                                        </button>
 
-                            <div class="form-group">
-                                <div class="card-footer">
-                                    <input type="button" class="btn btn-secondary float-start" value="Cancel"
-                                        onclick="window.history.back();">
 
-                                    <input type="submit" class="btn btn-primary float-end" value="Tambah">
-                                </div>
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </div>
+                        <!-- /.card -->
+                        <div class="form-group">
+                            <div class="card-footer">
+                                <input type="button" class="btn btn-secondary float-start" value="Cancel"
+                                    onclick="window.history.back();">
+
+                                <input type="submit" class="btn btn-primary float-end" value="Tambah">
                             </div>
                         </div>
                     </div>
+
                 </div>
+                <!-- /.col -->
             </form>
             {{-- @include('Masterdata.modal.modaladdbrand') --}}
     </div>
     {{-- @include('Masterdata.modal.modaladdtype') --}}
 
     </section>
+
     <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->

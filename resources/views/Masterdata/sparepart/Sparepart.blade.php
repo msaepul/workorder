@@ -30,10 +30,10 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header ">
-                                <a href="{{ route('add_sparepart') }}" type="button" class="btn btn-danger"
-                                    style="margin-right: 3px;">
-                                    <i class="nav-icon fas fa-pencil-alt"></i> Cek in/out
-                                </a>
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                                    <i class="nav-icon fas fa-pencil-alt"></i>In-out stok</button>
+
+
                                 <a href="{{ route('add_sparepart') }}" type="button" class="btn btn-primary"
                                     style="margin-left: 3px;">
                                     <i class="nav-icon fas fa-plus"></i> Tambah Sparepart
@@ -43,7 +43,7 @@
 
 
 
-                            {{-- @include('Masterdata.perangkat.modaladdperangkat') --}}
+                            @include('Masterdata.modal.modalinout')
 
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -87,14 +87,21 @@
 
                                                 <td>{{ $part->tgl_pbl }}</td>
 
+
                                                 <td>
-
-                                                    <form action="">
-
-                                                        <input type="hidden" name="status" id="status">
-                                                        <!-- Tombol Secondary -->
-                                                        <button type="submit" class="btn btn-danger">Hapus</button>
-
+                                                    {{-- <form action="{{ route('destroy_sparepart', $part->id) }}"
+                                                        method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-warning"> <i
+                                                                class="nav-icon fas fa-pencil-alt"></i>permintaan</button>
+                                                    </form> --}}
+                                                    <form action="{{ route('destroy_sparepart', $part->id) }}"
+                                                        method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger"
+                                                            onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
                                                     </form>
 
                                                 </td>
@@ -103,8 +110,10 @@
                                         @endforeach
                                     </tbody>
                                 </table>
+
                             </div>
                             <!-- /.card-body -->
+
                         </div>
                         <!-- /.card -->
                     </div>

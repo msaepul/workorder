@@ -75,6 +75,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/spareparts', [SparepartController::class, 'storesparepart'])->name('sparepart_proses');
     Route::get('/spareparts/{id}/edit', [SparepartController::class, 'editsparepart'])->name('sparepart_edit');
     Route::put('/spareparts/{id}', [SparepartController::class, 'updatesparepart'])->name('sparepart_update');
+    Route::delete('/sparepart/{id}', [SparepartController::class, 'hapussparepart'])->name('destroy_sparepart');
 
     // Route::get('/getbyid', [MasterController::class, 'getTypeByJenis'])->name('getbyid');
     // Route::get('/cobaadd-perangkat', [MasterController::class, 'cobatambahperangkat'])->name('cobaadd_perangkat');
