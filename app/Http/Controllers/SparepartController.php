@@ -115,7 +115,7 @@ class SparepartController extends Controller
         return redirect()->route('sparepart')->with('success', 'Data berhasil dihapus');
     }
 
-    public function update(Request $request)
+    public function updates(Request $request)
     {
         $request->validate([
             'nama_sparepart' => 'required',
