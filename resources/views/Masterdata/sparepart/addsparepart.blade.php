@@ -68,12 +68,20 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label for="harga_terbaru">Supplier</label>
-                                    <input type="text" class="form-control" name="harga_terbaru"
-                                        value="{{ old('harga_terbaru') }}">
+                                    <select class="form-control select2" id="supplier" name="supplier"
+                                        style="width: 100%;">
+                                        <option value="">Pilih Supplier</option>
+                                        @foreach ($suppliers as $supp)
+                                            <option value="{{ $supp->id }}"
+                                                @if (old('supp_id') == $supp->id) selected @endif>
+                                                {{ $supp->nama_supplier }}
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="col-md-2 d-flex flex-column">
                                     <div class="mt-auto">
-                                        <button class="btn btn-primary tambah-item-btn">Tambah Supplier</button>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#myModal" class="btn btn-primary">Tambah Supplier</button>
                                     </div>
                                 </div>
                             </div>
@@ -153,13 +161,14 @@
 
                                 <input type="submit" class="btn btn-primary float-end" value="Tambah">
                             </div>
-                        </div>
-                    </div>
-
-                </div>
-                <!-- /.col -->
             </form>
-            @include('Masterdata.modal.modaladdsparepart')
+    </div>
+    </div>
+    @include('Masterdata.modal.modaladdsupplier')
+    </div>
+    <!-- /.col -->
+
+    @include('Masterdata.modal.modaladdsparepart')
     </div>
     {{-- @include('Masterdata.modal.modaladdtype') --}}
 

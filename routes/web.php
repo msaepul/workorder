@@ -86,4 +86,8 @@ Route::middleware('auth')->group(function () {
 
     //proses input type ke db
     Route::post('type-proses', [MasterController::class, 'typeproses'])->name('type_proses');
+
+    
+    //Master Data Supplier
+    Route::post('supplier-proses', [MasterController::class, 'supplierproses'])->name('supplier_proses');
 });

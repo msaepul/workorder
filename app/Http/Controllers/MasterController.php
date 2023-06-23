@@ -10,6 +10,7 @@ use App\Models\brand;
 use App\Models\Jenis;
 use App\Models\Cabang;
 use App\Models\perangkat;
+use App\Models\supplier;
 use App\Models\Departemen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -92,6 +93,7 @@ class MasterController extends Controller
         $jeniss = Jenis::all();
         $depts = Dept::all();
         $brands = Brand::all();
+        $suppliers = supplier::all();
         $types = Type::all();
 
 
@@ -99,7 +101,7 @@ class MasterController extends Controller
 
         // $users = User::all();
         $users = DB::table('tb_login')->where('cabang', $cabang)->get();
-        return view('Masterdata.perangkat.addperangkat', compact('brands', 'types', 'depts', 'users', 'jeniss'));
+        return view('Masterdata.perangkat.addperangkat', compact('brands', 'types', 'depts', 'users', 'jeniss','suppliers'));
     }
 
     public function perangkatproses(Request $request)
@@ -278,6 +280,26 @@ class MasterController extends Controller
 
         // Simpan type ke database
         $type->save();
+
+
+        return redirect()->back();
+    }
+
+
+    public function supplierproses(Request $request)
+    {
+        $validatedData = $request->validate([
+            'nama_supplier' => 'required',
+        ], [
+            'nama_supplier.required' => 'Kolom Nama supplier harus diisi.',
+        ]);
+
+        $supplier = new supplier;
+        $supplier->nama_supplier = $request->input('nama_supplier');
+        $supplier->alamat = $request->input('alamat');
+
+        // Simpan supplier ke database
+        $supplier->save();
 
 
         return redirect()->back();

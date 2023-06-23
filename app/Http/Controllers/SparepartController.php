@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Dept;
 use App\Models\Jenis;
 use App\Models\brand;
-use App\Models\type;
+use App\Models\type;use App\Models\supplier;
 use App\Models\Sparepart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -29,8 +29,9 @@ class SparepartController extends Controller
     public function createsparepart()
     {
         $sparepart = Sparepart::all();
+        $suppliers = supplier::all();
         $cabang = session('cabang');
-        return view('Masterdata.sparepart.addsparepart', compact('sparepart', 'cabang'));
+        return view('Masterdata.sparepart.addsparepart', compact('sparepart','suppliers', 'cabang'));
     }
 
     public function storesparepart(Request $request)

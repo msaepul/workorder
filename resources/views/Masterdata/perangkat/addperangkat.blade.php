@@ -273,10 +273,27 @@
                                         <label for="supplier" class="text-end">Supplier</label>
                                     </div>
                                     <div class="col-12 col-sm-7">
-                                        <input type="text" id="supplier" class="form-control" name="supplier"
-                                            placeholder="Supplier" value="{{ old('supplier') }}" />
+                                        <select class="form-control select2" id="supplier" name="supplier"
+                                            style="width: 100%;">
+                                            <option value="">Pilih Supplier</option>
+                                            @foreach ($suppliers as $supp)
+                                                <option value="{{ $supp->id }}"
+                                                    @if (old('supp_id') == $supp->id) selected @endif>
+                                                    {{ $supp->nama_supplier }}
+                                            @endforeach
+                                        </select>
+
+                                    </div>
+                                    <div
+                                        class="col-12 col-md-2 col-sm-2 d-flex align-items-center justify-content-sm-start justify-content-lg-start">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#myModal" class="btn btn-primary">New</button>
                                     </div>
                                 </div>
+
+
+
+
                                 <div class="form-group row pb-2">
 
                                     <div
@@ -328,13 +345,16 @@
                                         onclick="window.history.back();">
 
                                     <input type="submit" class="btn btn-primary float-end" value="Tambah">
+
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
             </form>
-            @include('Masterdata.modal.modaladdbrand')
+            @include('Masterdata.modal.modaladdsupplier')
+    </div>
+    </div>
+
+    @include('Masterdata.modal.modaladdbrand')
     </div>
     @include('Masterdata.modal.modaladdtype')
 
