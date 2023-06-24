@@ -58,13 +58,12 @@
 
                             <div class="row pb-2">
                                 <div class="col-md-4">
-                                    <label for="nama_barang">Tgl PO</label>
-                                    <input type="date" class="form-control" name="nama_barang"
-                                        value="{{ old('nama_barang') }}">
+                                    <label for="tgl_pbl">Tgl PO</label>
+                                    <input type="date" class="form-control" name="tgl_pbl" value="{{ old('tgl_pbl') }}">
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="qty">No PO</label>
-                                    <input type="text" class="form-control" name="qty" value="{{ old('qty') }}">
+                                    <label for="nopo">No PO</label>
+                                    <input type="text" class="form-control" name="nopo" value="{{ old('nopo') }}">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="harga_terbaru">Supplier</label>
@@ -113,7 +112,7 @@
                                 <tr>
 
                                     <td style="width: 35%;">
-                                        <select class="form-control select2" id="nama_sparepart" name="nama_sparepart"
+                                        <select class="form-control select2" id="sparepart" name="sparepart"
                                             style="width: 100%;">
                                             <option value="">Pilih Sparepart</option>
                                             @foreach ($sparepart as $part)

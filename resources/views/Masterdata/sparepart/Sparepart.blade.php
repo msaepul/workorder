@@ -74,7 +74,7 @@
                                                 <td> {{ $loop->iteration }} </td>
                                                 <td>{{ $part->nama_sparepart }}</td>
 
-                                                <td>{{ $part->supplier }}</td>
+                                                <td>{{ $part->nama_supplier }}</td>
                                                 <td>{{ 'Rp ' . number_format($part->harga) }}</td>
                                                 <td>{{ $part->stok }}</td>
                                                 <td>{{ 'Rp ' . number_format($results[$key]) }}</td>

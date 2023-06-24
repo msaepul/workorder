@@ -35,7 +35,7 @@ Route::middleware('guest')->group(function () {
 
 
 Route::middleware('auth')->group(function () {
-    $random = random_str(7);
+ 
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('Dashboard', [AdminController::class, 'index']);
     Route::get('Adminspr', [AdminController::class, 'dashboardspr']);
@@ -71,10 +71,10 @@ Route::middleware('auth')->group(function () {
 
     //Routing Master Data Sparepart   
     Route::get('sparepart', [SparepartController::class, 'sparepart'])->name('sparepart');
-    Route::get('sparepart/create', [SparepartController::class, 'createsparepart'])->name('add_sparepart');
-    Route::post('/spareparts', [SparepartController::class, 'storesparepart'])->name('sparepart_proses');
-    Route::get('/spareparts/{id}/edit', [SparepartController::class, 'editsparepart'])->name('sparepart_edit');
-    Route::put('/spareparts/{id}', [SparepartController::class, 'updatesparepart'])->name('sparepart_update');
+    Route::get('sparepart/tambah', [SparepartController::class, 'txsparepart'])->name('add_sparepart');
+    Route::post('/sparepart/tambah', [SparepartController::class, 'txsprproses'])->name('sparepart_proses');
+    Route::get('/sparepart/{id}/edit', [SparepartController::class, 'editsparepart'])->name('sparepart_edit');
+    Route::put('/sparepart/{id}', [SparepartController::class, 'updatesparepart'])->name('sparepart_update');
     Route::delete('/sparepart/{id}', [SparepartController::class, 'hapussparepart'])->name('destroy_sparepart');
 
     // Route::get('/getbyid', [MasterController::class, 'getTypeByJenis'])->name('getbyid');
