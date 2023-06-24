@@ -116,9 +116,8 @@
                                             style="width: 100%;">
                                             <option value="">Pilih Sparepart</option>
                                             @foreach ($sparepart as $part)
-                                                <option value="{{ $part->id }}"
-                                                    @if (old('nama_part') == $part->id) selected @endif>
-                                                    {{ $part->nama_sparepart }}
+                                                <option value="{{ $part->id }}">
+                                                   {{ $part->nama_sparepart }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -163,10 +162,10 @@
             </form>
     </div>
     </div>
-    @include('Masterdata.modal.modaladdsupplier')
+   
     </div>
     <!-- /.col -->
-
+    @include('Masterdata.modal.modaladdsupplier')
     @include('Masterdata.modal.modaladdsparepart')
     </div>
     {{-- @include('Masterdata.modal.modaladdtype') --}}

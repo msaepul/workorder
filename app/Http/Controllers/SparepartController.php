@@ -41,6 +41,8 @@ class SparepartController extends Controller
         $cabang = session('cabang');
         return view('Masterdata.sparepart.addsparepart', compact('sparepart','suppliers', 'cabang'));
     }
+    
+
       //transaksi sparepart
       public function txsprproses(Request $request)
       {
@@ -60,7 +62,7 @@ class SparepartController extends Controller
         $tambahstok->harga = $request->input('harga');
         $tambahstok->id_cabang = $request->input('id_cabang');
 
-// dd($tambahstok);
+        // dd($tambahstok);
         $tambahstok->save();
 
     

@@ -1,5 +1,5 @@
 <div class="modal" id="myModalsparepart">
-    <form action="{{ route('sparepart_proses') }}" method="POST">
+    <form action="{{ route('add_sprbaru') }}" method="POST">
         @csrf
         <div class="modal-dialog modal-dialog-centered-top">
             <div class="modal-content">

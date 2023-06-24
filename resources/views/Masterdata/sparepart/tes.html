@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamic Multiple Input Table Example</title>
+</head>
+<body>
+    <form method="post" id="myForm">
+        <table id="inputTable">
+            <tr>
+                <td><input type="text" name="nama_barang[]" placeholder="Nama Barang"></td>
+                <td><input type="text" name="qty[]" placeholder="Qty"></td>
+                <td><input type="text" name="harga[]" placeholder="Harga"></td>
+                <td><input type="text" name="total_harga[]" placeholder="Total Harga" disabled></td>
+                <td><button type="button" class="removeButton">Remove</button></td>
+            </tr>
+        </table>
+
+        <button type="button" id="addButton">Add Row</button>
+        <button type="submit" name="submit">Submit</button>
+    </form>
+
+    <script>
+        var counter = 1;
+
+        document.getElementById("addButton").addEventListener("click", function() {
+            var table = document.getElementById("inputTable");
+            var row = table.insertRow();
+            var cell1 = row.insertCell();
+            var cell2 = row.insertCell();
+            var cell3 = row.insertCell();
+            var cell4 = row.insertCell();
+            var cell5 = row.insertCell();
+            cell1.innerHTML = '<input type="text" name="nama_barang[]" placeholder="Nama Barang">';
+            cell2.innerHTML = '<input type="text" name="qty[]" placeholder="Qty">';
+            cell3.innerHTML = '<input type="text" name="harga[]" placeholder="Harga">';
+            cell4.innerHTML = '<input type="text" name="total_harga[]" placeholder="Total Harga" disabled>';
+            cell5.innerHTML = '<button type="button" class="removeButton">Remove</button>';
+
+            counter++;
+
+            updateRemoveButtonListeners();
+        });
+
+        function updateRemoveButtonListeners() {
+            var removeButtons = document.getElementsByClassName("removeButton");
+            for (var i = 0; i < removeButtons.length; i++) {
+                removeButtons[i].addEventListener("click", function() {
+                    var currentRow = this.parentNode.parentNode;
+                    currentRow.parentNode.removeChild(currentRow);
+                });
+            }
+        }
+
+        updateRemoveButtonListeners();
+    </script>
+</body>
+</html>

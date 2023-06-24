@@ -71,8 +71,16 @@ Route::middleware('auth')->group(function () {
 
     //Routing Master Data Sparepart   
     Route::get('sparepart', [SparepartController::class, 'sparepart'])->name('sparepart');
+
+
+    // Route::get('sparepart/tambah', [SparepartController::class, 'txsparepart'])->name('add_sprbaru');
+    Route::post('sparepart-proses', [SparepartController::class, 'storesparepart'])->name('add_sprbaru');
+
+
+    //add tx sparepart
     Route::get('sparepart/tambah', [SparepartController::class, 'txsparepart'])->name('add_sparepart');
     Route::post('/sparepart/tambah', [SparepartController::class, 'txsprproses'])->name('sparepart_proses');
+
     Route::get('/sparepart/{id}/edit', [SparepartController::class, 'editsparepart'])->name('sparepart_edit');
     Route::put('/sparepart/{id}', [SparepartController::class, 'updatesparepart'])->name('sparepart_update');
     Route::delete('/sparepart/{id}', [SparepartController::class, 'hapussparepart'])->name('destroy_sparepart');
