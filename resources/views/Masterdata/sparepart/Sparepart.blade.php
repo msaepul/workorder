@@ -30,20 +30,21 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header ">
-                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
-                                    <i class="nav-icon fas fa-pencil-alt"></i>In-out stok</button>
-
-
                                 <a href="{{ route('add_sparepart') }}" type="button" class="btn btn-primary"
                                     style="margin-left: 3px;">
-                                    <i class="nav-icon fas fa-plus"></i> Tambah Sparepart
+                                    <i class="nav-icon fas fa-plus"></i> Sparepart Masuk
+                                </a>
+
+                                <a href="{{ route('out_sparepart') }}" type="button" class="btn btn-danger"
+                                    style="margin-left: 3px;">
+                                    <i class="nav-icon fas fa-minus"></i> Sparepart Keluar
                                 </a>
                             </div>
 
 
 
 
-                            @include('Masterdata.modal.modalinout')
+                            {{-- @include('Masterdata.modal.modalinout') --}}
 
                             <!-- /.card-header -->
                             <div class="card-body">

@@ -22,6 +22,7 @@ class Sparepart extends Model
         'tgl_pbl',
         'id_cabang',
         'updated_at',
-        'created_at','deleted_at',
+        'created_at',
+        'deleted_at',
     ];
 }

@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class tambahstok extends Model
+class keluarstok extends Model
 {
     use HasFactory;
-    protected $table = "tb_tambahstok";
+    protected $table = "tb_keluarstok";
     protected $primaryKey = "id";
 
     protected $fillable = [
-        'id', 'id_tx', 'nopo', 'id_spr', 'qty', 'harga', 'id_supplier', 'id_cabang', 'created_at', 'updated_at', 'deleted_at',
+        'id', 'id_tx', 'id_spr', 'qty', 'user_id', 'id_cabang', 'created_at', 'keterangan', 'updated_at', 'deleted_at',
     ];
 
     public static function generateNomor()
@@ -21,7 +21,7 @@ class tambahstok extends Model
         $currentYear = date('Y');
 
         // Ambil nomor terakhir dari bulan ini
-        $lastDocument = tambahstok::where('id_tx', 'like', 'IN/' . $currentMonth . $currentYear . '/%')
+        $lastDocument = keluarstok::where('id_tx', 'like', 'OUT/' . $currentMonth . $currentYear . '/%')
             ->orderBy('id_tx', 'desc')
             ->first();
 
@@ -33,6 +33,6 @@ class tambahstok extends Model
             $newNumber = str_pad((int) $lastNumber + 1, 3, '0', STR_PAD_LEFT);
         }
 
-        return 'IN/' . $currentMonth . $currentYear . '/' . $newNumber;
+        return 'OUT/' . $currentMonth . $currentYear . '/' . $newNumber;
     }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.mainlayout')
 
-@section('title', 'Add-sparepart')
+@section('title', 'Sparepart Keluar')
 
 
 @section('content')
@@ -11,7 +11,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Tambah Sparepart</h1>
+                        <h1>Sparepart Keluar</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -25,14 +25,14 @@
 
         <!-- Main content -->
         <section class="content center">
-            <form method="POST" action="{{ route('sparepart_proses') }}">
+            <form method="POST" action="{{ route('sparepartout_proses') }}">
                 @csrf
                 <div class="d-flex justify-content-center">
-                    <div class="card card-primary card-outline col-12 col-md-10">
+                    <div class="card card-danger card-outline col-12 col-md-10">
                         <div class="card-header">
                             <h3 class="card-title">
                                 <i class="fas fa-edit"></i>
-                                Tx add sparepart
+                                Tx sparepart Keluar
                             </h3>
                         </div>
                         <div class="card-body pad table-responsive">
@@ -57,37 +57,32 @@
 
                             <div class="row pb-2">
                                 <div class="col-md-4">
-                                    <label for="tgl_pbl">Tgl PO</label>
-                                    <input type="date" class="form-control" name="tgl_pbl" value="{{ old('tgl_pbl') }} "
-                                        required>
+                                    <label for="tgl_permintaan">Tanggal Permintaan</label>
+                                    <input type="date" class="form-control" name="tgl_permintaan"
+                                        value="{{ old('tgl_permintaan') }} " required>
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="nopo">No PO</label>
-                                    <input type="text" class="form-control" name="nopo" value="{{ old('nopo') }} "
+                                    <label for="nopo">Nama Users</label>
+                                    <select class="form-control select2" id="user" name="user" style="width: 100%;"
                                         required>
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="harga_terbaru">Supplier</label>
-                                    <select class="form-control select2" id="supplier" name="supplier" style="width: 100%;"
-                                        required>
-                                        <option value="">Pilih Supplier</option>
-                                        @foreach ($suppliers as $supp)
-                                            <option value="{{ $supp->id }}"
-                                                @if (old('supp_id') == $supp->id) selected @endif>
-                                                {{ $supp->nama_supplier }}
+                                        <option value="">Pilih user</option>
+                                        @foreach ($users as $user)
+                                            <option value="{{ $user->id }}"
+                                                @if (old('user_id') == $user->id) selected @endif>
+                                                {{ $user->nama_lengkap }}
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-2 d-flex flex-column">
-                                    <div class="mt-auto">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal"
-                                            data-target="#myModal" class="btn btn-primary">Tambah Supplier</button>
-                                    </div>
+                                <div class="col-md-5">
+                                    <label for="harga_terbaru">Keterangan</label>
+                                    <textarea class="form-control" name="keterangan" required>{{ old('keterangan') }}</textarea>
                                 </div>
+
+
                             </div>
 
                             <hr>
-                            <div class="bg-primary rounded d-flex align-items-center justify-content-center">
+                            <div class="bg-danger rounded d-flex align-items-center justify-content-center">
                                 <span class="text-white fw-bold fs-10">Rincian Barang</span>
                             </div>
 
@@ -97,55 +92,39 @@
                                 value="{{ $cabang }}">
                             <table class="table table-bordered text-center pb-2" id="items_table">
                                 <tr>
-
-                                    <th>Nama Barang
-                                        <a href="#myModalsparepart" data-toggle="modal" data-toggle="tooltip"
-                                            title="Tambah sparepart" class="circle float-right">+</a>
-
+                                    <th>Nama Sparepart</th>
+                                    <th>
+                                        <bold>Stok</bold>
                                     </th>
-                                    <th>qty</th>
-                                    <th>Harga</th>
-                                    <th>Total Harga</th>
+                                    <th>
+                                        <bold>qty</bold>
+                                    </th>
                                     <th>
                                         <bold>+/-</bold>
                                     </th>
                                 </tr>
                                 <tr>
 
-                                    <td style="width: 35%;">
+                                    <td>
                                         <select class="form-control select2" name="sparepart[]" style="width: 100%;"
-                                            required>
+                                            required onchange="updateStok(this)">
                                             <option value="">Pilih Sparepart</option>
                                             @foreach ($sparepart as $part)
-                                                <option value="{{ $part->id }}" style="text-align: left;">
+                                                <option value="{{ $part->id }}" data-stok="{{ $part->stok }}"
+                                                    style="text-align: left;">
                                                     {{ $part->nama_sparepart }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </td>
-                                    <td style="width: 100px;">
+                                    <td style="width: 200px;">
+                                        <input type="text" class="form-control" name="stok" id="stok"
+                                            value="" disabled>
+                                    </td>
+
+                                    <td style="width: 200px;">
                                         <input type="text" class="form-control" name="qty[]"
                                             value="{{ old('qty') }}" onkeyup="calculateTotal(this)" required>
-                                    </td>
-
-                                    <td>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">Rp</span>
-                                            </div>
-                                            <input type="text" class="form-control" placeholder="harga" id="harga"
-                                                name="harga[]" onkeyup="calculateTotal(this)" required>
-                                        </div>
-
-                                    </td>
-                                    <td>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">Rp</span>
-                                            </div>
-                                            <input type="text" class="form-control" name="harga_total"
-                                                value="{{ old('harga_total') }}" disabled>
-                                        </div>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-transparent" onclick="addRow()"><i
@@ -165,7 +144,7 @@
                                     <input type="button" class="btn btn-secondary float-start" value="Cancel"
                                         onclick="window.history.back();">
 
-                                    <input type="submit" class="btn btn-primary float-end" value="Tambah">
+                                    <input type="submit" class="btn btn-danger float-end" value="keluarkan">
                                 </div>
                             </div>
             </form>
@@ -188,18 +167,13 @@
             var cell1 = newRow.insertCell(0);
             var cell2 = newRow.insertCell(1);
             var cell3 = newRow.insertCell(2);
-            var cell4 = newRow.insertCell(3);
-            var cell5 = newRow.insertCell(4);
+
 
             // Mengatur HTML untuk elemen input baru
             cell1.innerHTML =
                 '<select class="form-control item-select" name="sparepart[]"style="width: 100%;"><option value="">Pilih Sparepart</option>@foreach ($sparepart as $part)<option value="{{ $part->id }}">{{ $part->nama_sparepart }}</option>@endforeach</select>';
             cell2.innerHTML = ' <input type="text" class="form-control" name="qty[]" onkeyup="calculateTotal(this)">';
             cell3.innerHTML =
-                '  <div class="input-group"><div class="input-group-prepend"><span class="input-group-text">Rp</span></div><input type="text" class="form-control" placeholder="harga" id="harga"name="harga[]" onkeyup="calculateTotal(this)"></div>';
-            cell4.innerHTML =
-                '    <div class="input-group"> <div class="input-group-prepend"><span class="input-group-text">Rp</span></div><input type="text" class="form-control" name="harga_total"value="" disabled>';
-            cell5.innerHTML =
                 ' <button type="button" class="btn btn-transparent" onclick="deleteRow(this)"><i class="fas fa-trash text-danger"></i></button>';
 
             // Menginisialisasi Select2 pada elemen select yang baru dibuat
@@ -210,28 +184,14 @@
             var i = row.parentNode.parentNode.rowIndex;
             document.getElementById("items_table").deleteRow(i);
         }
-
-        function calculateTotal(element) {
-            var row = $(element).closest('tr');
-            var qty = parseFloat(row.find('input[name="qty[]"]').val());
-            var harga = parseFloat(row.find('input[name="harga[]"]').val());
-
-            if (!isNaN(qty) && !isNaN(harga)) {
-                var total = qty * harga;
-                var formattedTotal = formatNumber(total);
-                row.find('input[name="harga_total"]').val(formattedTotal);
-            } else {
-                row.find('input[name="harga_total"]').val('');
-            }
-        }
-
-        function formatNumber(number) {
-            return number.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    </script>
+    <script>
+        function updateStok(selectElement) {
+            var stok = selectElement.options[selectElement.selectedIndex].getAttribute('data-stok');
+            document.getElementById('stok').value = stok;
         }
     </script>
-    <!-- /.col -->
-    @include('Masterdata.modal.modaladdsupplier')
-    @include('Masterdata.modal.modaladdsparepart')
+
     </div>
     {{-- @include('Masterdata.modal.modaladdtype') --}}
 

@@ -35,7 +35,7 @@ Route::middleware('guest')->group(function () {
 
 
 Route::middleware('auth')->group(function () {
- 
+
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('Dashboard', [AdminController::class, 'index']);
     Route::get('Adminspr', [AdminController::class, 'dashboardspr']);
@@ -81,6 +81,9 @@ Route::middleware('auth')->group(function () {
     Route::get('sparepart/tambah', [SparepartController::class, 'txsparepart'])->name('add_sparepart');
     Route::post('/sparepart/tambah', [SparepartController::class, 'txsprproses'])->name('sparepart_proses');
 
+    Route::get('sparepart/keluar', [SparepartController::class, 'txsparepartout'])->name('out_sparepart');
+    Route::post('/sparepart/keluar', [SparepartController::class, 'txsparepartoutproses'])->name('sparepartout_proses');
+
     Route::get('/sparepart/{id}/edit', [SparepartController::class, 'editsparepart'])->name('sparepart_edit');
     Route::put('/sparepart/{id}', [SparepartController::class, 'updatesparepart'])->name('sparepart_update');
     Route::delete('/sparepart/{id}', [SparepartController::class, 'hapussparepart'])->name('destroy_sparepart');
@@ -95,7 +98,7 @@ Route::middleware('auth')->group(function () {
     //proses input type ke db
     Route::post('type-proses', [MasterController::class, 'typeproses'])->name('type_proses');
 
-    
+
     //Master Data Supplier
     Route::post('supplier-proses', [MasterController::class, 'supplierproses'])->name('supplier_proses');
 });
