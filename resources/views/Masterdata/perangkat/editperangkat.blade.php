@@ -1,6 +1,6 @@
 @extends('layouts.mainlayout')
 
-@section('title', 'Add-perangkat')
+@section('title', 'Edit Perangkat')
 
 
 @section('content')
@@ -338,9 +338,9 @@
                     </div>
                 </div>
             </form>
-            @include('Masterdata.brand.modaladdbrand')
+            @include('Masterdata.modal.modaladdbrand')
     </div>
-    @include('Masterdata.type.modaladdtype')
+    @include('Masterdata.modal.modaladdtype')
 
     </section>
     <!-- /.content -->

@@ -214,7 +214,7 @@
                     <div class="dropdown-menu dropdown-menu dropdown-menu-right">
 
                         <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
+                        <a href="{{ route('profile') }}" class="dropdown-item">
                             <i class="fas fa-User mr-2"></i> Profile
                         </a>
                         <div class="dropdown-divider"></div>

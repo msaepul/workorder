@@ -18,4 +18,10 @@ class AdminController extends Controller
         $UserCount = User::count();
         return view('Admin.gallery');
     }
+
+    public function profile()
+    {
+        // $UserCount = User::count();
+        return view('Admin.profile');
+    }
 }

@@ -41,23 +41,29 @@ Route::middleware('auth')->group(function () {
     Route::get('Adminspr', [AdminController::class, 'dashboardspr']);
     Route::get('Gallery', [AdminController::class, 'gallery']);
     Route::get('Cabang', [CabangController::class, 'index'])->middleware('only_cabang');
+  
     Route::get('404', [AllController::class, 'index']);
 
+    Route::get('profile', [AdminController::class, 'profile'])->name('profile');
+
+    
+    //Routing WO
     Route::get('Workorder', [WorkorderController::class, 'create'])->name('Workorder_create');
     Route::post('Workorder', [WorkorderController::class, 'woproses'])->name('Workorder_proses');
-
     Route::get('Datawo', [WorkorderController::class, 'datawo'])->name('Dataworkorder');
 
+    
+    //Routing TPM
     Route::get('TPMRingan', [TPMController::class, 'TPMRingan'])->name('TPMRingan');
     Route::get('TPMBerat', [TPMController::class, 'TPMBerat'])->name('TPMBerat');
     Route::get('JadwalTPM', [TPMController::class, 'JadwalTPM'])->name('JadwalTPM');
 
+
+    // Routing Master Data User
     Route::get('user', [MasterController::class, 'user'])->name('user');
     Route::post('user', [MasterController::class, 'userProses'])->name('user_proses');
     Route::patch('/user/{id}', ['as' => 'user.update', 'uses' => 'App\Http\Controllers\MasterController@updateUser']);
     Route::delete('/delete/{id}', ['as' => 'user.delete', 'uses' => 'App\Http\Controllers\MasterController@deleteUser']);
-
-
     Route::delete('user/{$id}', [MasterController::class, 'delete']);
 
     //Routing Master Data Perangkat
