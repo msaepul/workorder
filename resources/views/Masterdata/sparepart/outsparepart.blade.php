@@ -107,7 +107,7 @@
 
                                     <td>
                                         <select class="form-control select2" name="sparepart[]" style="width: 100%;"
-                                            required onchange="updateStok(this)">
+                                            required onchange="showStok(this)">
                                             <option value="">Pilih Sparepart</option>
                                             @foreach ($sparepart as $part)
                                                 <option value="{{ $part->id }}" data-stok="{{ $part->stok }}"
@@ -116,10 +116,10 @@
                                                 </option>
                                             @endforeach
                                         </select>
+
                                     </td>
                                     <td style="width: 200px;">
-                                        <input type="text" class="form-control" name="stok" id="stok"
-                                            value="" disabled>
+                                        <input type="text" class="form-control" name="stok[]" value="" disabled>
                                     </td>
 
                                     <td style="width: 200px;">
@@ -167,13 +167,15 @@
             var cell1 = newRow.insertCell(0);
             var cell2 = newRow.insertCell(1);
             var cell3 = newRow.insertCell(2);
-
+            var cell4 = newRow.insertCell(3);
 
             // Mengatur HTML untuk elemen input baru
             cell1.innerHTML =
-                '<select class="form-control item-select" name="sparepart[]"style="width: 100%;"><option value="">Pilih Sparepart</option>@foreach ($sparepart as $part)<option value="{{ $part->id }}">{{ $part->nama_sparepart }}</option>@endforeach</select>';
-            cell2.innerHTML = ' <input type="text" class="form-control" name="qty[]" onkeyup="calculateTotal(this)">';
-            cell3.innerHTML =
+                '<select class="form-control item-select" name="sparepart[]"style="width: 100%;" onchange="showStok(this)" ><option value="">Pilih Sparepart</option>@foreach ($sparepart as $part)<option value="{{ $part->id }}" data-stok="{{ $part->stok }}">{{ $part->nama_sparepart }}</option>@endforeach</select>';
+            cell3.innerHTML = ' <input type="text" class="form-control" name="qty[]" onkeyup="calculateTotal(this)">';
+            cell2.innerHTML =
+                ' <input type="text" class="form-control" name="stok[]" value="" disabled>';
+            cell4.innerHTML =
                 ' <button type="button" class="btn btn-transparent" onclick="deleteRow(this)"><i class="fas fa-trash text-danger"></i></button>';
 
             // Menginisialisasi Select2 pada elemen select yang baru dibuat
@@ -186,9 +188,12 @@
         }
     </script>
     <script>
-        function updateStok(selectElement) {
-            var stok = selectElement.options[selectElement.selectedIndex].getAttribute('data-stok');
-            document.getElementById('stok').value = stok;
+        function showStok(selectElement) {
+            var selectedIndex = selectElement.selectedIndex;
+            var stok = selectElement.options[selectedIndex].getAttribute('data-stok');
+            var row = selectElement.parentNode.parentNode;
+            var stokInput = row.querySelector('input[name="stok[]"]');
+            stokInput.value = stok;
         }
     </script>
 

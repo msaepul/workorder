@@ -174,7 +174,7 @@
                         </ul>
                     </li> --}}
                     <li class="nav-item">
-                        <a href="perangkat"
+                        <a href="{{ route('perangkat') }}"
                             @if (request()->route()->uri == 'perangkat') class="nav-link active"
                             @elseif (request()->route()->uri == 'tambah-perangkat') class="nav-link active"
                                @else class="nav-link " @endif>

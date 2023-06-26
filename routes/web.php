@@ -78,10 +78,10 @@ Route::middleware('auth')->group(function () {
 
 
     //add tx sparepart
-    Route::get('sparepart/tambah', [SparepartController::class, 'txsparepart'])->name('add_sparepart');
+    Route::get('/sparepart/tambah', [SparepartController::class, 'txsparepart'])->name('add_sparepart');
     Route::post('/sparepart/tambah', [SparepartController::class, 'txsprproses'])->name('sparepart_proses');
 
-    Route::get('sparepart/keluar', [SparepartController::class, 'txsparepartout'])->name('out_sparepart');
+    Route::get('/sparepart/keluar', [SparepartController::class, 'txsparepartout'])->name('out_sparepart');
     Route::post('/sparepart/keluar', [SparepartController::class, 'txsparepartoutproses'])->name('sparepartout_proses');
 
     Route::get('/sparepart/{id}/edit', [SparepartController::class, 'editsparepart'])->name('sparepart_edit');
