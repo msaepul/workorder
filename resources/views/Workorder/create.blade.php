@@ -5,51 +5,7 @@
 
 
 @section('content')
-    @php
-        function random_str(int $length = 64, string $keyspace = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'): string
-        {
-            if ($length < 1) {
-                throw new \RangeException('Length must be a positive integer');
-            }
-            $pieces = [];
-            $max = mb_strlen($keyspace, '8bit') - 1;
-            for ($i = 0; $i < $length; ++$i) {
-                $pieces[] = $keyspace[random_int(0, $max)];
-            }
-            return implode('', $pieces);
-        }
-        function tgl_id($tanggal)
-        {
-            if ($tanggal == null) {
-                return '-';
-            } elseif ($tanggal == '') {
-                return '-';
-            } else {
-                $bulan = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
-                $split = explode('-', $tanggal);
-                $hasil_tgl = $bulan[(int) $split[0]];
-        
-                return $hasil_tgl;
-            }
-        }
-        $cabang = cabang();
-        $sdraft = 'draft' . $cabang;
-        $bulan = date('F');
-        $monthnow = date('m', time());
-        $yearnow = date('Y', time());
-        $nilaikode3 = substr($kodeMax, 18);
-        
-        if ($kodeMax) {
-            $nilaikode = substr($kodeMax, 18);
-            $kode = (int) $nilaikode;
-            $kode = $kode + 1;
-            $beda = (int) $nilaikode + 1;
-            $kodeMaxp = str_pad($kode, 3, '0', STR_PAD_LEFT);
-        } else {
-            $kodeMaxp = '001';
-        }
-        $hasilkode = 'WO - ' . $cabang . '/' . $yearnow . '/' . tgl_id($monthnow) . '/' . $kodeMaxp;
-    @endphp
+
 
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -57,7 +13,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Buat Work Order {{ $nilaikode3 }}</h1>
+                        <h1>Buat Work Order </h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -93,9 +49,9 @@
                                         <span
                                             class="form-control @error('nomor') is-invalid @enderror
                                     form-control-border">
-                                            {{ $hasilkode }}
+
                                         </span>
-                                        <input type="hidden" name="no_wo" value="{{ $hasilkode }}">
+                                        <input type="hidden" name="no_wo" value="">
                                     </div>
                                     <div class="col-sm-2">
                                     </div>

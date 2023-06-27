@@ -101,6 +101,7 @@ class SparepartController extends Controller
         $cabangs = $request->input('id_cabang');
         $itemNames = $request->input('sparepart');
         $qtys = $request->input('qty');
+        $keterangan = $request->input('keterangan');
         $notx = keluarstok::generateNomor();
         // Loop melalui data input
         foreach ($itemNames as $index => $itemName) {
@@ -113,6 +114,7 @@ class SparepartController extends Controller
             $keluarstok->id_tx = $notx;
             $keluarstok->tgl_permintaan = $tgls;
             $keluarstok->id_spr = $itemName;
+            $keluarstok->keterangan = $keterangan;
             $keluarstok->qty = $qtys[$index];
 
 

@@ -55,7 +55,10 @@
                                 </div>
                                 <div class="col-12 col-md-7 col-sm-7">
                                     <input type="text" id="nama_perangkat" class="form-control" name="nama_perangkat"
-                                        placeholder="Masukkan No Inventaris" value="{{ $data->nama_perangkat }}" />
+                                        placeholder="Masukkan No Inventaris"
+                                        value="@foreach ($perangkat as $device)
+                                        <p>Nama Perangkat: {{ $device->nama_perangkat }}</p>
+                                        \</p> @endforeach" />
                                 </div>
                             </div>
                             <div class="form-group row pb-2 ">
