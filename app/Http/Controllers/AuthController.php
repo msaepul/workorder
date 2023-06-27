@@ -37,7 +37,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
 
             $user = auth()->user();
-            session(['cabang'=> $user->cabang],['dept'=>$user->dept]);
+            session(['cabang'=> $user->cabang],['dept'=>$user->dept],['id'=>$user->id]);
             return redirect('/Dashboard');
 
            

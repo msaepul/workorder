@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\perangkat;
 use App\Models\workorder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,33 +17,36 @@ class WorkorderController extends Controller
     }
     public function create()
     {
-        $kodeMax =
-            [
-                'kodeMax' => workorder::all()
-                    ->max('no_wo')
-            ];
-            
-        $data = [
-            'todayDate' => Carbon::now(),
-            'user' => Auth::user()
-        ];
-        return view('Workorder.create', $data, $kodeMax);
+        $id = Auth::user()->id;
+        $listperangkat = perangkat::where('user_id', $id)->get();
+
+        $currentMonth = date('m');
+        $currentYear = date('Y');
+        $no =  'WO'.'-'.cabang().'/'. $currentYear  .'/'. tgl_id($currentMonth) .'/'. '...';
+        return view('Workorder.create', compact('currentYear', 'currentMonth', 'no','listperangkat','id'));
+        
     }
 
     public function woproses(Request $request)
     {
-      $request->validate([
-           'no_wo' => 'required',
-            'wo_create' => 'required',
-            'kategori_wo' => 'required',
-            'jenis_perangkat' => '',
-            'lokasi' => 'required',
-            'obyek' => 'required',
-            'keadaan' => 'required',
-            'user_id' => 'required',
+        
+        $validatedData = $request->validate([
+            'nama_' => 'required',
+        ], [
+            'nama_perangkat.required' => 'Kolom Nama Perangkat harus diisi.',
+        ]);
 
-      ]);
-        workorder::create($request->all());
+        $workorders = new workorder;
+        $workorders->no_wo =workorder::generateNomor();
+        $workorders->kategori_wo = $request->input('kategori_wo');
+        $workorders->perangkat_id = $request->input('perangkat_id');
+        
+
+        // Simpan work$workorders ke database
+        $workorders->save();
+
+
+        return redirect()->back();
       
       
     }

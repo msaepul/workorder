@@ -83,9 +83,9 @@
                         </div>
 
                         <hr>
-                        <div class="bg-primary rounded d-flex align-items-center justify-content-center">
-                            <span class="text-white fw-bold fs-10">Rincian Barang</span>
-                        </div>
+                            <div class="bg-primary rounded d-flex align-items-center justify-content-center">
+                                <span class="text-white fw-bold fs-10">Rincian Barang</span>
+                            </div>
 
 
 

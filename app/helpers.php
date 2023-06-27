@@ -350,23 +350,23 @@ if (!function_exists(function: 'random_str')) {
 // }
 
 
-// //TANGGAL
-// if (!function_exists(function: 'tgl_id')) {
-//     function tgl_id($tanggal)
-//     {
-//         if ($tanggal == null) {
-//             return '-';
-//         } elseif ($tanggal == '') {
-//             return '-';
-//         } else {
-//             $bulan = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
-//             $split = explode('-', $tanggal);
-//             $hasil_tgl = $bulan[(int) $split[0]];
+//TANGGAL
+if (!function_exists(function: 'tgl_id')) {
+    function tgl_id($tanggal)
+    {
+        if ($tanggal == null) {
+            return '-';
+        } elseif ($tanggal == '') {
+            return '-';
+        } else {
+            $bulan = [1 => 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+            $split = explode('-', $tanggal);
+            $hasil_tgl = $bulan[(int) $split[0]];
 
-//             return $hasil_tgl;
-//         }
-//     }
-// }
+            return $hasil_tgl;
+        }
+    }
+}
 
 // if (!function_exists(function: 'tglid')) {
 //     function tglid($tanggal)

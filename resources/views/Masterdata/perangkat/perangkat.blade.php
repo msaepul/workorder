@@ -51,7 +51,8 @@
                                     }, 5000);
                                 </script>
 
-                                <table id="example3" class="table table-bordered table-striped">
+                                <table id="dari" class="table table-sm table-bordered table-striped user_datatable"
+                                    style="text-align: center;">
                                     <thead>
                                         <tr>
                                             <th>No</th>
@@ -108,19 +109,23 @@
         <!-- /.content -->
     </div>
     <script src="plugins/jquery/jquery.min.js"></script>
-    {{-- <script>
-        $(document).ready(function() {
-            $('#example2').DataTable({
-                autoWidth: true,
-                responsive: true,
-                pageLength: 10, // Menampilkan 10 baris per halaman
-                dom: 'Bfrtip',
-            });
-        });
-    </script> --}}
     <script>
-        $(document).ready(function() {
-            $('#example3').DataTable();
+        $(function() {
+            $("#dari").DataTable({
+                "responsive": true,
+                "lengthChange": true,
+                "autoWidth": false,
+                "order": [
+                    [1, 'desc'],
+                    [0, 'desc'],
+                ],
+                "columnDefs": [{
+                        "orderable": false,
+                        "targets": 8,
+                    },
+
+                ]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         });
     </script>
     <!-- /.content-wrapper -->

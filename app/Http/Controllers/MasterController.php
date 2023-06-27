@@ -304,34 +304,6 @@ class MasterController extends Controller
 
         return redirect()->back();
     }
-    // public function getTypeByJenis(Request $request)
-    // {
-    //     // Mendapatkan jenis perangkat yang dipilih dari permintaan AJAX
-    //     $selectedJenisId = $request->input('selectedJenisId');
-
-    //     // Query database untuk mendapatkan daftar type perangkat berdasarkan jenis perangkat
-    //     $types = Type::where('id_jenis', $selectedJenisId)->get();
-
-    //     // Mengembalikan data type perangkat dalam format JSON
-    //     return response()->json($types);
-    // }
-
-    // public function cobatambahperangkat(Request $request)
-    // {
-
-
-    //   $jeniss = Jenis::all();
-    //   $depts = Dept::all();
-    //   $brands = Brand::all();
-    //   $types = Type::all();
-
-
-    //   $cabang =session('cabang');
-
-    //   // $users = User::all();
-    //   $users = DB::table('tb_login')->where('cabang', $cabang)->get();
-    //   return view('Masterdata.perangkat.cobaaddperangkat' , compact('brands','types','depts','users','jeniss'));
-    // }
 
 
 

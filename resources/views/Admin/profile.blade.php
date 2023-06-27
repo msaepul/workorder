@@ -141,41 +141,39 @@
                                         <div class="card-head"></div>
                                         <div class="card-body">
                                             <p class="card-text">
-
                                             <div class="col-md-12">
                                                 <div class="card-body">
                                                     <center>
                                                         <h6 class="bold">Data Permintaan Sparepart</h6>
                                                     </center>
                                                     <hr class="mt-0 mb-4">
-                                                    <div class="table-responsive">
-                                                        <table id="tablehistory"
-                                                            class="table table-bordered table-striped">
-                                                            <thead class="garis-bawah">
-                                                                <tr>
-                                                                    <th>No</th>
-                                                                    <th>ID Transaksi</th>
-                                                                    <th>Nama Sparepart</th>
-                                                                    <th>Qty</th>
-                                                                    <th>Tgl Permintaan</th>
-                                                                    <th>Keterangan</th>
 
+                                                    <table id="tablehistory" class="table table-bordered table-striped">
+                                                        <thead class="garis-bawah">
+                                                            <tr>
+                                                                <th>No</th>
+                                                                <th>ID Transaksi</th>
+                                                                <th>Nama Sparepart</th>
+                                                                <th>Qty</th>
+                                                                <th>Tgl Permintaan</th>
+                                                                <th>Keterangan</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($hisparepart as $his)
+                                                                <tr>
+                                                                    <td>{{ $loop->iteration }}</td>
+                                                                    <td>{{ $his->id_tx }}</td>
+                                                                    <td>{{ $his->nama_sparepart }}</td>
+                                                                    <td>{{ $his->qty }}</td>
+                                                                    <td>{{ $his->created_at->format('d/m/Y') }}</td>
+                                                                    <td>{{ $his->keterangan }}</td>
                                                                 </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                @foreach ($hisparepart as $his)
-                                                                    <tr>
-                                                                        <td>{{ $loop->iteration }}</td>
-                                                                        <td>{{ $his->id_tx }}</td>
-                                                                        <td>{{ $his->nama_sparepart }}</td>
-                                                                        <td>{{ $his->qty }}</td>
-                                                                        <td>{{ $his->created_at->format('d/m/Y') }}</td>
-                                                                        <td>{{ $his->keterangan }}</td>
-                                                                    </tr>
-                                                                @endforeach
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+
                                                 </div>
                                             </div>
                                             </p>
@@ -185,18 +183,53 @@
                                 <div class="tab-pane fade" id="tab4" role="tabpanel" aria-labelledby="tab4-tab">
                                     <div class="card card-primary card-outline">
                                         <div class="card-body">
-                                            <h5 class="card-title">Tab 4</h5>
-                                            <p class="card-text">Ini adalah isi dari Tab 4.</p>
+                                            <p class="card-text">
+                                            <div class="col-md-12">
+                                                <div class="card-body">
+                                                    <center>
+                                                        <h6 class="bold">Data Permintaan Sparepart</h6>
+                                                    </center>
+                                                    <hr class="mt-0 mb-4">
+
+                                                    <table id="tableperbaikan" class="table table-bordered table-striped">
+                                                        <thead class="garis-bawah">
+                                                            <tr>
+                                                                <th>No</th>
+                                                                <th>ID Transaksi</th>
+                                                                <th>Nama Sparepart</th>
+                                                                <th>Qty</th>
+                                                                <th>Tgl Permintaan</th>
+                                                                <th>Keterangan</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($hisparepart as $his)
+                                                                <tr>
+                                                                    <td>No</td>
+                                                                    <td>ID Transaksi</td>
+                                                                    <td>Nama Sparepart</td>
+                                                                    <td>Qty</td>
+                                                                    <td>Tgl Permintaan</td>
+                                                                    <td>Keterangan</th>
+
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
 
-            </div><!-- /.container-fluid -->
+                </div><!-- /.container-fluid -->
         </section>
         <!-- /.content -->
     </div>
@@ -223,12 +256,17 @@
         }
     </style>
 
-    <script src="plugins/jquery/jquery.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.2/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.2/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#tablehistory').DataTable({
+                responsive: true
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#tableperbaikan').DataTable({
                 responsive: true
             });
         });
