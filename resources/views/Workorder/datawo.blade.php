@@ -1,43 +1,54 @@
 @extends('layouts.mainlayout')
 
+@section('title', 'Master Data Perangkat')
 
-@section('title', 'Data Order')
 @section('content')
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
+
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Data Work Order Cabang {{ cabangs($users->cabang) }}</h1>
+                        <h1>
+
+                        </h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">DataTables</li>
+                            <li class="breadcrumb-item active">Modals & Alerts</li>
                         </ol>
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
         </section>
-
-        <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
-
-
                         <div class="card">
-                            <div class="card-header">
-                                <a href="{{ route('Workorder_create') }}" class="btn btn-primary"> <i
-                                        class="nav-icon fas fa-plus"></i> Buat WO</a>
-
+                            <div class="card-header ">
+                                <center>
+                                    <h5><b>DATA WORK ORDER CABANG {{ cabangs() }}</b></h5>
+                                </center>
                             </div>
+
+
+
+
+                            {{-- @include('Masterdata.modal.modalinout') --}}
+
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="example2" class="table table-bordered table-striped">
+                                @if (session('success'))
+                                    <div id="success-alert" class="alert alert-success">
+                                        {{ session('success') }}
+                                    </div>
+                                @endif
+
+                                <table id="example1" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
                                             <th>No WO</th>
@@ -49,7 +60,6 @@
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-
                                     <tbody>
                                         @foreach ($workorders as $wo)
                                             <tr>
@@ -63,10 +73,12 @@
                                                 <td>X</td>
                                             </tr>
                                         @endforeach
-
+                                    </tbody>
                                 </table>
+
                             </div>
                             <!-- /.card-body -->
+
                         </div>
                         <!-- /.card -->
                     </div>
@@ -76,7 +88,24 @@
             </div>
             <!-- /.container-fluid -->
         </section>
+        <!-- Main content -->
         <!-- /.content -->
     </div>
+    <script src="plugins/jquery/jquery.min.js"></script>
+    {{-- <script>
+        $(document).ready(function() {
+            $('#example2').DataTable({
+                autoWidth: true,
+                responsive: true,
+                pageLength: 10, // Menampilkan 10 baris per halaman
+                dom: 'Bfrtip',
+            });
+        });
+    </script> --}}
+    <script>
+        $(document).ready(function() {
+            $('#example1').DataTable();
+        });
+    </script>
     <!-- /.content-wrapper -->
 @endsection

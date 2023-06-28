@@ -48,7 +48,9 @@ Route::middleware('auth')->group(function () {
 
     
     //Routing WO
+ 
     Route::get('Workorder', [WorkorderController::class, 'create'])->name('Workorder_create');
+    Route::get('Workorder', [WorkorderController::class, 'conf_admin'])->name('wo_confadmin');
     Route::post('Workorder', [WorkorderController::class, 'woproses'])->name('Workorder_proses');
     Route::get('Datawo', [WorkorderController::class, 'datawo'])->name('Dataworkorder');
 

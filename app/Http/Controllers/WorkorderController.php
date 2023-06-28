@@ -42,22 +42,14 @@ class WorkorderController extends Controller
             'keadaan.required' => 'Kolom Keadaan Perangkat harus diisi.',
  
         ]);
+$cabang = Auth::user()->cabang;
 
-// $generate=workorder::generateNomor();
-// $nama_file = "{$generate}.{$request->file('gambar')->extension()}";
-// $request->file('gambar')->storeAs('public/photos', $nama_file);
-
-
-// $this->validate($request, [
-//     'file' => 'required',
-//     'keterangan' => 'required',
-// ]);
 if ($request->hasFile('gambar')) {
     $file = $request->file('gambar');
     
     $currentMonth = date('m');
     $currentYear = date('Y');
-    $tujuan_upload = 'Lampiran/Wo'.cabang().'/'.$currentYear.'/'.$currentMonth;
+    $tujuan_upload = 'Lampiran/Wo/'.cabang().'/'.$currentYear.'/'.$currentMonth;
     $generate = workorder::generateNomor();
     $nama_file = "{$generate}.{$file->getClientOriginalExtension()}";
     $file->move($tujuan_upload, $nama_file);
@@ -71,6 +63,7 @@ if ($request->hasFile('gambar')) {
     $workorder->obyek = $request->input('obyek');
     $workorder->user_id = $request->input('user_id');
     $workorder->status = 1;
+    $workorder->cabang_id = $cabang;
     $workorder->lampiran = $nama_file;
 
     // Simpan $workorder ke database
@@ -88,8 +81,8 @@ if ($request->hasFile('gambar')) {
     public function datawo()
     {
         // $departemen = Departemen::all();
-        // $cabang = Cabang::all();
-        $workorders = workorder::all();
+        $cabang = Auth::user()->cabang;
+        $workorders = workorder::where('cabang_id','=',$cabang)->get();
         $users = User::all()->first();
         return view('Workorder.datawo', compact( 'users','workorders'));
     }

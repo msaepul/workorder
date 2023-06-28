@@ -15,12 +15,13 @@ class workorder extends Model
         'no_wo',
         'wo_create',
         'kategori_wo',
-        'perangkat_id',
+        'perangkat_idanydesk',
         'lokasi',
         'obyek',
         'keadaan',
         'lampiran',
-        'user_id'
+        'user_id',
+        'cabang_id'
     ];
     protected $attributes = [
         'status' => "draft",
