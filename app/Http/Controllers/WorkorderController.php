@@ -31,22 +31,57 @@ class WorkorderController extends Controller
     {
         
         $validatedData = $request->validate([
-            'nama_' => 'required',
+      
+            'tgl_dibuat'=>'required',
+            'obyek'=> 'required',
+            'keadaan'=> 'required',
+            'user_id'=>'required'      
         ], [
             'nama_perangkat.required' => 'Kolom Nama Perangkat harus diisi.',
+            'obyek.required' => 'Kolom Obyek Perangkat harus diisi.',
+            'keadaan.required' => 'Kolom Keadaan Perangkat harus diisi.',
+ 
         ]);
 
-        $workorders = new workorder;
-        $workorders->no_wo =workorder::generateNomor();
-        $workorders->kategori_wo = $request->input('kategori_wo');
-        $workorders->perangkat_id = $request->input('perangkat_id');
-        
-
-        // Simpan work$workorders ke database
-        $workorders->save();
+// $generate=workorder::generateNomor();
+// $nama_file = "{$generate}.{$request->file('gambar')->extension()}";
+// $request->file('gambar')->storeAs('public/photos', $nama_file);
 
 
-        return redirect()->back();
+// $this->validate($request, [
+//     'file' => 'required',
+//     'keterangan' => 'required',
+// ]);
+if ($request->hasFile('gambar')) {
+    $file = $request->file('gambar');
+    
+    $currentMonth = date('m');
+    $currentYear = date('Y');
+    $tujuan_upload = 'Lampiran/Wo'.cabang().'/'.$currentYear.'/'.$currentMonth;
+    $generate = workorder::generateNomor();
+    $nama_file = "{$generate}.{$file->getClientOriginalExtension()}";
+    $file->move($tujuan_upload, $nama_file);
+
+    $workorder = new workorder;
+    $workorder->no_wo = $generate;
+    $workorder->kategori_wo = $request->input('kategori_wo');
+    $workorder->perangkat_id = $request->input('perangkat_id');
+    $workorder->wo_create = $request->input('tgl_dibuat');
+    $workorder->keadaan = $request->input('keadaan');
+    $workorder->obyek = $request->input('obyek');
+    $workorder->user_id = $request->input('user_id');
+    $workorder->status = 1;
+    $workorder->lampiran = $nama_file;
+
+    // Simpan $workorder ke database
+    $workorder->save();
+
+    return redirect()->back();
+} else {
+    $errorMessage = 'Tidak ada file yang diunggah';
+    return redirect()->back()->with('errorMessage', $errorMessage);
+}
+
       
       
     }

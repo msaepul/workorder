@@ -24,7 +24,7 @@
 
         <!-- Main content -->
         <section class="content">
-            <form action="{{ route('Workorder_proses') }}" method="post">
+            <form action="{{ route('Workorder_proses') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-md-12">
@@ -43,9 +43,13 @@
                                 </ul>
 
                             </div>
-
-
                         @endif
+                        @if (session('errorMessage'))
+                            <div class="alert alert-danger">
+                                {{ session('errorMessage') }}
+                            </div>
+                        @endif
+
                         <div class="d-flex justify-content-center">
                             <div class="card card-secondary card-outline col-12 col-md-10">
                                 <div class="card-header">
@@ -78,7 +82,7 @@
                                         <label for="tgl" class="col-sm-2 col-form-label">Tanggal WO</label>
                                         <div class="col-sm-3">
                                             <input type="datetime-local" class="form-control form-control-border"
-                                                name="tanggal_jam" id="tanggal_jam" required>
+                                                name="tgl_dibuat" id="tgl_dibuat" required>
 
 
                                         </div>
@@ -96,10 +100,9 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <hr>
 
-
-
-                                    <h5 class="text-bold mt-5">Uraian Masalah :</h5>
+                                    {{-- <h5 class="text-bold mt-5">Uraian Masalah :</h5> --}}
 
                                     <div class="form-group row">
                                         <label for="obyek" class="col-sm-2 col-form-label">Obyek</label>
@@ -109,7 +112,8 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="keadaan" class="col-sm-2 col-form-label">Informasi Keluhan</label>
+                                        <label for="keadaan" class="col-sm-2 col-form-label">Informasi Keluhan /
+                                            Permintaan</label>
                                         <div class="col-sm-10">
                                             <textarea class="form-control @error('keadaan') is-invalid @enderror" name="keadaan" rows="4" cols="82"
                                                 style="resize: none;"></textarea>
@@ -122,7 +126,6 @@
                                         </div>
                                     </div>
                                     <h6>(Dibuat Oleh: {{ Auth::user()->nama_lengkap }})</h6>
-                                    <input type="hidden" name="dibuat" value="{{ Auth::user()->nama_lengkap }}">
                                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                     <input type="hidden" name="randlink" value="">
                                 </div>

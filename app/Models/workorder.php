@@ -35,7 +35,7 @@ class workorder extends Model
         $cabang = cabang();
 
         // Ambil nomor terakhir dari bulan ini
-        $lastDocument = workorder::where('no_wo', 'like', 'WO'.'-'.cabang().'/'. $currentYear  .'/'. tgl_id($currentMonth) .'/%')
+        $lastDocument = workorder::where('no_wo', 'like', 'WO'.'-'.$cabang.'/'. $currentYear  .'/'. tgl_id($currentMonth) .'/%')
             ->orderBy('no_wo', 'desc')
             ->first();
 
