@@ -37,24 +37,27 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
 
     Route::get('logout', [AuthController::class, 'logout']);
-    Route::get('Dashboard', [AdminController::class, 'index']);
+    Route::get('Dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::get('Adminspr', [AdminController::class, 'dashboardspr']);
     Route::get('Gallery', [AdminController::class, 'gallery']);
     Route::get('Cabang', [CabangController::class, 'index'])->middleware('only_cabang');
-  
+
     Route::get('404', [AllController::class, 'index']);
 
     Route::get('profile', [AdminController::class, 'profile'])->name('profile');
 
-    
-    //Routing WO
- 
-    Route::get('Workorder', [WorkorderController::class, 'create'])->name('Workorder_create');
-    Route::get('Workorder', [WorkorderController::class, 'conf_admin'])->name('wo_confadmin');
-    Route::post('Workorder', [WorkorderController::class, 'woproses'])->name('Workorder_proses');
-    Route::get('Datawo', [WorkorderController::class, 'datawo'])->name('Dataworkorder');
 
-    
+    //Routing WO
+
+    Route::get('Workorder', [WorkorderController::class, 'create'])->name('Workorder_create');
+    Route::get('Workorder/detail/{id}', [WorkorderController::class, 'detailwo'])->name('Workorder_detail');
+    Route::get('Workorder/{id}', [WorkorderController::class, 'confirm'])->name('wo_confadmin');
+    Route::post('Workorder', [WorkorderController::class, 'woproses'])->name('Workorder_proses');
+    Route::post('/workorder/update/{id}', [WorkorderController::class, 'updateStatus'])->name('woupdate_status');
+
+    Route::get('datawo', [WorkorderController::class, 'datawo'])->name('Dataworkorder');
+
+
     //Routing TPM
     Route::get('TPMRingan', [TPMController::class, 'TPMRingan'])->name('TPMRingan');
     Route::get('TPMBerat', [TPMController::class, 'TPMBerat'])->name('TPMBerat');

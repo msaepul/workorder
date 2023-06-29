@@ -61,18 +61,36 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($workorders as $wo)
-                                            <tr>
-                                                <td>{{ $wo->no_wo }}</td>
-                                                <td>{{ $wo->kategori_wo }}
-                                                </td>
-                                                <td>{{ $wo->obyek }}</td>
-                                                <td>{{ $wo->keadaan }}</td>
-                                                <td>{{ $wo->wo_create }}</td>
-                                                <td>{{ $wo->status }}</td>
-                                                <td>X</td>
-                                            </tr>
-                                        @endforeach
+                                        @if (getUserdept() == 'EDP')
+
+                                            @foreach ($workorders as $wo)
+                                                <tr>
+                                                    <td>{{ $wo->no_wo }}</td>
+                                                    <td>{{ $wo->kategori_wo }}
+                                                    </td>
+                                                    <td>{{ $wo->obyek }}</td>
+                                                    <td>{{ $wo->keadaan }}</td>
+                                                    <td>{{ $wo->wo_create }}</td>
+                                                    <td>{{ $wo->status }}</td>
+                                                    <td> <a href="{{ route('Workorder_detail', $wo->id) }}"
+                                                            class="btn btn-primary">Edit</a></td>
+                                                </tr>
+                                            @endforeach
+                                        @else
+                                            @foreach ($workorder as $wo)
+                                                <tr>
+                                                    <td>{{ $wo->no_wo }}</td>
+                                                    <td>{{ $wo->kategori_wo }}
+                                                    </td>
+                                                    <td>{{ $wo->obyek }}</td>
+                                                    <td>{{ $wo->keadaan }}</td>
+                                                    <td>{{ $wo->wo_create }}</td>
+                                                    <td>{{ $wo->status }}</td>
+                                                    <td> <a href="{{ route('Workorder_detail', $wo->id) }}"
+                                                            class="btn btn-primary">Edit</a></td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
 

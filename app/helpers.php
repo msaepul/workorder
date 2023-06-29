@@ -19,10 +19,32 @@ if (!function_exists(function: 'cabang')) {
     }
 }
 
+if (!function_exists('getUserDept')) {
+    function getUserDept()
+    {
+        $dept = Auth::user()->dept;
+        return $dept;
+    }
+}
+
+
 if (!function_exists(function: 'cabangs')) {
     function cabangs()
     {
         $idcabang = Auth::user()->cabang;
+        $arraycabang = Cabang::where('id', '=', "$idcabang")
+            ->get()
+            ->first();
+        $cabangs = $arraycabang->ket;
+
+        return "$cabangs";
+    }
+}
+
+if (!function_exists(function: 'dept')) {
+    function dept()
+    {
+        $idcabang = Auth::user()->dept;
         $arraycabang = Cabang::where('id', '=', "$idcabang")
             ->get()
             ->first();
@@ -252,6 +274,7 @@ if (!function_exists(function: 'lastedit')) {
     }
 }
 
+
 if (!function_exists(function: 'caricabang')) {
     function caricabang($idcabang)
     {
@@ -367,6 +390,19 @@ if (!function_exists(function: 'tgl_id')) {
         }
     }
 }
+if (!function_exists('bulan_angka')) {
+    function bulan_angka($bulan)
+    {
+        $bulan = strtolower($bulan);
+        $bulan_romawi = ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x', 'xi', 'xii'];
+        $index = array_search($bulan, $bulan_romawi);
+        $angka = ($index !== false) ? ($index + 1) : null;
+        $angka = str_pad($angka, 2, '0', STR_PAD_LEFT);
+        return $angka;
+    }
+}
+
+
 
 // if (!function_exists(function: 'tglid')) {
 //     function tglid($tanggal)

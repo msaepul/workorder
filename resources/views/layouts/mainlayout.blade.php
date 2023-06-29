@@ -37,6 +37,8 @@
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="path/to/magnific-popup.css">
     <style>
         .gradient-custom {
             /* fallback for old browsers */
@@ -78,6 +80,75 @@
             padding: 8px;
             border-radius: 4px;
             font-size: 14px;
+        }
+
+        .card-body-a {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            height: 60px;
+        }
+
+        .status-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 30px;
+            color: #ffffff;
+            background-color: gray;
+        }
+
+
+        .status {
+            font-size: 12px;
+        }
+
+        .arrow {
+            width: 10px;
+            height: 10px;
+            border-top: 1px solid #000;
+            border-right: 1px solid #000;
+            transform: rotate(45deg);
+            margin-left: 5px;
+            margin-right: 5px;
+            /* Tambahkan margin-right di sini */
+        }
+
+
+        .card-body-a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .left-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .right-status {
+            display: flex;
+            align-items: center;
+        }
+
+        .disabled-input {
+            background-color: #ffffff;
+            /* Atur warna latar belakang */
+            color: #696767;
+            /* Atur warna teks */
+            cursor: not-allowed;
+            /* Atur kursor saat diarahkan ke elemen */
+        }
+
+        .gambar-kecil {
+            max-width: 300px;
+            max-height: 200px;
         }
     </style>
 </head>

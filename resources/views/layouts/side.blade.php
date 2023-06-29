@@ -41,7 +41,7 @@
                 <li class="nav-header">MENU UTAMA</li>
 
                 <li class="nav-item menu-open">
-                    <a href="Dashboard"
+                    <a href="{{ route('dashboard') }}"
                         @if (request()->route()->uri == 'Dashboard') class="nav-link active"
      
             @else
@@ -53,7 +53,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="Workorder"
+                    <a href="{{ route('Workorder_create') }}"
                         @if (request()->route()->uri == 'Workorder') class="nav-link active"
      
               @else
@@ -66,8 +66,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="Datawo"
-                        @if (request()->route()->uri == 'Datawo') class="nav-link active"
+                    <a href="{{ route('Dataworkorder') }}"
+                        @if (request()->route()->uri == 'datawo') class="nav-link active"
               @else
               class="nav-link " @endif>
                         <i class="nav-icon fas fa-clipboard-list"></i>

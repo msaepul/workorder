@@ -49,7 +49,7 @@
                                 {{ session('errorMessage') }}
                             </div>
                         @endif
-
+                        <!-- /.card -->
                         <div class="d-flex justify-content-center">
                             <div class="card card-secondary card-outline col-12 col-md-10">
                                 <div class="card-header">
