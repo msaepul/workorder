@@ -33,13 +33,15 @@ class WorkorderController extends Controller
 
 
 
-        $workorders = workorder::where('cabang_id', '=', $cabang)->get();
+        if (getUserdept() == 'EDP'){
 
-        $workorder = workorder::where('user_id', '=', $user)->get();
+            $workorders = workorder::where('cabang_id', '=', $cabang)->get();
+        }else {
+            $workorders = workorder::where('user_id', '=', $user)->get();
 
-
+        }
         $users = User::all()->first();
-        return view('Workorder.datawo', compact('users', 'workorders', 'workorder'));
+        return view('Workorder.datawo', compact('users', 'workorders'));
     }
     public function woproses(Request $request)
     {
@@ -110,7 +112,7 @@ class WorkorderController extends Controller
             // Ambil bagian-bagian yang diperlukan
             $cabang = cabang();
             $tahun = $parts[1];
-            $bulan = strtoupper(substr($parts[2], 0, 2));
+            $bulan = $parts[2];
             $nomor = $parts[3];
 
             // Gabungkan bagian-bagian menjadi string yang diinginkan
@@ -138,7 +140,7 @@ class WorkorderController extends Controller
             // Ambil bagian-bagian yang diperlukan
             $cabang = cabang();
             $tahun = $parts[1];
-            $bulan = strtoupper(substr($parts[2], 0, 2));
+            $bulan = $parts[2];
             $nomor = $parts[3];
 
             // Gabungkan bagian-bagian menjadi string yang diinginkan
@@ -149,8 +151,52 @@ class WorkorderController extends Controller
 
         return view('Workorder.edit', compact('workorders', 'lampiran','listperangkat'));
     }
-    public function editwoproses($id)
+    public function editwoproses(Request $request, $id)
     {
+        // $validatedData = $request->validate([
+
+        //     'tgl_dibuat' => 'required',
+        //     'obyek' => 'required',
+        //     'keadaan' => 'required',
+        //     'user_id' => 'required'
+        // ], [
+        //     'nama_perangkat.required' => 'Kolom Nama Perangkat harus diisi.',
+        //     'obyek.required' => 'Kolom Obyek Perangkat harus diisi.',
+        //     'keadaan.required' => 'Kolom Keadaan Perangkat harus diisi.',
+
+        // ]);
+        $cabang = Auth::user()->cabang;
+        $generate = workorder::generateNomor();
+        if ($request->hasFile('gambar')) {
+            $file = $request->file('gambar');
+           
+            $currentMonth = date('m');
+            $currentYear = date('Y');
+            $tujuan_upload = 'Lampiran/Wo/' . cabang() . '/' . $currentYear . '/' . $currentMonth;
+            $nama_file = "{$generate}.{$file->getClientOriginalExtension()}";
+            $file->move($tujuan_upload, $nama_file);
+            $lampiran = $nama_file;
+        } else {
+            $lampiran = null;
+        }
+        
+        $workorder = new workorder;
+        $workorder->no_wo = $generate;
+        $workorder->kategori_wo = $request->input('kategori_wo');
+        $workorder->perangkat_id = $request->input('perangkat_id');
+        $workorder->wo_create = $request->input('tgl_dibuat');
+        $workorder->keadaan = $request->input('keadaan');
+        $workorder->obyek = $request->input('obyek');
+        $workorder->user_id = $request->input('user_id');
+        $workorder->status = 1;
+        $workorder->cabang_id = $cabang;
+        $workorder->lampiran = $lampiran;
+        
+        // Simpan $workorder ke database
+        $workorder->save();
+        
+        $idwo = workorder::where('no_wo', $generate)->max('id');
+        return redirect()->route('Workorder_detail', $idwo);
         
         
     }

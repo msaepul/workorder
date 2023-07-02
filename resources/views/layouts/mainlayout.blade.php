@@ -56,6 +56,24 @@
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 
         }
+
+        .lampiran-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .hapus-lampiran {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 4px 8px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+    </style>
+
     </style>
     <style>
         .circle {

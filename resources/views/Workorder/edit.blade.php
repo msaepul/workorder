@@ -68,12 +68,19 @@
                                         <div class="col-sm-2"></div>
                                         <label for="kategori" class="col-sm-2 col-form-label">Kategori</label>
                                         <div class="col-sm-3">
+
                                             <select class="form-control form-control-border" name="kategori_wo"
-                                                id="kategori_wo">
-                                                <option value="" selected disabled>-----</option>
-                                                <option value="hardware">Hardware</option>
-                                                <option value="software">Software</option>
-                                                <option value="brainware">Brainware</option>
+                                                id="kategori_wo" onchange="kategoriWoOnChange()">
+                                                <option value="" disabled>-----</option>
+                                                <option value="hardware"
+                                                    {{ $workorders->kategori_wo === 'hardware' ? 'selected' : '' }}>Hardware
+                                                </option>
+                                                <option value="software"
+                                                    {{ $workorders->kategori_wo === 'software' ? 'selected' : '' }}>Software
+                                                </option>
+                                                <option value="brainware"
+                                                    {{ $workorders->kategori_wo === 'brainware' ? 'selected' : '' }}>
+                                                    Brainware</option>
                                             </select>
                                         </div>
                                     </div>
@@ -124,12 +131,16 @@
                                     <div class="form-group row">
                                         <label for="gambar" class="col-sm-2 col-form-label">Gambar</label>
                                         @if ($lampiran && file_exists(public_path($lampiran)))
-                                            <a href="{{ asset($lampiran) }}" target="_blank" class="zoom-image">
-                                                <img src="{{ asset($lampiran) }}" alt="Lampiran" class="gambar-kecil">
-                                            </a>
+                                            <div class="lampiran-wrapper">
+                                                <a href="{{ asset($lampiran) }}" target="_blank" class="zoom-image">
+                                                    <img src="{{ asset($lampiran) }}" alt="Lampiran" class="gambar-kecil">
+                                                </a>
+                                                <span class="hapus-lampiran" onclick="hapusLampiran()">x</span>
+                                            </div>
                                         @else
                                             <p>Tidak ada lampiran</p>
                                         @endif
+
                                         <div class="col-sm-10">
                                             <input type="file" class="form-control-file" name="gambar" id="gambar">
                                         </div>
@@ -174,5 +185,14 @@
         });
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script>
+        function hapusLampiran() {
+            var lampiranWrapper = document.querySelector('.lampiran-wrapper');
+            var confirmation = confirm('Apakah Anda yakin ingin menghapus lampiran?');
 
+            if (confirmation) {
+                lampiranWrapper.parentNode.removeChild(lampiranWrapper);
+            }
+        }
+    </script>
 @endsection

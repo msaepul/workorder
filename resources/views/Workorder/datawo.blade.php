@@ -35,11 +35,6 @@
                                 </center>
                             </div>
 
-
-
-
-                            {{-- @include('Masterdata.modal.modalinout') --}}
-
                             <!-- /.card-header -->
                             <div class="card-body">
                                 @if (session('success'))
@@ -57,40 +52,26 @@
                                             <th>Kendala</th>
                                             <th>WO dibuat</th>
                                             <th>Status</th>
+                                            <th>Dibuat oleh</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if (getUserdept() == 'EDP')
+                                        @foreach ($workorders as $wo)
+                                            <tr>
+                                                <td>{{ $wo->no_wo }}</td>
+                                                <td>{{ $wo->kategori_wo }}
+                                                </td>
+                                                <td>{{ $wo->obyek }}</td>
+                                                <td>{{ $wo->keadaan }}</td>
+                                                <td>{{ $wo->wo_create }}</td>
+                                                <td>{{ $wo->status }}</td>
+                                                <td>{{ getFullName($wo->user_id) }}</td>
+                                                <td> <a href="{{ route('Workorder_detail', $wo->id) }}"
+                                                        class="btn btn-primary">Edit</a></td>
+                                            </tr>
+                                        @endforeach
 
-                                            @foreach ($workorders as $wo)
-                                                <tr>
-                                                    <td>{{ $wo->no_wo }}</td>
-                                                    <td>{{ $wo->kategori_wo }}
-                                                    </td>
-                                                    <td>{{ $wo->obyek }}</td>
-                                                    <td>{{ $wo->keadaan }}</td>
-                                                    <td>{{ $wo->wo_create }}</td>
-                                                    <td>{{ $wo->status }}</td>
-                                                    <td> <a href="{{ route('Workorder_detail', $wo->id) }}"
-                                                            class="btn btn-primary">Edit</a></td>
-                                                </tr>
-                                            @endforeach
-                                        @else
-                                            @foreach ($workorder as $wo)
-                                                <tr>
-                                                    <td>{{ $wo->no_wo }}</td>
-                                                    <td>{{ $wo->kategori_wo }}
-                                                    </td>
-                                                    <td>{{ $wo->obyek }}</td>
-                                                    <td>{{ $wo->keadaan }}</td>
-                                                    <td>{{ $wo->wo_create }}</td>
-                                                    <td>{{ $wo->status }}</td>
-                                                    <td> <a href="{{ route('Workorder_detail', $wo->id) }}"
-                                                            class="btn btn-primary">Edit</a></td>
-                                                </tr>
-                                            @endforeach
-                                        @endif
                                     </tbody>
                                 </table>
 

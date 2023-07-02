@@ -188,7 +188,7 @@
                                     </div>
                                     <div class="form-group row">
                                         <label for="keadaan" class="col-sm-2 col-form-label">Informasi Keluhan /
-                                            Permintaan</label>
+                                            Permintaan {{ $lampiran }}</label>
                                         <div class="col-sm-10">
                                             <textarea class="form-control disabled-input" name="keadaan" rows="4" cols="82" style="resize: none;">{{ $workorders->keadaan }}</textarea>
 
@@ -207,8 +207,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <h6>(Dibuat Oleh: {{ Auth::user()->nama_lengkap }})</h6>
-                                    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                    <h6>(Dibuat Oleh: {{ getFullName($workorders->user_id) }})</h6>
 
                                 </div>
                             </div>

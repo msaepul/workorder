@@ -3,6 +3,7 @@
 use App\Models\Cabang;
 use App\Models\Modelakses;
 use App\Models\Modelutama;
+use App\Models\workorder;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,6 +25,19 @@ if (!function_exists('getUserDept')) {
     {
         $dept = Auth::user()->dept;
         return $dept;
+    }
+}
+if (!function_exists('getUserName')) {
+    function getFullName($userId)
+    {
+        $user = User::find($userId);
+
+        if ($user) {
+            $nama_lengkap = $user->nama_lengkap;
+            return $nama_lengkap;
+        }
+
+        return null; // Atau nilai default yang sesuai jika pengguna dengan ID tersebut tidak ditemukan
     }
 }
 
