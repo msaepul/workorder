@@ -57,7 +57,7 @@
                                         @csrf
                                         @if ($workorders->status == 0)
                                             <div class="status-container">
-                                                <div class="box bg-secondary">
+                                                <div class="box bg-secondary disabled-input">
                                                     <span class="status">Cancel</span>
                                                 </div>
                                             </div>
@@ -70,7 +70,8 @@
                                                 <button type="submit" name="status" value="2"
                                                     class="btn btn-danger mr-2"
                                                     onclick="return confirm('Apakah anda ingin mengkonfirmasi WO nya?')">Confirm</button>
-                                                <a href="" class="btn btn-warning">Edit</a>
+                                                <a href="{{ route('Workorder_edit', ['id' => $workorders->id]) }}"
+                                                    class="btn btn-warning">Edit</a>
                                             @endif
                                         @elseif ($workorders->status == 2)
                                             @if (getUserDept() == 'EDP')
@@ -90,32 +91,34 @@
                                     </form>
 
                                 </div>
-                                <div class="right-status">
-                                    <div class="status-container">
-                                        <div class="box {{ $workorders->status == 1 ? 'bg-primary' : '' }}">
-                                            <span class="status">Draft</span>
+                                @if ($workorders->status != 0)
+                                    <div class="right-status">
+                                        <div class="status-container">
+                                            <div class="box {{ $workorders->status == 1 ? 'bg-primary' : '' }}">
+                                                <span class="status">Draft</span>
+                                            </div>
+                                            <div class="arrow"></div>
                                         </div>
-                                        <div class="arrow"></div>
-                                    </div>
-                                    <div class="status-container">
-                                        <div class="box {{ $workorders->status == 2 ? 'bg-primary' : '' }}">
-                                            <span class="status">Confirm</span>
+                                        <div class="status-container">
+                                            <div class="box {{ $workorders->status == 2 ? 'bg-primary' : '' }}">
+                                                <span class="status">Confirm</span>
+                                            </div>
+                                            <div class="arrow"></div>
                                         </div>
-                                        <div class="arrow"></div>
-                                    </div>
-                                    <div class="status-container">
-                                        <div class="box {{ $workorders->status == 3 ? 'bg-primary' : '' }}">
-                                            <span class="status">On Progress</span>
+                                        <div class="status-container">
+                                            <div class="box {{ $workorders->status == 3 ? 'bg-primary' : '' }}">
+                                                <span class="status">On Progress</span>
+                                            </div>
+                                            <div class="arrow"></div>
                                         </div>
-                                        <div class="arrow"></div>
-                                    </div>
-                                    <div class="status-container">
-                                        <div class="box {{ $workorders->status == 4 ? 'bg-primary' : '' }}">
-                                            <span class="status">Done</span>
+                                        <div class="status-container">
+                                            <div class="box {{ $workorders->status == 4 ? 'bg-primary' : '' }}">
+                                                <span class="status">Done</span>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                </div>
+                                    </div>
+                                @endif
 
                             </div>
                         </div>
@@ -185,7 +188,7 @@
                                     </div>
                                     <div class="form-group row">
                                         <label for="keadaan" class="col-sm-2 col-form-label">Informasi Keluhan /
-                                            Permintaan{{ $lampiran }}</label>
+                                            Permintaan</label>
                                         <div class="col-sm-10">
                                             <textarea class="form-control disabled-input" name="keadaan" rows="4" cols="82" style="resize: none;">{{ $workorders->keadaan }}</textarea>
 

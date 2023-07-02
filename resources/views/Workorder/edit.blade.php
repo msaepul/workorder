@@ -10,7 +10,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Buat Work Order</h1>
+                        <h1>Edit {{ $workorders->no_wo }}</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -24,28 +24,46 @@
 
         <!-- Main content -->
         <section class="content">
-            <form action="{{ route('Workorder_proses') }}" method="post">
+            <form action="{{ route('Workorder_proses') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-md-12">
+                        @if (session('success'))
+                            <div id="success-alert" class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        @if ($errors->any())
+                            <div id="myAlert" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Error!</strong> Terdapat beberapa masalah dalam pengisian formulir:
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+
+                            </div>
+                        @endif
+                        @if (session('errorMessage'))
+                            <div class="alert alert-danger">
+                                {{ session('errorMessage') }}
+                            </div>
+                        @endif
+                        <!-- /.card -->
                         <div class="d-flex justify-content-center">
                             <div class="card card-secondary card-outline col-12 col-md-10">
                                 <div class="card-header">
-                                    <h3 class="card-title">Form Work Order</h3>
-
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"
-                                            title="Collapse">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <h3 class="card-title font-weight-bold">Form Work Order</h3>
                                     </div>
                                 </div>
+
                                 <div class="card-body">
                                     <div class="form-group row">
                                         <label for="nomor" class="col-sm-2 col-form-label">Nomor WO</label>
                                         <div class="col-sm-3">
-                                            <input type="text" class="form-control form-control-border" name="no_wo"
-                                                value="">
+                                            <input type="text" class="form-control form-control-border disabled-input"
+                                                name="no_wo" value="{{ $workorders->no_wo }}">
                                         </div>
                                         <div class="col-sm-2"></div>
                                         <label for="kategori" class="col-sm-2 col-form-label">Kategori</label>
@@ -61,73 +79,64 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="tgl" class="col-sm-2 col-form-label">Tanggal WO</label>
+                                        <label for="tgl" class="col-sm-2 col-form-label">Tanggal WO
+                                        </label>
                                         <div class="col-sm-3">
-                                            <span class="form-control form-control-border">{{ $todayDate }}</span>
-                                            <input type="hidden" class="" name="wo_create"
-                                                value="{{ $todayDate }}">
+                                            <input type="datetime-local" class="form-control form-control-border"
+                                                value="{{ $workorders->wo_create }}" name="tgl_dibuat" id="tgl_dibuat"
+                                                required>
+
+
                                         </div>
                                         <div class="col-sm-2"></div>
-                                        <label for="jenis" class="col-sm-2 col-form-label" id="jenis_label">Jenis
+                                        <label for="jenis" class="col-sm-2 col-form-label" id="jenis_label">
                                             Perangkat</label>
                                         <div class="col-sm-3">
-                                            <select class="form-control form-control-border" name="jenis_perangkat"
+                                            <select class="form-control form-control-border" name="perangkat_id"
                                                 id="jenis">
-                                                <option value="" selected>-----</option>
-                                                <option value="PDL/CPU/001" required>PDL/CPU/001</option>
-                                                <option value="PDL/CPU/002" required>PDL/CPU/002</option>
+                                                @foreach ($listperangkat as $list)
+                                                    <option value="{{ $list->id }}"
+                                                        @if (old('list_id') == $list->id) selected @endif>
+                                                        {{ $list->nama_perangkat }}
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
+                                    <hr>
 
-
-
-                                    <h5 class="text-bold mt-5">Uraian Masalah :</h5>
+                                    {{-- <h5 class="text-bold mt-5">Uraian Masalah :</h5> --}}
 
                                     <div class="form-group row">
                                         <label for="obyek" class="col-sm-2 col-form-label">Obyek</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control @error('obyek') is-invalid @enderror"
-                                                name="obyek" id="obyek" value="">
+                                                name="obyek" id="obyek" value="{{ $workorders->obyek }}">
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="keadaan" class="col-sm-2 col-form-label">Informasi Keluhan</label>
+                                        <label for="keadaan" class="col-sm-2 col-form-label">Informasi Keluhan /
+                                            Permintaan</label>
                                         <div class="col-sm-10">
                                             <textarea class="form-control @error('keadaan') is-invalid @enderror" name="keadaan" rows="4" cols="82"
-                                                style="resize: none;"></textarea>
+                                                style="resize: none;">{{ $workorders->keadaan }}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="gambar" class="col-sm-2 col-form-label">Gambar</label>
+                                        @if ($lampiran && file_exists(public_path($lampiran)))
+                                            <a href="{{ asset($lampiran) }}" target="_blank" class="zoom-image">
+                                                <img src="{{ asset($lampiran) }}" alt="Lampiran" class="gambar-kecil">
+                                            </a>
+                                        @else
+                                            <p>Tidak ada lampiran</p>
+                                        @endif
+                                        <div class="col-sm-10">
+                                            <input type="file" class="form-control-file" name="gambar" id="gambar">
                                         </div>
                                     </div>
                                     <h6>(Dibuat Oleh: {{ Auth::user()->nama_lengkap }})</h6>
-                                    <input type="hidden" name="dibuat" value="{{ Auth::user()->nama_lengkap }}">
                                     <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                     <input type="hidden" name="randlink" value="">
-
-                                    <div class="row mt-4">
-                                        <nav class="w-100">
-                                            <div class="nav nav-tabs" id="product-tab" role="tablist" disabled>
-                                                <a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab"
-                                                    href="#product-desc" role="tab" aria-controls="product-desc"
-                                                    aria-selected="true">Deskripsi
-                                                    Perbaikan</a>
-                                                <a class="nav-item nav-link" id="product-comments-tab" data-toggle="tab"
-                                                    href="#product-comments" role="tab"
-                                                    aria-controls="product-comments" aria-selected="false">Sparepart yang
-                                                    digunakan</a>
-                                                <a class="nav-item nav-link" id="product-rating-tab" data-toggle="tab"
-                                                    href="#product-rating" role="tab" aria-controls="product-rating"
-                                                    aria-selected="false">Penilaian</a>
-                                            </div>
-                                        </nav>
-                                        <div class="tab-content p-3" id="nav-tabContent">
-                                            <div class="tab-pane fade show active" id="product-desc" role="tabpanel"
-                                                aria-labelledby="product-desc-tab"> _</div>
-                                            <div class="tab-pane fade" id="product-comments" role="tabpanel"
-                                                aria-labelledby="product-comments-tab"> _</div>
-                                            <div class="tab-pane fade" id="product-rating" role="tabpanel"
-                                                aria-labelledby="product-rating-tab">_</div>
-                                        </div>
-                                    </div>
                                 </div>
 
                                 <div class="card-footer">
@@ -164,4 +173,6 @@
             }
         });
     </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
 @endsection

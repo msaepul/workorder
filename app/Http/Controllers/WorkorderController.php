@@ -25,7 +25,22 @@ class WorkorderController extends Controller
         $no =  'WO' . '-' . cabang() . '/' . $currentYear  . '/' . tgl_id($currentMonth) . '/' . '...';
         return view('Workorder.create', compact('currentYear', 'currentMonth', 'no', 'listperangkat', 'id'));
     }
+    public function datawo()
+    {
+        // $departemen = Departemen::all();
+        $cabang = Auth::user()->cabang;
+        $user = Auth::user()->id;
 
+
+
+        $workorders = workorder::where('cabang_id', '=', $cabang)->get();
+
+        $workorder = workorder::where('user_id', '=', $user)->get();
+
+
+        $users = User::all()->first();
+        return view('Workorder.datawo', compact('users', 'workorders', 'workorder'));
+    }
     public function woproses(Request $request)
     {
 
@@ -42,37 +57,38 @@ class WorkorderController extends Controller
 
         ]);
         $cabang = Auth::user()->cabang;
-
+        $generate = workorder::generateNomor();
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
-
+           
             $currentMonth = date('m');
             $currentYear = date('Y');
             $tujuan_upload = 'Lampiran/Wo/' . cabang() . '/' . $currentYear . '/' . $currentMonth;
-            $generate = workorder::generateNomor();
             $nama_file = "{$generate}.{$file->getClientOriginalExtension()}";
             $file->move($tujuan_upload, $nama_file);
-
-            $workorder = new workorder;
-            $workorder->no_wo = $generate;
-            $workorder->kategori_wo = $request->input('kategori_wo');
-            $workorder->perangkat_id = $request->input('perangkat_id');
-            $workorder->wo_create = $request->input('tgl_dibuat');
-            $workorder->keadaan = $request->input('keadaan');
-            $workorder->obyek = $request->input('obyek');
-            $workorder->user_id = $request->input('user_id');
-            $workorder->status = 1;
-            $workorder->cabang_id = $cabang;
-            $workorder->lampiran = $nama_file;
-
-            // Simpan $workorder ke database
-            $workorder->save();
-
-            return redirect()->back();
+            $lampiran = $nama_file;
         } else {
-            $errorMessage = 'Tidak ada file yang diunggah';
-            return redirect()->back()->with('errorMessage', $errorMessage);
+            $lampiran = null;
         }
+        
+        $workorder = new workorder;
+        $workorder->no_wo = $generate;
+        $workorder->kategori_wo = $request->input('kategori_wo');
+        $workorder->perangkat_id = $request->input('perangkat_id');
+        $workorder->wo_create = $request->input('tgl_dibuat');
+        $workorder->keadaan = $request->input('keadaan');
+        $workorder->obyek = $request->input('obyek');
+        $workorder->user_id = $request->input('user_id');
+        $workorder->status = 1;
+        $workorder->cabang_id = $cabang;
+        $workorder->lampiran = $lampiran;
+        
+        // Simpan $workorder ke database
+        $workorder->save();
+        
+        $idwo = workorder::where('no_wo', $generate)->max('id');
+        return redirect()->route('Workorder_detail', $idwo);
+        
     }
 
     public function confirm()
@@ -106,22 +122,39 @@ class WorkorderController extends Controller
         return view('Workorder.detail', compact('workorders', 'lampiran'));
     }
 
-    public function datawo()
+    public function editwo($id)
     {
-        // $departemen = Departemen::all();
-        $cabang = Auth::user()->cabang;
-        $user = Auth::user()->id;
+        
+        // Mengambil data berdasarkan ID
+        $workorders = workorder::findOrFail($id);
+        $listperangkat = perangkat::where('user_id', $id)->get();
 
+        $no_wo = $workorders->lampiran;
 
+        if ($no_wo !== null) {
+            // Pisahkan string berdasarkan delimiter '/'
+            $parts = explode('/', $no_wo);
 
-        $workorders = workorder::where('cabang_id', '=', $cabang)->get();
+            // Ambil bagian-bagian yang diperlukan
+            $cabang = cabang();
+            $tahun = $parts[1];
+            $bulan = strtoupper(substr($parts[2], 0, 2));
+            $nomor = $parts[3];
 
-        $workorder = workorder::where('user_id', '=', $user)->get();
+            // Gabungkan bagian-bagian menjadi string yang diinginkan
+            $lampiran = 'Lampiran/Wo/' . $cabang . '/' . $tahun . '/' . bulan_angka($bulan) . '/' . $nomor;
+        } else {
+            $lampiran = "null";
+        }
 
-
-        $users = User::all()->first();
-        return view('Workorder.datawo', compact('users', 'workorders', 'workorder'));
+        return view('Workorder.edit', compact('workorders', 'lampiran','listperangkat'));
     }
+    public function editwoproses($id)
+    {
+        
+        
+    }
+
     public function updateStatus(Request $request, $id)
     {
 
@@ -152,6 +185,6 @@ class WorkorderController extends Controller
 
 
         // Kembalikan respon atau lakukan pengalihan (redirect) ke halaman yang sesuai
-        return redirect()->route('Dataworkorder')->with('success', 'WO Berhasil diupdate.');
+        return redirect()->route('Workorder_detail', $id);
     }
 }

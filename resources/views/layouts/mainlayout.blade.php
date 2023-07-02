@@ -102,6 +102,12 @@
             height: 30px;
             color: #ffffff;
             background-color: gray;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            /* Menambahkan efek shadow */
+            border-radius: 5px;
+            /* Melenkung elemen */
+            transform: perspective(200px) rotateX(5deg);
+            /* Memberikan efek 3D dengan rotasi pada sumbu X */
         }
 
 
@@ -112,8 +118,8 @@
         .arrow {
             width: 10px;
             height: 10px;
-            border-top: 1px solid #000;
-            border-right: 1px solid #000;
+            border-top: 3px solid gray;
+            border-right: 3px solid gray;
             transform: rotate(45deg);
             margin-left: 5px;
             margin-right: 5px;
