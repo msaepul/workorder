@@ -24,8 +24,10 @@
 
         <!-- Main content -->
         <section class="content">
-            <form action="{{ route('Workorder_proses') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('Workorder_editproses', $workorders->id) }}" method="POST"
+                enctype="multipart/form-data">
                 @csrf
+                @method('PUT')
                 <div class="row">
                     <div class="col-md-12">
                         @if (session('success'))

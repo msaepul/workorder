@@ -27,6 +27,14 @@ if (!function_exists('getUserDept')) {
         return $dept;
     }
 }
+
+if (!function_exists('getUserCabang')) {
+    function getUserCabang()
+    {
+        $cabang = Auth::user()->cabang;
+        return $cabang;
+    }
+}
 if (!function_exists('getUserName')) {
     function getFullName($userId)
     {

@@ -52,6 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::get('Workorder', [WorkorderController::class, 'create'])->name('Workorder_create');
     Route::get('Workorder/detail/{id}', [WorkorderController::class, 'detailwo'])->name('Workorder_detail');
     Route::get('Workorder/edit/{id}', [WorkorderController::class, 'editwo'])->name('Workorder_edit');
+    Route::put('Workorder/edit/{id}', [WorkorderController::class, 'editwoproses'])->name('Workorder_editproses');
     Route::get('Workorder/{id}', [WorkorderController::class, 'confirm'])->name('wo_confadmin');
     Route::post('Workorder', [WorkorderController::class, 'woproses'])->name('Workorder_proses');
     Route::post('/workorder/update/{id}', [WorkorderController::class, 'updateStatus'])->name('woupdate_status');

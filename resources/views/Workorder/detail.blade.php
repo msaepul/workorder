@@ -10,7 +10,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Buat Work Order</h1>
+                        <h1>Detail Work Order {{ $workorders->no_wo }} </h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -131,92 +131,187 @@
                         <div class="d-flex justify-content-center">
                             <div class="card card-secondary card-outline col-12 col-md-10">
                                 <div class="card-header">
-                                    <div class="d-flex align-items-center justify-content-center">
+                                    <div class="d-flex align-items-center justify-content-between">
                                         <h3 class="card-title font-weight-bold">Form Work Order</h3>
+                                        <div class="ml-auto">
+                                            <button class="btn btn-link btn-toggle-collapse" type="button"
+                                                data-toggle="collapse" data-target="#collapseCard" aria-expanded="false"
+                                                aria-controls="collapseCard">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
                                     </div>
+
+
                                 </div>
+                                <div class="collapse show" id="collapseCard">
+                                    <div class="card-body">
+                                        <div class="form-group row">
+                                            <label for="nomor" class="col-sm-2 col-form-label">Nomor WO</label>
+                                            <div class="col-sm-3">
+                                                <span class="form-control form-control-border disabled-input"
+                                                    name="no_wo"> {{ $workorders->no_wo }}</span>
+                                            </div>
+                                            <div class="col-sm-2"></div>
+                                            <label for="kategori" class="col-sm-2 col-form-label">Kategori</label>
+                                            <div class="col-sm-3">
+                                                <input type="text"
+                                                    class="form-control form-control-border disabled-input"
+                                                    name="kategori_wo" value="{{ $workorders->kategori_wo }}">
 
-                                <div class="card-body">
-                                    <div class="form-group row">
-                                        <label for="nomor" class="col-sm-2 col-form-label">Nomor WO</label>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control form-control-border disabled-input"
-                                                name="no_wo" value="{{ $workorders->no_wo }}">
+                                            </div>
                                         </div>
-                                        <div class="col-sm-2"></div>
-                                        <label for="kategori" class="col-sm-2 col-form-label">Kategori</label>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control form-control-border disabled-input"
-                                                name="kategori_wo" value="{{ $workorders->kategori_wo }}">
 
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="tgl" class="col-sm-2 col-form-label">Tanggal WO</label>
-                                        <div class="col-sm-3">
-                                            <input type="text" class="form-control form-control-border disabled-input"
-                                                name="tgl_dibuat" value="{{ $workorders->wo_create }}">
+                                        <div class="form-group row">
+                                            <label for="tgl" class="col-sm-2 col-form-label">Tanggal WO</label>
+                                            <div class="col-sm-3">
+                                                <input type="text"
+                                                    class="form-control form-control-border disabled-input"
+                                                    name="tgl_dibuat" value="{{ $workorders->wo_create }}">
 
 
-                                        </div>
-                                        <div class="col-sm-2"></div>
-                                        <label for="jenis" class="col-sm-2 col-form-label" id="jenis_label">
-                                            Perangkat</label>
-                                        <div class="col-sm-3">
-                                            <select class="form-control form-control-border" name="perangkat_id"
-                                                id="jenis">
-                                                {{-- @foreach ($listperangkat as $list)
+                                            </div>
+                                            <div class="col-sm-2"></div>
+                                            <label for="jenis" class="col-sm-2 col-form-label" id="jenis_label">
+                                                Perangkat</label>
+                                            <div class="col-sm-3">
+                                                <select class="form-control form-control-border" name="perangkat_id"
+                                                    id="jenis">
+                                                    {{-- @foreach ($listperangkat as $list)
                                                     <option value="{{ $list->id }}"
                                                         @if (old('list_id') == $list->id) selected @endif>
                                                         {{ $list->nama_perangkat }}
                                                 @endforeach --}}
-                                            </select>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <hr>
+                                        <hr>
 
-                                    {{-- <h5 class="text-bold mt-5">Uraian Masalah :</h5> --}}
+                                        {{-- <h5 class="text-bold mt-5">Uraian Masalah :</h5> --}}
 
-                                    <div class="form-group row">
-                                        <label for="obyek" class="col-sm-2 col-form-label">Obyek</label>
-                                        <div class="col-sm-10">
-                                            <input type="text"
-                                                class="form-control form-control form-control-border disabled-input"
-                                                name="obyek" id="obyek" value="{{ $workorders->obyek }}">
+                                        <div class="form-group row">
+                                            <label for="obyek" class="col-sm-2 col-form-label">Obyek</label>
+                                            <div class="col-sm-10">
+                                                <input type="text"
+                                                    class="form-control form-control form-control-border disabled-input"
+                                                    name="obyek" id="obyek" value="{{ $workorders->obyek }}">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="keadaan" class="col-sm-2 col-form-label">Informasi Keluhan /
-                                            Permintaan {{ $lampiran }}</label>
-                                        <div class="col-sm-10">
-                                            <textarea class="form-control disabled-input" name="keadaan" rows="4" cols="82" style="resize: none;">{{ $workorders->keadaan }}</textarea>
+                                        <div class="form-group row">
+                                            <label for="keadaan" class="col-sm-2 col-form-label">Informasi Keluhan /
+                                                Permintaan {{ $lampiran }}</label>
+                                            <div class="col-sm-10">
+                                                <textarea class="form-control disabled-input" name="keadaan" rows="4" cols="82" style="resize: none;">{{ $workorders->keadaan }}</textarea>
 
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="gambar" class="col-sm-2 col-form-label">Gambar</label>
-                                        <div class="col-sm-10">
-                                            @if ($lampiran && file_exists(public_path($lampiran)))
-                                                <a href="{{ asset($lampiran) }}" target="_blank" class="zoom-image">
-                                                    <img src="{{ asset($lampiran) }}" alt="Lampiran"
-                                                        class="gambar-kecil">
-                                                </a>
-                                            @else
-                                                <p>Tidak ada lampiran</p>
-                                            @endif
+                                        <div class="form-group row">
+                                            <label for="gambar" class="col-sm-2 col-form-label">Gambar</label>
+                                            <div class="col-sm-10">
+                                                @if ($lampiran && file_exists(public_path($lampiran)))
+                                                    <a href="{{ asset($lampiran) }}" target="_blank" class="zoom-image">
+                                                        <img src="{{ asset($lampiran) }}" alt="Lampiran"
+                                                            class="gambar-kecil">
+                                                    </a>
+                                                @else
+                                                    <p>Tidak ada lampiran</p>
+                                                @endif
+                                            </div>
                                         </div>
-                                    </div>
-                                    <h6>(Dibuat Oleh: {{ getFullName($workorders->user_id) }})</h6>
-
-                                </div>
-                            </div>
-                            <!-- /.card -->
-                        </div>
+                                        <h6>(Dibuat Oleh: {{ getFullName($workorders->user_id) }})</h6>
+                    </form>
                 </div>
-                <!-- /.content -->
-                </form>
-        </section>
+            </div>
+    </div>
+    <!-- /.card -->
+
+    </div>
+    @if ($workorders->status >= 2)
+        <div class="d-flex justify-content-center">
+            <div class="card card-secondary card-outline col-12 col-md-10">
+                <div class="card-header">
+                    <div class="d-flex align-items-center justify-content-center">
+                        <h3 class="card-title font-weight-bold">Form Work Order</h3>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="form-group row">
+                        <label for="nomor" class="col-sm-2 col-form-label">Nomor WO</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control form-control-border disabled-input" name="no_wo"
+                                value="{{ $workorders->no_wo }}">
+                        </div>
+                        <div class="col-sm-2"></div>
+                        <label for="kategori" class="col-sm-2 col-form-label">Kategori</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control form-control-border disabled-input"
+                                name="kategori_wo" value="{{ $workorders->kategori_wo }}">
+
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="tgl" class="col-sm-2 col-form-label">Tanggal WO</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control form-control-border disabled-input"
+                                name="tgl_dibuat" value="{{ $workorders->wo_create }}">
+
+
+                        </div>
+                        <div class="col-sm-2"></div>
+                        <label for="jenis" class="col-sm-2 col-form-label" id="jenis_label">
+                            Perangkat</label>
+                        <div class="col-sm-3">
+                            <select class="form-control form-control-border" name="perangkat_id" id="jenis">
+                                {{-- @foreach ($listperangkat as $list)
+                                                <option value="{{ $list->id }}"
+                                                    @if (old('list_id') == $list->id) selected @endif>
+                                                    {{ $list->nama_perangkat }}
+                                            @endforeach --}}
+                            </select>
+                        </div>
+                    </div>
+                    <hr>
+
+                    {{-- <h5 class="text-bold mt-5">Uraian Masalah :</h5> --}}
+
+                    <div class="form-group row">
+                        <label for="obyek" class="col-sm-2 col-form-label">Obyek</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control form-control form-control-border disabled-input"
+                                name="obyek" id="obyek" value="{{ $workorders->obyek }}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="keadaan" class="col-sm-2 col-form-label">Informasi Keluhan /
+                            Permintaan {{ $lampiran }}</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control disabled-input" name="keadaan" rows="4" cols="82" style="resize: none;">{{ $workorders->keadaan }}</textarea>
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="gambar" class="col-sm-2 col-form-label">Gambar</label>
+                        <div class="col-sm-10">
+                            @if ($lampiran && file_exists(public_path($lampiran)))
+                                <a href="{{ asset($lampiran) }}" target="_blank" class="zoom-image">
+                                    <img src="{{ asset($lampiran) }}" alt="Lampiran" class="gambar-kecil">
+                                </a>
+                            @else
+                                <p>Tidak ada lampiran</p>
+                            @endif
+                        </div>
+                    </div>
+                    <h6>(Dibuat Oleh: {{ getFullName($workorders->user_id) }})</h6>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <!-- /.content -->
+    @endif
+    </section>
     </div>
     <script>
         // Hide jenis_perangkat field and its label initially
@@ -247,6 +342,21 @@
                 type: 'image'
             });
         });
+    </script>
+    <script>
+        var toggleButtons = document.getElementsByClassName('btn-toggle-collapse');
+        for (var i = 0; i < toggleButtons.length; i++) {
+            toggleButtons[i].addEventListener('click', function() {
+                var icon = this.querySelector('i');
+                if (icon.classList.contains('fa-plus')) {
+                    icon.classList.remove('fa-plus');
+                    icon.classList.add('fa-minus');
+                } else {
+                    icon.classList.remove('fa-minus');
+                    icon.classList.add('fa-plus');
+                }
+            });
+        }
     </script>
 
 @endsection

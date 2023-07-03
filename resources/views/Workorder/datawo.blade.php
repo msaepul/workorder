@@ -68,7 +68,7 @@
                                                 <td>{{ $wo->status }}</td>
                                                 <td>{{ getFullName($wo->user_id) }}</td>
                                                 <td> <a href="{{ route('Workorder_detail', $wo->id) }}"
-                                                        class="btn btn-primary">Edit</a></td>
+                                                        class="btn btn-primary">Lihat</a></td>
                                             </tr>
                                         @endforeach
 

@@ -74,7 +74,7 @@
         }
     </style>
 
-    </style>
+
     <style>
         .circle {
             width: 20px;
