@@ -29,6 +29,7 @@ class WorkorderController extends Controller
     public function datawo()
     {
         // $departemen = Departemen::all();
+
         $cabang = Auth::user()->cabang;
         $user = Auth::user()->id;
 
@@ -98,7 +99,8 @@ class WorkorderController extends Controller
 
     public function detailwo($id)
     {
-
+        $now = Carbon::now()->tz('Asia/Jakarta');
+        $dateTime = $now->toDateTimeString();
         // Mengambil data berdasarkan ID
         $workorders = workorder::findOrFail($id);
 
@@ -129,9 +131,9 @@ class WorkorderController extends Controller
         }
 
         if ($status > 2) {
-            return view('Workorder.detailedp', compact('workorders', 'lampiran', 'sparepart'));
+            return view('Workorder.detailedp', compact('workorders', 'lampiran', 'sparepart','dateTime'));
         } else {
-            return view('Workorder.detail', compact('workorders', 'lampiran'));
+            return view('Workorder.detail', compact('workorders', 'lampiran','dateTime'));
         }
     }
 
@@ -216,7 +218,7 @@ class WorkorderController extends Controller
     public function updateStatus(Request $request, $id)
     {
 
-
+      
         $status = $request->input('status');
         // Lakukan pembaruan status sesuai dengan nilai yang dikirimkan
         $data = Workorder::find($id); // Ganti dengan logika Anda untuk mendapatkan data yang sesuai
@@ -224,7 +226,8 @@ class WorkorderController extends Controller
         // Lakukan pembaruan status sesuai dengan nilai yang dikirimkan
         if ($status == 2) {
             // Lakukan aksi untuk status = 1
-            $item = Workorder::find($id); // Ganti dengan logika Anda untuk mendapatkan item yang sesuai
+            $item = Workorder::find($id); 
+            // Ganti dengan logika Anda untuk mendapatkan item yang sesuai
             $item->status = 2;
             $item->save();
         } elseif ($status == 0) {
@@ -235,6 +238,10 @@ class WorkorderController extends Controller
         } elseif ($status == 3) {
             // Lakukan aksi untuk status = 0
             $item = Workorder::find($id); // Ganti dengan logika Anda untuk mendapatkan item yang sesuai
+            $item->userfix_id =$request->input('userfix_id');
+            $item->date_start =$request->input('date_start');
+            $item->date_end=$request->input('date_end');
+
             $item->status = 3;
             $item->save();
         }

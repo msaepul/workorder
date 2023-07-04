@@ -75,12 +75,8 @@
                                             @endif
                                         @elseif ($workorders->status == 2)
                                             @if (getUserDept() == 'EDP')
-                                                {{-- <button type="submit" name="status" value="3"
-                                                    class="btn btn-success mr-2"
-                                                    onclick="return confirm('Apakah anda ingin membatalkan WO nya?')">Confirm
-                                                    EDP</button> --}}
                                                 <button type="button" class="btn btn-success mr-2" data-toggle="modal"
-                                                    data-target="#confirmModal">Confirm EDP</button>
+                                                    data-target="#confirmModal">Proses WO</button>
 
                                                 <!-- Modal -->
                                                 <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog"
@@ -99,8 +95,14 @@
                                                                 <div class="form-group">
                                                                     <label for="name">Target Selesai</label>
                                                                     <input type="datetime-local" class="form-control"
-                                                                        id="nama_brand" name="nama_brand"
-                                                                        value="{{ old('nama_brand') }}">
+                                                                        id="date_end" name="date_end"
+                                                                        value="{{ old('date_end') }}">
+                                                                    <input type="hidden" class="form-control"
+                                                                        id="date_start" name="date_start"
+                                                                        value="{{ now() }}">
+                                                                    <input type="hidden" class="form-control"
+                                                                        id="userfix_id" name="userfix_id"
+                                                                        value="{{ getUserId() }}">
                                                                 </div>
 
 
@@ -114,17 +116,13 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                            @else
+                                                <span class="btn btn-secondary mr-2 disabled" data-toggle="modal"
+                                                    data-target="#confirmModal">Menunggu EDP Mulai Mengerjakan</span>
                                             @endif
                                         @elseif ($workorders->status == 3)
-                                            @if (getUserDept() == 'EDP')
-                                                <button type="submit" name="status" value="4"
-                                                    class="btn btn-success mr-2"
-                                                    onclick="return confirm('Apakah anda ingin menyelesaikan WO?')">Proses
-                                                    WO</button>
-                                            @endif
-                                        @elseif ($workorders->status == 4)
                                             @if (getUserDept() != 'EDP')
-                                                <button type="submit" name="status" value="5"
+                                                <button type="submit" name="status" value="4"
                                                     class="btn btn-success mr-2"
                                                     onclick="return confirm('Apakah anda ingin menyelesaikan WO?')">WO
                                                     Selesai</button>
@@ -148,18 +146,12 @@
                                         </div>
                                         <div class="status-container">
                                             <div class="box {{ $workorders->status == 3 ? 'bg-primary' : '' }}">
-                                                <span class="status">Confirm EDP</span>
-                                            </div>
-                                            <div class="arrow"></div>
-                                        </div>
-                                        <div class="status-container">
-                                            <div class="box {{ $workorders->status == 4 ? 'bg-primary' : '' }}">
                                                 <span class="status">On Progress</span>
                                             </div>
                                             <div class="arrow"></div>
                                         </div>
                                         <div class="status-container">
-                                            <div class="box {{ $workorders->status == 5 ? 'bg-primary' : '' }}">
+                                            <div class="box {{ $workorders->status == 4 ? 'bg-primary' : '' }}">
                                                 <span class="status">Done</span>
                                             </div>
                                         </div>

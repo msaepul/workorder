@@ -21,6 +21,9 @@ class workorder extends Model
         'keadaan',
         'lampiran',
         'user_id',
+        'userfix_id',
+        'date_start',
+        'date_end',
         'cabang_id'
     ];
     protected $attributes = [
