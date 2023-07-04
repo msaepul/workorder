@@ -1,10 +1,11 @@
 <?php
 
+use App\Models\User;
 use App\Models\Cabang;
+use App\Models\perangkat;
+use App\Models\workorder;
 use App\Models\Modelakses;
 use App\Models\Modelutama;
-use App\Models\workorder;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 if (!function_exists(function: 'cabang')) {
@@ -17,6 +18,13 @@ if (!function_exists(function: 'cabang')) {
         $cabang = $arraycabang->cabang;
 
         return "$cabang";
+    }
+}
+if (!function_exists('getUserId')) {
+    function getUserId()
+    {
+        $id = Auth::user()->id;
+        return $id;
     }
 }
 
@@ -48,6 +56,21 @@ if (!function_exists('getUserName')) {
         return null; // Atau nilai default yang sesuai jika pengguna dengan ID tersebut tidak ditemukan
     }
 }
+
+if (!function_exists('getNamePerangkat')) {
+    function getNamePerangkat($id)
+    {
+        $perangkat = perangkat::find($id);
+
+        if ($perangkat) {
+            $nama_perangkat = $perangkat->nama_perangkat;
+            return $nama_perangkat;
+        }
+
+        return null; // Atau nilai default yang sesuai jika pengguna dengan ID tersebut tidak ditemukan
+    }
+}
+
 
 
 if (!function_exists(function: 'cabangs')) {

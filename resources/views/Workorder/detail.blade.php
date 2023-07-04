@@ -75,21 +75,62 @@
                                             @endif
                                         @elseif ($workorders->status == 2)
                                             @if (getUserDept() == 'EDP')
-                                                <button type="submit" name="status" value="3"
+                                                {{-- <button type="submit" name="status" value="3"
                                                     class="btn btn-success mr-2"
-                                                    onclick="return confirm('Apakah anda ingin membatalkan WO nya?')">Proses
-                                                    WO</button>
+                                                    onclick="return confirm('Apakah anda ingin membatalkan WO nya?')">Confirm
+                                                    EDP</button> --}}
+                                                <button type="button" class="btn btn-success mr-2" data-toggle="modal"
+                                                    data-target="#confirmModal">Confirm EDP</button>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog"
+                                                    aria-labelledby="confirmModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="confirmModalLabel">Konfirmasi
+                                                                    Pengerjaan WO</h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label for="name">Target Selesai</label>
+                                                                    <input type="datetime-local" class="form-control"
+                                                                        id="nama_brand" name="nama_brand"
+                                                                        value="{{ old('nama_brand') }}">
+                                                                </div>
+
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Tutup</button>
+                                                                <button type="submit" name="status" value="3"
+                                                                    class="btn btn-success">Konfirmasi</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             @endif
                                         @elseif ($workorders->status == 3)
-                                            @if (getUserDept() != 'EDP')
+                                            @if (getUserDept() == 'EDP')
                                                 <button type="submit" name="status" value="4"
+                                                    class="btn btn-success mr-2"
+                                                    onclick="return confirm('Apakah anda ingin menyelesaikan WO?')">Proses
+                                                    WO</button>
+                                            @endif
+                                        @elseif ($workorders->status == 4)
+                                            @if (getUserDept() != 'EDP')
+                                                <button type="submit" name="status" value="5"
                                                     class="btn btn-success mr-2"
                                                     onclick="return confirm('Apakah anda ingin menyelesaikan WO?')">WO
                                                     Selesai</button>
                                             @endif
                                         @endif
                                     </form>
-
                                 </div>
                                 @if ($workorders->status != 0)
                                     <div class="right-status">
@@ -107,12 +148,18 @@
                                         </div>
                                         <div class="status-container">
                                             <div class="box {{ $workorders->status == 3 ? 'bg-primary' : '' }}">
-                                                <span class="status">On Progress</span>
+                                                <span class="status">Confirm EDP</span>
                                             </div>
                                             <div class="arrow"></div>
                                         </div>
                                         <div class="status-container">
                                             <div class="box {{ $workorders->status == 4 ? 'bg-primary' : '' }}">
+                                                <span class="status">On Progress</span>
+                                            </div>
+                                            <div class="arrow"></div>
+                                        </div>
+                                        <div class="status-container">
+                                            <div class="box {{ $workorders->status == 5 ? 'bg-primary' : '' }}">
                                                 <span class="status">Done</span>
                                             </div>
                                         </div>
@@ -165,25 +212,26 @@
                                         <div class="form-group row">
                                             <label for="tgl" class="col-sm-2 col-form-label">Tanggal WO</label>
                                             <div class="col-sm-3">
-                                                <input type="text"
-                                                    class="form-control form-control-border disabled-input"
-                                                    name="tgl_dibuat" value="{{ $workorders->wo_create }}">
+                                                <span class="form-control form-control-border disabled-input"
+                                                    name="tgl_dibuat">{{ $workorders->wo_create }} </span>
 
 
                                             </div>
                                             <div class="col-sm-2"></div>
-                                            <label for="jenis" class="col-sm-2 col-form-label" id="jenis_label">
-                                                Perangkat</label>
-                                            <div class="col-sm-3">
-                                                <select class="form-control form-control-border" name="perangkat_id"
-                                                    id="jenis">
-                                                    {{-- @foreach ($listperangkat as $list)
-                                                    <option value="{{ $list->id }}"
-                                                        @if (old('list_id') == $list->id) selected @endif>
-                                                        {{ $list->nama_perangkat }}
-                                                @endforeach --}}
-                                                </select>
-                                            </div>
+                                            @if ($workorders->kategori_wo == 'hardware')
+                                                <label for="jenis" class="col-sm-2 col-form-label" id="jenis_label">
+                                                    Perangkat
+                                                </label>
+                                                <div class="col-sm-3">
+
+                                                    <span class="form-control form-control-border" name="perangkat_id">
+                                                        {{ getNamePerangkat($workorders->perangkat_id) }}
+                                                    </span>
+
+                                                </div>
+                                            @endif
+
+
                                         </div>
                                         <hr>
 
@@ -199,14 +247,14 @@
                                         </div>
                                         <div class="form-group row">
                                             <label for="keadaan" class="col-sm-2 col-form-label">Informasi Keluhan /
-                                                Permintaan {{ $lampiran }}</label>
+                                                Permintaan</label>
                                             <div class="col-sm-10">
                                                 <textarea class="form-control disabled-input" name="keadaan" rows="4" cols="82" style="resize: none;">{{ $workorders->keadaan }}</textarea>
 
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="gambar" class="col-sm-2 col-form-label">Gambar</label>
+                                            <label for="gambar" class="col-sm-2 col-form-label">Lampiran</label>
                                             <div class="col-sm-10">
                                                 @if ($lampiran && file_exists(public_path($lampiran)))
                                                     <a href="{{ asset($lampiran) }}" target="_blank" class="zoom-image">
@@ -226,94 +274,9 @@
     <!-- /.card -->
 
     </div>
-    @if ($workorders->status >= 2)
-        <div class="d-flex justify-content-center">
-            <div class="card card-secondary card-outline col-12 col-md-10">
-                <div class="card-header">
-                    <div class="d-flex align-items-center justify-content-center">
-                        <h3 class="card-title font-weight-bold">Form Work Order</h3>
-                    </div>
-                </div>
-
-                <div class="card-body">
-                    <div class="form-group row">
-                        <label for="nomor" class="col-sm-2 col-form-label">Nomor WO</label>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control form-control-border disabled-input" name="no_wo"
-                                value="{{ $workorders->no_wo }}">
-                        </div>
-                        <div class="col-sm-2"></div>
-                        <label for="kategori" class="col-sm-2 col-form-label">Kategori</label>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control form-control-border disabled-input"
-                                name="kategori_wo" value="{{ $workorders->kategori_wo }}">
-
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="tgl" class="col-sm-2 col-form-label">Tanggal WO</label>
-                        <div class="col-sm-3">
-                            <input type="text" class="form-control form-control-border disabled-input"
-                                name="tgl_dibuat" value="{{ $workorders->wo_create }}">
-
-
-                        </div>
-                        <div class="col-sm-2"></div>
-                        <label for="jenis" class="col-sm-2 col-form-label" id="jenis_label">
-                            Perangkat</label>
-                        <div class="col-sm-3">
-                            <select class="form-control form-control-border" name="perangkat_id" id="jenis">
-                                {{-- @foreach ($listperangkat as $list)
-                                                <option value="{{ $list->id }}"
-                                                    @if (old('list_id') == $list->id) selected @endif>
-                                                    {{ $list->nama_perangkat }}
-                                            @endforeach --}}
-                            </select>
-                        </div>
-                    </div>
-                    <hr>
-
-                    {{-- <h5 class="text-bold mt-5">Uraian Masalah :</h5> --}}
-
-                    <div class="form-group row">
-                        <label for="obyek" class="col-sm-2 col-form-label">Obyek</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control form-control form-control-border disabled-input"
-                                name="obyek" id="obyek" value="{{ $workorders->obyek }}">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="keadaan" class="col-sm-2 col-form-label">Informasi Keluhan /
-                            Permintaan {{ $lampiran }}</label>
-                        <div class="col-sm-10">
-                            <textarea class="form-control disabled-input" name="keadaan" rows="4" cols="82" style="resize: none;">{{ $workorders->keadaan }}</textarea>
-
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="gambar" class="col-sm-2 col-form-label">Gambar</label>
-                        <div class="col-sm-10">
-                            @if ($lampiran && file_exists(public_path($lampiran)))
-                                <a href="{{ asset($lampiran) }}" target="_blank" class="zoom-image">
-                                    <img src="{{ asset($lampiran) }}" alt="Lampiran" class="gambar-kecil">
-                                </a>
-                            @else
-                                <p>Tidak ada lampiran</p>
-                            @endif
-                        </div>
-                    </div>
-                    <h6>(Dibuat Oleh: {{ getFullName($workorders->user_id) }})</h6>
-                    </form>
-                </div>
-            </div>
-
-        </div>
-        <!-- /.content -->
-    @endif
     </section>
     </div>
-    <script>
+    {{-- <script>
         // Hide jenis_perangkat field and its label initially
         document.getElementById('jenis').style.display = 'none';
         document.getElementById('jenis_label').style.display = 'none';
@@ -332,7 +295,7 @@
                 jenisPerangkatLabel.style.display = 'none';
             }
         });
-    </script>
+    </script> --}}
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script src="path/to/jquery.js"></script>
     <script src="path/to/jquery.magnific-popup.js"></script>

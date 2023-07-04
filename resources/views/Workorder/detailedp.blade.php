@@ -77,12 +77,19 @@
                                             @if (getUserDept() == 'EDP')
                                                 <button type="submit" name="status" value="3"
                                                     class="btn btn-success mr-2"
-                                                    onclick="return confirm('Apakah anda ingin membatalkan WO nya?')">Proses
-                                                    WO</button>
+                                                    onclick="return confirm('Apakah anda ingin membatalkan WO nya?')">Confirm
+                                                    EDP</button>
                                             @endif
                                         @elseif ($workorders->status == 3)
-                                            @if (getUserDept() != 'EDP')
+                                            @if (getUserDept() == 'EDP')
                                                 <button type="submit" name="status" value="4"
+                                                    class="btn btn-success mr-2"
+                                                    onclick="return confirm('Apakah anda ingin menyelesaikan WO?')">Proses
+                                                    WO</button>
+                                            @endif
+                                        @elseif ($workorders->status == 4)
+                                            @if (getUserDept() != 'EDP')
+                                                <button type="submit" name="status" value="5"
                                                     class="btn btn-success mr-2"
                                                     onclick="return confirm('Apakah anda ingin menyelesaikan WO?')">WO
                                                     Selesai</button>
@@ -107,12 +114,18 @@
                                         </div>
                                         <div class="status-container">
                                             <div class="box {{ $workorders->status == 3 ? 'bg-primary' : '' }}">
-                                                <span class="status">On Progress</span>
+                                                <span class="status">Confirm EDP</span>
                                             </div>
                                             <div class="arrow"></div>
                                         </div>
                                         <div class="status-container">
                                             <div class="box {{ $workorders->status == 4 ? 'bg-primary' : '' }}">
+                                                <span class="status">On Progress</span>
+                                            </div>
+                                            <div class="arrow"></div>
+                                        </div>
+                                        <div class="status-container">
+                                            <div class="box {{ $workorders->status == 5 ? 'bg-primary' : '' }}">
                                                 <span class="status">Done</span>
                                             </div>
                                         </div>
@@ -237,7 +250,8 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="form-group row"> <label for="tgl" class="col-sm-2 col-form-label">Tanggal WO</label>
+                    <div class="form-group row"> <label for="tgl" class="col-sm-2 col-form-label">Tanggal
+                            Selesai</label>
                         <div class="col-sm-3">
                             <input type="text" class="form-control form-control-border disabled-input"
                                 name="tgl_dibuat" value="{{ $workorders->wo_create }}">

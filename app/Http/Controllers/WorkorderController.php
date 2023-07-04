@@ -34,12 +34,11 @@ class WorkorderController extends Controller
 
 
 
-        if (getUserdept() == 'EDP' ){
+        if (getUserdept() == 'EDP') {
 
             $workorders = workorder::where('cabang_id', '=', $cabang)->get();
-        }else {
+        } else {
             $workorders = workorder::where('user_id', '=', $user)->get();
-
         }
         $users = User::all()->first();
         return view('Workorder.datawo', compact('users', 'workorders'));
@@ -63,7 +62,7 @@ class WorkorderController extends Controller
         $generate = workorder::generateNomor();
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
-           
+
             $currentMonth = date('m');
             $currentYear = date('Y');
             $tujuan_upload = 'Lampiran/Wo/' . cabang() . '/' . $currentYear . '/' . $currentMonth;
@@ -73,7 +72,7 @@ class WorkorderController extends Controller
         } else {
             $lampiran = null;
         }
-        
+
         $workorder = new workorder;
         $workorder->no_wo = $generate;
         $workorder->kategori_wo = $request->input('kategori_wo');
@@ -85,13 +84,12 @@ class WorkorderController extends Controller
         $workorder->status = 1;
         $workorder->cabang_id = $cabang;
         $workorder->lampiran = $lampiran;
-        
+
         // Simpan $workorder ke database
         $workorder->save();
-        
+
         $idwo = workorder::where('no_wo', $generate)->max('id');
         return redirect()->route('Workorder_detail', $idwo);
-        
     }
 
     public function confirm()
@@ -103,10 +101,16 @@ class WorkorderController extends Controller
 
         // Mengambil data berdasarkan ID
         $workorders = workorder::findOrFail($id);
-        
-        $sparepart = Sparepart::where('id_cabang','=',getUserCabang() )->get();
+
+        // $nameperangkat = workorder::join('tb_perangkat', 'workorders.perangkat_id', '=', 'tb_perangkat.id')
+        //     ->where('workorders.id', '=', 30)
+        //     ->select('tb_perangkat.nama_perangkat AS nama_perangkat')
+        //     ->get();
+
         $no_wo = $workorders->lampiran;
         $status = $workorders->status;
+        $sparepart = Sparepart::where('id_cabang', '=', getUserCabang())->get();
+
 
         if ($no_wo !== null) {
             // Pisahkan string berdasarkan delimiter '/'
@@ -124,21 +128,19 @@ class WorkorderController extends Controller
             $lampiran = "null";
         }
 
-
-        if($status >= 2){
-            return view('Workorder.detailedp', compact('workorders', 'lampiran','sparepart'));
-        }else{   
+        if ($status > 2) {
+            return view('Workorder.detailedp', compact('workorders', 'lampiran', 'sparepart'));
+        } else {
             return view('Workorder.detail', compact('workorders', 'lampiran'));
         }
-     
     }
 
     public function editwo($id)
     {
-        
+
         // Mengambil data berdasarkan ID
         $workorders = workorder::findOrFail($id);
-        $listperangkat = perangkat::where('user_id', $id)->get();
+        $listperangkat = perangkat::where('user_id', '=', getUserID())->get();
 
         $no_wo = $workorders->lampiran;
 
@@ -158,11 +160,11 @@ class WorkorderController extends Controller
             $lampiran = "null";
         }
 
-        return view('Workorder.edit', compact('workorders', 'lampiran','listperangkat'));
+        return view('Workorder.edit', compact('workorders', 'lampiran', 'listperangkat'));
     }
     public function editwoproses(Request $request, $id)
     {
-       
+
         $cabang = Auth::user()->cabang;
         $workorder = workorder::findOrFail($id);
 
@@ -186,16 +188,16 @@ class WorkorderController extends Controller
 
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
-           
+
             $tujuan_upload = $lampiran;
             $nama_lampiran = "{$no_wo}.{$file->getClientOriginalExtension()}";
             $nama_file = "{$nomor}.{$file->getClientOriginalExtension()}";
             $file->move($tujuan_upload, $nama_file);
-            $nama = $nama_file;
+            $nama_lampiran = "{$no_wo}.{$file->getClientOriginalExtension()}";
         } else {
-            $nama = null;
+            $nama_lampiran = null;
         }
-      
+
         $workorder->kategori_wo = $request->input('kategori_wo');
         $workorder->perangkat_id = $request->input('perangkat_id');
         $workorder->wo_create = $request->input('tgl_dibuat');
@@ -208,11 +210,7 @@ class WorkorderController extends Controller
         // dd($lampiran);   
         // Simpan $workorder ke database
         $workorder->save();
-
-        // $idwo = workorder::where('no_wo', $generate)->max('id');
         return redirect()->route('Workorder_detail', $id);
-        
-        
     }
 
     public function updateStatus(Request $request, $id)
