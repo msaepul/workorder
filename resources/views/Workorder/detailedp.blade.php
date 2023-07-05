@@ -86,10 +86,14 @@
                                                     class="btn btn-success mr-2"
                                                     onclick="return confirm('Apakah anda ingin menyelesaikan WO?')">Wo
                                                     Selesai</button>
+                                                <input type="hidden" name="date_actual" value="{{ now() }}">
+                                            @else
+                                                <span class="btn btn-secondary mr-2 disabled" data-toggle="modal"
+                                                    data-target="#confirmModal"> EDP Sedang Mengerjakan WO</span>
                                             @endif
 
                                         @endif
-                                    </form>
+
 
                                 </div>
                                 @if ($workorders->status != 0)
@@ -250,205 +254,213 @@
                                     </div>
                                     <div class="form-group row">
 
-                                        <label for="keadaan" class="col-sm-2 col-form-label">Analisa Kerusakan</label>
+                                        <label for="analisa" class="col-sm-2 col-form-label">Analisa Kerusakan</label>
                                         <div class="col-sm-10">
-                                            <textarea class="form-control " name="keadaan" rows="2" cols="42" placeholder="Analisa Kerusakan "
+                                            <textarea class="form-control " name="analisa" rows="2" cols="42" placeholder="Analisa Kerusakan "
                                                 @if (getUserDept() != 'EDP') disabled @endif></textarea>
 
                                         </div>
 
-                                        <label for="keadaan" class="col-sm-2 col-form-label">Tindakan Perbaikan / Detail
+                                        <label for="tindakan" class="col-sm-2 col-form-label">Tindakan Perbaikan / Detail
                                             Penanganan</label>
                                         <div class="col-sm-10 mt-2">
-                                            <textarea class="form-control " name="keadaan" rows="4" cols="82" placeholder="Tindakan Perbaikan"
+                                            <textarea class="form-control " name="tindakan" rows="4" cols="82" placeholder="Tindakan Perbaikan"
                                                 @if (getUserDept() != 'EDP') disabled @endif></textarea>
 
                                         </div>
                                     </div>
                                     <hr>
 
-                                    {{-- <h5 class="text-bold mt-5">Uraian Masalah :</h5> --}}
-                                    <div class="bg-danger rounded d-flex align-items-center justify-content-center">
-                                        <span class="text-white fw-bold fs-10">Suku Cadang / sparepart yang
-                                            digunakan</span>
-                                    </div>
-                                    <table class="table table-bordered text-center pb-2" id="items_table">
-                                        <tr>
-                                            <th>Nama Sparepart </th>
-                                            <th>
-                                                <bold>Stok</bold>
-                                            </th>
-                                            <th>
-                                                <bold>qty</bold>
-                                            </th>
-                                            <th>
-                                                <bold>+/-</bold>
-                                            </th>
-                                        </tr>
-                                        <tr>
+                                    @if ($workorders->status == 3 && getUserDept() == 'EDP')
 
-                                            <td>
-                                                <select class="form-control select2" name="sparepart[]"
-                                                    style="width: 100%;" required onchange="showStok(this)">
-                                                    <option value="">Pilih Sparepart</option>
-                                                    @foreach ($sparepart as $part)
-                                                        <option value="{{ $part->id }}"
-                                                            data-stok="{{ $part->stok }}" style="text-align: left;">
-                                                            {{ $part->nama_sparepart }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
+                                        <div class="bg-danger rounded d-flex align-items-center justify-content-center">
+                                            <span class="text-white fw-bold fs-10">Suku Cadang / sparepart yang
+                                                digunakan</span>
+                                        </div>
+                                        <table class="table table-bordered text-center pb-2" id="items_table">
+                                            <tr>
+                                                <th>Nama Sparepart </th>
+                                                <th>
+                                                    <bold>Stok</bold>
+                                                </th>
+                                                <th>
+                                                    <bold>qty</bold>
+                                                </th>
+                                                <th>
+                                                    <bold>+/-</bold>
+                                                </th>
+                                            </tr>
+                                            <tr>
 
-                                            </td>
-                                            <td style="width: 200px;">
-                                                <input type="text" class="form-control" name="stok[]" value=""
-                                                    disabled>
-                                            </td>
+                                                <td>
+                                                    <select class="form-control select2" name="part[]"
+                                                        style="width: 100%;" required onchange="showStok(this)">
+                                                        <option value="">Pilih Sparepart</option>
+                                                        @foreach ($sparepart as $part)
+                                                            <option value="{{ $part->id }}"
+                                                                data-stok="{{ $part->stok }}"
+                                                                style="text-align: left;">
+                                                                {{ $part->nama_sparepart }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
 
-                                            <td style="width: 200px;">
-                                                <input type="text" class="form-control" name="qty[]"
-                                                    value="{{ old('qty') }}" onkeyup="calculateTotal(this)" required>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-transparent" onclick="addRow()"><i
-                                                        class="fas fa-plus text-primary"></i>
-                                                </button>
+                                                </td>
+                                                <td style="width: 200px;">
+                                                    <input type="text" class="form-control" name="stok[]"
+                                                        value="" disabled>
+                                                </td>
+
+                                                <td style="width: 200px;">
+                                                    <input type="text" class="form-control" name="qty[]"
+                                                        value="{{ old('qty') }}" onkeyup="calculateTotal(this)"
+                                                        required>
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-transparent"
+                                                        onclick="addRow()"><i class="fas fa-plus text-primary"></i>
+                                                    </button>
 
 
-                                            </td>
-                                        </tr>
+                                                </td>
+                                            </tr>
+                                            <script>
+                                                $(document).ready(function() {
+                                                    // Inisialisasi Select2 pada elemen dengan class "item-select"
+                                                    $('.item-select').select2();
+                                                });
 
-                                    </table><br>
+                                                function addRow() {
+                                                    // Mendapatkan jumlah baris saat ini di tabel
+                                                    var rowCount = document.getElementById("items_table").rows.length;
+
+                                                    // Membuat elemen-elemen input baru
+                                                    var newRow = document.getElementById("items_table").insertRow(rowCount);
+                                                    var cell1 = newRow.insertCell(0);
+                                                    var cell2 = newRow.insertCell(1);
+                                                    var cell3 = newRow.insertCell(2);
+                                                    var cell4 = newRow.insertCell(3);
+
+                                                    // Mengatur HTML untuk elemen input baru
+                                                    cell1.innerHTML =
+                                                        '<select class="form-control item-select" name="sparepart[]"style="width: 100%;" onchange="showStok(this)" ><option value="">Pilih Sparepart</option>@foreach ($sparepart as $part)<option value="{{ $part->id }}" data-stok="{{ $part->stok }}">{{ $part->nama_sparepart }}</option>@endforeach</select>';
+                                                    cell3.innerHTML = ' <input type="text" class="form-control" name="qty[]" onkeyup="calculateTotal(this)">';
+                                                    cell2.innerHTML =
+                                                        ' <input type="text" class="form-control" name="stok[]" value="" disabled>';
+                                                    cell4.innerHTML =
+                                                        ' <button type="button" class="btn btn-transparent" onclick="deleteRow(this)"><i class="fas fa-trash text-danger"></i></button>';
+
+                                                    // Menginisialisasi Select2 pada elemen select yang baru dibuat
+                                                    $('.item-select').select2();
+                                                }
+
+                                                function deleteRow(row) {
+                                                    var i = row.parentNode.parentNode.rowIndex;
+                                                    document.getElementById("items_table").deleteRow(i);
+                                                }
+                                            </script>
+                                            <script>
+                                                function showStok(selectElement) {
+                                                    var selectedIndex = selectElement.selectedIndex;
+                                                    var stok = selectElement.options[selectedIndex].getAttribute('data-stok');
+                                                    var row = selectElement.parentNode.parentNode;
+                                                    var stokInput = row.querySelector('input[name="stok[]"]');
+                                                    stokInput.value = stok;
+                                                }
+                                            </script>
+
+                                        </table><br>
+                                    @endif
+
                                     <h6>(Diperbaiki Oleh: {{ Auth::user()->nama_lengkap }})</h6>
-                                    </form>
+
                                 </div>
                             </div>
 
                         </div>
                         <!-- /.content -->
                     @endif
+                    </form>
+                </div>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+                <script>
+                    // Hide jenis_perangkat field and its label initially
+                    document.getElementById('jenis').style.display = 'none';
+                    document.getElementById('jenis_label').style.display = 'none';
+
+                    // Show/hide jenis_perangkat field and its label based on kategori_wo selection
+                    document.getElementById('kategori_wo').addEventListener('change', function() {
+                        var selectedCategory = this.value;
+                        var jenisPerangkatField = document.getElementById('jenis');
+                        var jenisPerangkatLabel = document.getElementById('jenis_label');
+
+                        if (selectedCategory === 'hardware') {
+                            jenisPerangkatField.style.display = 'block';
+                            jenisPerangkatLabel.style.display = 'block';
+                        } else {
+                            jenisPerangkatField.style.display = 'none';
+                            jenisPerangkatLabel.style.display = 'none';
+                        }
+                    });
+                </script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+                <script src="path/to/jquery.js"></script>
+                <script src="path/to/jquery.magnific-popup.js"></script>
+                <script>
+                    $(document).ready(function() {
+                        $('.zoom-image').magnificPopup({
+                            type: 'image'
+                        });
+                    });
+                </script>
+                <script>
+                    var toggleButtons = document.getElementsByClassName('btn-toggle-collapse');
+                    for (var i = 0; i < toggleButtons.length; i++) {
+                        toggleButtons[i].addEventListener('click', function() {
+                            var icon = this.querySelector('i');
+                            if (icon.classList.contains('fa-plus')) {
+                                icon.classList.remove('fa-plus');
+                                icon.classList.add('fa-minus');
+                            } else {
+                                icon.classList.remove('fa-minus');
+                                icon.classList.add('fa-plus');
+                            }
+                        });
+                    }
+                </script>
+
+                <script>
+                    // Waktu akhir dalam format UNIX timestamp
+                    var endTime = new Date("{{ $workorders->date_end }}").getTime();
+
+                    // Update countdown setiap detik
+                    var countdownInterval = setInterval(function() {
+                        // Waktu saat ini
+                        var now = new Date().getTime();
+
+                        // Selisih waktu antara waktu saat ini dan waktu akhir
+                        var remainingTime = endTime - now;
+
+                        // Menghitung hari, jam, menit, dan detik
+                        var days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+                        var hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        var minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+                        var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+                        // Memperbarui tampilan countdown
+                        document.getElementById("countdown").innerHTML = "Sisa Waktu : " +
+                            days + " hari " + hours + " jam " +
+                            minutes +
+                            " menit " + seconds + " detik";
+
+                        // Hentikan countdown saat waktu akhir tercapai
+                        if (remainingTime < 0) {
+                            clearInterval(countdownInterval);
+                            document.getElementById("countdown").innerHTML = "Batas Waktu Pengerjaan telah berakhir";
+                        }
+                    }, 1000); // Update setiap detik
+                </script>
         </section>
-    </div>
-    <script>
-        // Hide jenis_perangkat field and its label initially
-        document.getElementById('jenis').style.display = 'none';
-        document.getElementById('jenis_label').style.display = 'none';
-
-        // Show/hide jenis_perangkat field and its label based on kategori_wo selection
-        document.getElementById('kategori_wo').addEventListener('change', function() {
-            var selectedCategory = this.value;
-            var jenisPerangkatField = document.getElementById('jenis');
-            var jenisPerangkatLabel = document.getElementById('jenis_label');
-
-            if (selectedCategory === 'hardware') {
-                jenisPerangkatField.style.display = 'block';
-                jenisPerangkatLabel.style.display = 'block';
-            } else {
-                jenisPerangkatField.style.display = 'none';
-                jenisPerangkatLabel.style.display = 'none';
-            }
-        });
-    </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <script src="path/to/jquery.js"></script>
-    <script src="path/to/jquery.magnific-popup.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('.zoom-image').magnificPopup({
-                type: 'image'
-            });
-        });
-    </script>
-    <script>
-        var toggleButtons = document.getElementsByClassName('btn-toggle-collapse');
-        for (var i = 0; i < toggleButtons.length; i++) {
-            toggleButtons[i].addEventListener('click', function() {
-                var icon = this.querySelector('i');
-                if (icon.classList.contains('fa-plus')) {
-                    icon.classList.remove('fa-plus');
-                    icon.classList.add('fa-minus');
-                } else {
-                    icon.classList.remove('fa-minus');
-                    icon.classList.add('fa-plus');
-                }
-            });
-        }
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // Inisialisasi Select2 pada elemen dengan class "item-select"
-            $('.item-select').select2();
-        });
-
-        function addRow() {
-            // Mendapatkan jumlah baris saat ini di tabel
-            var rowCount = document.getElementById("items_table").rows.length;
-
-            // Membuat elemen-elemen input baru
-            var newRow = document.getElementById("items_table").insertRow(rowCount);
-            var cell1 = newRow.insertCell(0);
-            var cell2 = newRow.insertCell(1);
-            var cell3 = newRow.insertCell(2);
-            var cell4 = newRow.insertCell(3);
-
-            // Mengatur HTML untuk elemen input baru
-            cell1.innerHTML =
-                '<select class="form-control item-select" name="sparepart[]"style="width: 100%;" onchange="showStok(this)" ><option value="">Pilih Sparepart</option>@foreach ($sparepart as $part)<option value="{{ $part->id }}" data-stok="{{ $part->stok }}">{{ $part->nama_sparepart }}</option>@endforeach</select>';
-            cell3.innerHTML = ' <input type="text" class="form-control" name="qty[]" onkeyup="calculateTotal(this)">';
-            cell2.innerHTML =
-                ' <input type="text" class="form-control" name="stok[]" value="" disabled>';
-            cell4.innerHTML =
-                ' <button type="button" class="btn btn-transparent" onclick="deleteRow(this)"><i class="fas fa-trash text-danger"></i></button>';
-
-            // Menginisialisasi Select2 pada elemen select yang baru dibuat
-            $('.item-select').select2();
-        }
-
-        function deleteRow(row) {
-            var i = row.parentNode.parentNode.rowIndex;
-            document.getElementById("items_table").deleteRow(i);
-        }
-    </script>
-    <script>
-        function showStok(selectElement) {
-            var selectedIndex = selectElement.selectedIndex;
-            var stok = selectElement.options[selectedIndex].getAttribute('data-stok');
-            var row = selectElement.parentNode.parentNode;
-            var stokInput = row.querySelector('input[name="stok[]"]');
-            stokInput.value = stok;
-        }
-    </script>
-
-    <script>
-        // Waktu akhir dalam format UNIX timestamp
-        var endTime = new Date("{{ $workorders->date_end }}").getTime();
-
-        // Update countdown setiap detik
-        var countdownInterval = setInterval(function() {
-            // Waktu saat ini
-            var now = new Date().getTime();
-
-            // Selisih waktu antara waktu saat ini dan waktu akhir
-            var remainingTime = endTime - now;
-
-            // Menghitung hari, jam, menit, dan detik
-            var days = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
-            var hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-
-            // Memperbarui tampilan countdown
-            document.getElementById("countdown").innerHTML = "Sisa Waktu : " +
-                days + " hari " + hours + " jam " +
-                minutes +
-                " menit " + seconds + " detik";
-
-            // Hentikan countdown saat waktu akhir tercapai
-            if (remainingTime < 0) {
-                clearInterval(countdownInterval);
-                document.getElementById("countdown").innerHTML = "Batas Waktu Pengerjaan telah berakhir";
-            }
-        }, 1000); // Update setiap detik
-    </script>
-@endsection
+    @endsection

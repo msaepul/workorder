@@ -24,7 +24,10 @@ class workorder extends Model
         'userfix_id',
         'date_start',
         'date_end',
-        'cabang_id'
+        'cabang_id',
+        'tindakan',
+        'analisa',
+        'is_tx'
     ];
     protected $attributes = [
         'status' => "draft",

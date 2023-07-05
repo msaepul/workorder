@@ -7,8 +7,10 @@ use App\Models\User;
 use App\Models\perangkat;
 use App\Models\Sparepart;
 use App\Models\workorder;
+use App\Models\keluarstok;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 
 class WorkorderController extends Controller
 {
@@ -244,12 +246,43 @@ class WorkorderController extends Controller
 
             $item->status = 3;
             $item->save();
-        }
-        $data->save();
+        } elseif ($status == 4) {
 
 
+            $itemNames = $request->input('part');
+            $qtys = $request->input('qty');
+            $notx = keluarstok::generateNomor();
+            $currentDateTime = now();
+            $formattedDate = $currentDateTime->format('Y-m-d');
+            
+            foreach ($itemNames as $index => $itemName) {
+                // Buat instance model keluarstok
+                $keluarstok = new keluarstok;
+                $keluarstok->id_tx = $notx;
+                $keluarstok->id_spr = $itemName;
+                $keluarstok->qty = $qtys[$index];
+                $keluarstok->tgl_permintaan = $formattedDate;
+                $keluarstok->user_id = $data->user_id;
+                $keluarstok->cabang_id = getUserCabang();
+            // dd($itemNames);
+                // Simpan model ke database
+                $keluarstok->save();
+            }
 
+
+            // Lakukan aksi untuk status = 0
+            $item = Workorder::find($id); // Ganti dengan logika Anda untuk mendapatkan item yang sesuai
+            $item->id_tx = $notx;
+            $item->analisa =$request->input('analisa');
+            $item->tindakan =$request->input('tindakan');
+
+           
+            $item->status = 4;
+            $item->save();
+    
+         }
         // Kembalikan respon atau lakukan pengalihan (redirect) ke halaman yang sesuai
         return redirect()->route('Workorder_detail', $id);
+
     }
 }
