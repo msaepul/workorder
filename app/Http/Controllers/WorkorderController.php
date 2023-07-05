@@ -275,8 +275,6 @@ class WorkorderController extends Controller
             $item->id_tx = $notx;
             $item->analisa =$request->input('analisa');
             $item->tindakan =$request->input('tindakan');
-
-           
             $item->status = 4;
             $item->save();
     
@@ -285,4 +283,6 @@ class WorkorderController extends Controller
         return redirect()->route('Workorder_detail', $id);
 
     }
+
+    
 }

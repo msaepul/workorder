@@ -36,6 +36,20 @@ if (!function_exists('getUserDept')) {
     }
 }
 
+if (!function_exists('getDeptUser')) {
+    function getDeptUser($userId)
+    {
+        $user = User::find($userId);
+
+        if ($user) {
+            $dept = $user->dept;
+            return $dept;
+        }
+
+        return null; // Atau nilai default yang sesuai jika pengguna dengan ID tersebut tidak ditemukan
+    }
+}
+
 if (!function_exists('getUserCabang')) {
     function getUserCabang()
     {

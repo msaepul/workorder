@@ -100,6 +100,7 @@ class SparepartController extends Controller
         $users = $request->input('user');
         $cabangs = $request->input('id_cabang');
         $itemNames = $request->input('sparepart');
+        // dd($itemNames);
         $qtys = $request->input('qty');
         $keterangan = $request->input('keterangan');
         $notx = keluarstok::generateNomor();

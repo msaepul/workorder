@@ -62,16 +62,31 @@
                                                 </div>
                                             </div>
                                         @elseif ($workorders->status == 1)
-                                            @if (getUserDept() == 'EDP')
+                                            @if (getUserDept() == 'EDP' && getDeptUser($workorders->user_id) == 'EDP')
+                                                <button type="submit" name="status" value="2"
+                                                    class="btn btn-success "
+                                                    onclick="return confirm('Apakah anda ingin mengkonfirmasi WO nya?')"><i
+                                                        class="fas fa-check" style="color: #ffffff;"></i> Confirm</button>
+                                                <a href="{{ route('Workorder_edit', ['id' => $workorders->id]) }}"
+                                                    class="btn btn-secondary "> <i class="nav-icon fas fa-edit"></i>
+                                                    Edit</a>
                                                 <button type="submit" name="status" value="0"
                                                     class="btn btn-danger mr-2"
-                                                    onclick="return confirm('Apakah anda ingin membatalkan WO nya?')">Cancel</button>
+                                                    onclick="return confirm('Apakah anda ingin membatalkan WO nya?')"><i
+                                                        class="fa-solid fa-x"></i> Cancel</button>
+                                            @elseif (getUserDept() == 'EDP')
+                                                <button type="submit" name="status" value="0"
+                                                    class="btn btn-danger mr-2"
+                                                    onclick="return confirm('Apakah anda ingin membatalkan WO nya?')"><i
+                                                        class="fa-solid fa-x"></i> Cancel</button>
                                             @else
                                                 <button type="submit" name="status" value="2"
-                                                    class="btn btn-danger mr-2"
-                                                    onclick="return confirm('Apakah anda ingin mengkonfirmasi WO nya?')">Confirm</button>
+                                                    class="btn btn-success "
+                                                    onclick="return confirm('Apakah anda ingin mengkonfirmasi WO nya?')"><i
+                                                        class="fas fa-check" style="color: #ffffff;"></i> Confirm</button>
                                                 <a href="{{ route('Workorder_edit', ['id' => $workorders->id]) }}"
-                                                    class="btn btn-warning">Edit</a>
+                                                    class="btn btn-secondary "> <i class="nav-icon fas fa-edit"></i>
+                                                    Edit</a>
                                             @endif
                                         @elseif ($workorders->status == 2)
                                             @if (getUserDept() == 'EDP')
