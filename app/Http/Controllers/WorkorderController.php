@@ -132,10 +132,13 @@ class WorkorderController extends Controller
             $lampiran = "null";
         }
 
-        if ($status > 2) {
+        if ($status > 2 && $status < 4) {
             return view('Workorder.detailedp', compact('workorders', 'lampiran', 'sparepart','dateTime'));
-        } else {
+        } elseif($status < 2) {
             return view('Workorder.detail', compact('workorders', 'lampiran','dateTime'));
+        }
+        else {
+            return view('Workorder.result', compact('workorders', 'lampiran','dateTime'));
         }
     }
 

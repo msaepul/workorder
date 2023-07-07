@@ -255,13 +255,19 @@
                                                 <label for="tgl" class="col-sm-2 col-form-label">Target
                                                     Selesai</label>
                                                 <div class="col-sm-3">
-                                                    <input type="text"
+                                                    <span type="text"
                                                         class="form-control form-control-border disabled-input"
-                                                        name="tgl_dibuat" value="{{ $workorders->date_end }}">
+                                                        name="tgl_dibuat" value="">{{ $workorders->date_end }}
+                                                    </span>
                                                 </div>
-                                                <div class="col-sm-2"></div>
-                                                <div class="col-sm-5">
-                                                    <div id="countdown" class="countdown"></div>
+                                                <div class="col-2"></div>
+                                                <label for="tgl" class="col-sm-2 col-form-label">Aktual
+                                                    Selesai</label>
+                                                <div class="col-sm-3">
+                                                    <span type="text"
+                                                        class="form-control form-control-border disabled-input"
+                                                        name="tgl_dibuat" value="">{{ $workorders->actual }}
+                                                    </span>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -270,7 +276,7 @@
                                                     Kerusakan</label>
                                                 <div class="col-sm-10">
                                                     <textarea class="form-control " name="analisa" rows="2" cols="42" placeholder="Analisa Kerusakan "
-                                                        @if (getUserDept() != 'EDP') disabled @endif></textarea>
+                                                        disabled> {{ $workorders->analisa }}</textarea>
 
                                                 </div>
 
@@ -279,14 +285,13 @@
                                                     Penanganan</label>
                                                 <div class="col-sm-10 mt-2">
                                                     <textarea class="form-control " name="tindakan" rows="4" cols="82" placeholder="Tindakan Perbaikan"
-                                                        @if (getUserDept() != 'EDP') disabled @endif></textarea>
+                                                        disabled> {{ $workorders->tindakan }}</textarea>
 
                                                 </div>
                                             </div>
                                             <hr>
 
                                             @if ($workorders->status == 3 && getUserDept() == 'EDP')
-
                                                 <div
                                                     class="bg-danger rounded d-flex align-items-center justify-content-center">
                                                     <span class="text-white fw-bold fs-10">Suku Cadang / sparepart yang
@@ -308,7 +313,7 @@
                                                     <tr>
 
                                                         <td>
-                                                            <select class="form-control select2" name="part[]"
+                                                            {{-- <select class="form-control select2" name="part[]"
                                                                 style="width: 100%;" required onchange="showStok(this)">
                                                                 <option value="">Pilih Sparepart</option>
                                                                 @foreach ($sparepart as $part)
@@ -318,7 +323,7 @@
                                                                         {{ $part->nama_sparepart }}
                                                                     </option>
                                                                 @endforeach
-                                                            </select>
+                                                            </select> --}}
 
                                                         </td>
                                                         <td style="width: 200px;">
@@ -385,7 +390,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             // Inisialisasi Select2 pada elemen dengan class "item-select"
             $('.item-select').select2();
@@ -419,7 +424,7 @@
             var i = row.parentNode.parentNode.rowIndex;
             document.getElementById("items_table").deleteRow(i);
         }
-    </script>
+    </script> --}}
     <script>
         function showStok(selectElement) {
             var selectedIndex = selectElement.selectedIndex;

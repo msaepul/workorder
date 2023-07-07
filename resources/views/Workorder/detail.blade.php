@@ -209,9 +209,10 @@
                                             <div class="col-sm-2"></div>
                                             <label for="kategori" class="col-sm-2 col-form-label">Kategori</label>
                                             <div class="col-sm-3">
-                                                <input type="text"
+                                                <span type="text"
                                                     class="form-control form-control-border disabled-input"
-                                                    name="kategori_wo" value="{{ $workorders->kategori_wo }}">
+                                                    name="kategori_wo" value="">{{ $workorders->kategori_wo }}
+                                                </span>
 
                                             </div>
                                         </div>
@@ -247,16 +248,18 @@
                                         <div class="form-group row">
                                             <label for="obyek" class="col-sm-2 col-form-label">Obyek</label>
                                             <div class="col-sm-10">
-                                                <input type="text"
+                                                <span type="text"
                                                     class="form-control form-control form-control-border disabled-input"
-                                                    name="obyek" id="obyek" value="{{ $workorders->obyek }}">
+                                                    name="obyek" id="obyek"
+                                                    value="">{{ $workorders->obyek }} </span>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="keadaan" class="col-sm-2 col-form-label">Informasi Keluhan /
                                                 Permintaan</label>
                                             <div class="col-sm-10">
-                                                <textarea class="form-control disabled-input" name="keadaan" rows="4" cols="82" style="resize: none;">{{ $workorders->keadaan }}</textarea>
+                                                <textarea class="form-control disabled-input" name="keadaan" rows="4" cols="82" style="resize: none;"
+                                                    readonly>{{ $workorders->keadaan }}</textarea>
 
                                             </div>
                                         </div>
@@ -274,35 +277,17 @@
                                             </div>
                                         </div>
                                         <h6>(Dibuat Oleh: {{ getFullName($workorders->user_id) }})</h6>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.card -->
+
+                        </div>
                     </form>
-                </div>
-            </div>
+        </section>
     </div>
-    <!-- /.card -->
 
-    </div>
-    </section>
-    </div>
-    {{-- <script>
-        // Hide jenis_perangkat field and its label initially
-        document.getElementById('jenis').style.display = 'none';
-        document.getElementById('jenis_label').style.display = 'none';
-
-        // Show/hide jenis_perangkat field and its label based on kategori_wo selection
-        document.getElementById('kategori_wo').addEventListener('change', function() {
-            var selectedCategory = this.value;
-            var jenisPerangkatField = document.getElementById('jenis');
-            var jenisPerangkatLabel = document.getElementById('jenis_label');
-
-            if (selectedCategory === 'hardware') {
-                jenisPerangkatField.style.display = 'block';
-                jenisPerangkatLabel.style.display = 'block';
-            } else {
-                jenisPerangkatField.style.display = 'none';
-                jenisPerangkatLabel.style.display = 'none';
-            }
-        });
-    </script> --}}
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <script src="path/to/jquery.js"></script>
     <script src="path/to/jquery.magnific-popup.js"></script>
