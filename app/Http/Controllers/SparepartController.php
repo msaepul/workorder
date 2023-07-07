@@ -17,11 +17,7 @@ class SparepartController extends Controller
 
     {
 
-
-        $sparepart = sparepart::join('tb_supplier', 'tb_sparepart.supplier', '=', 'tb_supplier.id')
-            ->select('tb_sparepart.*', 'tb_supplier.nama_supplier AS nama_supplier')
-            ->get();
-        // $sparepart = Sparepart::all();
+        $sparepart = Sparepart::where('id_cabang','=', getUserCabang())->get();
         $results = [];
 
         foreach ($sparepart as $part) {
@@ -36,7 +32,7 @@ class SparepartController extends Controller
     //Sparepart in
     public function txsparepart()
     {
-        $sparepart = Sparepart::all();
+        $sparepart = Sparepart::where('id_cabang','=', getUserCabang())->get();
         $suppliers = supplier::all();
         $cabang = session('cabang');
         return view('Masterdata.sparepart.addsparepart', compact('sparepart', 'suppliers', 'cabang'));
@@ -143,7 +139,7 @@ class SparepartController extends Controller
         $sparepart->supplier = $request->input('supplier');
         $sparepart->stok = 0;
         $sparepart->harga = 0;
-        $sparepart->id_cabang = $request->input('id_cabang');
+        $sparepart->id_cabang = getUserCabang();
 
         $sparepart->save();
 

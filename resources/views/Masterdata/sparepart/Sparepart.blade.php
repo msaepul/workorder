@@ -66,7 +66,7 @@
                                             <th>Total Harga</th>
                                             <th>Pembelian Terakhir</th>
 
-                                            <th>Action</th>
+                                            <th>Action </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -75,7 +75,7 @@
                                                 <td> {{ $loop->iteration }} </td>
                                                 <td>{{ $part->nama_sparepart }}</td>
 
-                                                <td>{{ $part->nama_supplier }}</td>
+                                                <td>{{ getSupplierName($part->supplier) }}</td>
                                                 <td>{{ 'Rp ' . number_format($part->harga) }}</td>
                                                 <td>{{ $part->stok }}</td>
                                                 <td>{{ 'Rp ' . number_format($results[$key]) }}</td>

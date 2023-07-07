@@ -3,6 +3,7 @@
 use App\Models\User;
 use App\Models\Cabang;
 use App\Models\perangkat;
+use App\Models\Supplier;
 use App\Models\workorder;
 use App\Models\Modelakses;
 use App\Models\Modelutama;
@@ -112,6 +113,22 @@ if (!function_exists(function: 'dept')) {
         return "$cabangs";
     }
 }
+
+if (!function_exists('getSupplierName')) {
+    function getSupplierName($id)
+    {
+        $supplier = Supplier::find($id);
+
+        if ($supplier) {
+            $nama_supplier = $supplier->nama_supplier;
+            return $nama_supplier;
+        }
+
+        return null; // Atau nilai default yang sesuai jika pengguna dengan ID tersebut tidak ditemukan
+    }
+}
+
+
 
 if (!function_exists(function: 'gender')) {
     function gender()

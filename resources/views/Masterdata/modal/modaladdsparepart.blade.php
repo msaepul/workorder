@@ -15,6 +15,7 @@
                         <label for="name">Nama Sparepart</label>
                         <input type="text" class="form-control" id="nama_sparepart" name="nama_sparepart"
                             value="{{ old('nama_sparepart') }}" placeholder="Nama Sparepart">
+                        <input type="hidden" name="cabang_id" value="{{ getUserCabang() }}">
                     </div>
 
 

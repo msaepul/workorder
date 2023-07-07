@@ -35,10 +35,7 @@ class WorkorderController extends Controller
         $cabang = Auth::user()->cabang;
         $user = Auth::user()->id;
 
-
-
         if (getUserdept() == 'EDP') {
-
             $workorders = workorder::where('cabang_id', '=', $cabang)->get();
         } else {
             $workorders = workorder::where('user_id', '=', $user)->get();
@@ -134,7 +131,7 @@ class WorkorderController extends Controller
 
         if ($status > 2 && $status < 4) {
             return view('Workorder.detailedp', compact('workorders', 'lampiran', 'sparepart','dateTime'));
-        } elseif($status < 2) {
+        } elseif($status <= 2) {
             return view('Workorder.detail', compact('workorders', 'lampiran','dateTime'));
         }
         else {
