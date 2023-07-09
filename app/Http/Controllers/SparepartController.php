@@ -100,11 +100,54 @@ class SparepartController extends Controller
     public function historyrequest()
     {
 
-        $history = keluarstok::where('user_id', '=', getUserId())->get();
-        $groupedHistory = $history->groupBy('id_tx');
-        return view('Masterdata.sparepart.historyrequestsparepart', compact('history', 'groupedHistory'));
+        $items = keluarstok::where('user_id', '=', getUserId())->get();
+        $groupedHistory = $items->groupBy('id_tx');
+        return view('Masterdata.sparepart.historyrequestsparepart', compact('items', 'groupedHistory'));
     }
 
+    //Sparepart in
+    public function detailrequestsparepart($id)
+    {
+  $items = keluarstok::where('user_id', '=', getUserId())->get();
+    
+        $users = user::all();
+        $sparepart = Sparepart::where('stok', '>', 0)->get();
+        $cabang = session('cabang');
+      
+        $data = keluarstok::findOrFail($id);
+        $items = keluarstok::where('id_tx', $data->id_tx)->get();
+        $groupedHistory = $items->groupBy('id_tx');
+        return view('Masterdata.sparepart.detailrequestsparepart', compact('users', 'sparepart', 'cabang', 'data', 'groupedHistory'));
+        
+    }
+
+       //edit Sparepart Request
+       public function editrequestsparepart($id)
+       {
+       
+           $users = user::all();
+           $sparepart = Sparepart::where('stok', '>', 0)->get();
+           $cabang = session('cabang');
+         
+           $data = keluarstok::findOrFail($id);
+           $items = keluarstok::where('id_tx', $data->id_tx)->get();
+           $groupedHistory = $items->groupBy('id_tx');
+           return view('Masterdata.sparepart.editrequestsparepart', compact('users', 'sparepart', 'cabang', 'data', 'groupedHistory'));
+           
+       }
+
+        //edit Sparepart Request
+        public function editrequestsparepartproses(Request $request, $id)
+        {
+        
+
+          
+            $data = keluarstok::findOrFail($id);
+
+            
+            return redirect()->route('detailrequest_sparepart', $id);
+            
+        }
 
     //transaksi sparepart
     public function txsparepartoutproses(Request $request)

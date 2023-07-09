@@ -73,13 +73,14 @@
                                                         <td rowspan="{{ count($items) }}" class="align-middle text-center">
                                                             {{ $idTx }}</td>
                                                     @endif
-                                                    <td class="text-center">{{ $item->id_spr }}</td>
+                                                    <td class="text-left">{{ getNamesparepart($item->id_spr) }}</td>
                                                     <td class="text-center">{{ $item->qty }}</td>
                                                     @if ($index === 0)
                                                         <td rowspan="{{ count($items) }}" class="align-middle text-center">
                                                             {{ $item->status }}</td>
                                                         <td rowspan="{{ count($items) }}" class="align-middle text-center">
-                                                            <a href="" class="btn btn-primary">Detail</a>
+                                                            <a href="{{ route('detailrequest_sparepart', $item->id) }}"
+                                                                class="btn btn-primary">Detail</a>
                                                         </td>
                                                     @endif
                                                 </tr>

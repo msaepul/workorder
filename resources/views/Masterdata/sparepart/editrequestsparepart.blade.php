@@ -11,7 +11,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Request Sparepart </h1>
+                        <h1>Edit Request Sparepart {{ $data->id_tx }}</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -25,47 +25,15 @@
 
         <!-- Main content -->
         <section class="content center">
-            <form method="POST" action="{{ route('sparepartout_proses') }}">
+            <form method="POST" action="{{ route('updaterequest_sparepart', $data->id) }}">
                 @csrf
-                <div class="d-flex justify-content-center ">
-                    <div class="card card-flat col-12 col-md-10" style="height: 60px; ">
-                        <div class="card-body-a d-flex align-items-center">
-                            <div class="left-links">
-                                <div class="status-container">
-                                    <div class="box bg-secondary disabled-input">
-                                        <span class="status">Cancel</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="right-status">
-                                <div class="status-container">
-                                    <div class="box bg-primary">
-                                        <span class="status">Draft</span>
-                                    </div>
-                                    <div class="arrow"></div>
-                                </div>
-                                <div class="status-container">
-                                    <div class="box">
-                                        <span class="status">Confirm</span>
-                                    </div>
-                                    <div class="arrow"></div>
-                                </div>
-                                <div class="status-container">
-                                    <div class="box">
-                                        <span class="status">Confirm</span>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @method('PUT')
                 <div class="d-flex justify-content-center">
                     <div class="card card-success card-outline col-12 col-md-10">
                         <div class="card-header">
                             <h3 class="card-title">
                                 <i class="fas fa-edit"></i>
-                                Tx sparepart Keluar
+                                Tx sparepart request {{ $data->id_tx }}
                             </h3>
                         </div>
                         <div class="card-body pad table-responsive">
@@ -84,30 +52,20 @@
                                     </ul>
 
                                 </div>
-
-
                             @endif
-
                             <div class="row pb-2">
                                 <div class="col-md-4">
                                     <label for="tgl_permintaan">Tanggal Permintaan</label>
-                                    <input type="date" class="form-control" name="tgl_permintaan"
-                                        value="{{ old('tgl_permintaan') }} " required>
-                                </div>
-                                <div class="col-md-3">
-
-                                </div>
-                                <div class="col-md-5">
-                                    <label for="harga_terbaru">Keterangan</label>
-                                    <textarea class="form-control" name="keterangan" required>{{ old('keterangan') }}</textarea>
-                                </div>
+                                    <input type="date" class="form-control form-control-border disabled-input"
+                                        name="tgl_permintaan" value="{{ $data->tgl_permintaan }}" min="{{ date('Y-m-d') }}">
 
 
+                                </div>
                             </div>
 
                             <hr>
                             <div class="bg-success rounded d-flex align-items-center justify-content-center">
-                                <span class="text-white fw-bold fs-10">Rincian Barang</span>
+                                <span class="text-white fw-bold fs-10">Rincian Permintaan Barang</span>
                             </div>
 
 
@@ -117,60 +75,60 @@
                             <table class="table table-bordered text-center pb-2" id="items_table">
                                 <tr>
                                     <th>Nama Sparepart</th>
-                                    <th>
+                                    {{-- <th>
                                         <bold>Stok</bold>
-                                    </th>
+                                    </th> --}}
                                     <th>
                                         <bold>qty</bold>
                                     </th>
                                     <th>
-                                        <bold>+/-</bold>
+                                        <bold>Keterangan</bold>
                                     </th>
                                 </tr>
-                                <tr>
-
-                                    <td>
-                                        <select class="form-control select2" name="sparepart[]" style="width: 100%;"
-                                            required onchange="showStok(this)">
-                                            <option value="">Pilih Sparepart</option>
-                                            @foreach ($sparepart as $part)
-                                                <option value="{{ $part->id }}" data-stok="{{ $part->stok }}"
-                                                    style="text-align: left;">
-                                                    {{ $part->nama_sparepart }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-
-                                    </td>
-                                    <td style="width: 200px;">
-                                        <input type="text" class="form-control" name="stok[]" value="" disabled>
-                                    </td>
-
-                                    <td style="width: 200px;">
-                                        <input type="text" class="form-control" name="qty[]"
-                                            value="{{ old('qty') }}" onkeyup="calculateTotal(this)" required>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-transparent" onclick="addRow()"><i
-                                                class="fas fa-plus text-primary"></i>
-                                        </button>
-
-
-                                    </td>
-                                </tr>
-
+                                @foreach ($groupedHistory as $id_tx => $group)
+                                    @php
+                                        $groupSize = count($group);
+                                    @endphp
+                                    @foreach ($group as $key => $item)
+                                        <tr>
+                                            <td style="width: 60%">
+                                                <select class="form-control select2" name="sparepart[]" style="width: 100%;"
+                                                    required onchange="showStok(this)">
+                                                    <option value="">Pilih Sparepart</option>
+                                                    @foreach ($sparepart as $part)
+                                                        <option value="{{ $part->id }}" data-stok="{{ $part->stok }}"
+                                                            style="text-align: left;"
+                                                            {{ $part->id == $item['id_spr'] ? 'selected' : '' }}>
+                                                            {{ $part->nama_sparepart }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control" name="qty[]"
+                                                    value="{{ $item['qty'] }}">
+                                            </td>
+                                            @if ($key === 0)
+                                                <td class="align-middle text-center" rowspan="{{ $groupSize }}">
+                                                    <textarea type="text" class="form-control" name="keterangan[]" value="">{{ $item->keterangan }} </textarea>
+                                                </td>
+                                            @endif
+                                        </tr>
+                                    @endforeach
+                                @endforeach
                             </table>
 
                             <br>
 
-                            <div class="form-group">
+                            <div class="form-group text-center">
                                 <div class="card-footer">
                                     <input type="button" class="btn btn-secondary float-start" value="Cancel"
                                         onclick="window.history.back();">
-
-                                    <input type="submit" class="btn btn-success float-end" value="Minta Sparepart">
+                                    <input type="submit" class="btn btn-success float-end" value="Simpan">
                                 </div>
                             </div>
+
+
             </form>
     </div>
 

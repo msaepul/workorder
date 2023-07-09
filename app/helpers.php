@@ -3,6 +3,7 @@
 use App\Models\User;
 use App\Models\Cabang;
 use App\Models\perangkat;
+use App\Models\Sparepart;
 use App\Models\Supplier;
 use App\Models\workorder;
 use App\Models\Modelakses;
@@ -80,6 +81,20 @@ if (!function_exists('getNamePerangkat')) {
         if ($perangkat) {
             $nama_perangkat = $perangkat->nama_perangkat;
             return $nama_perangkat;
+        }
+
+        return null; // Atau nilai default yang sesuai jika pengguna dengan ID tersebut tidak ditemukan
+    }
+}
+
+if (!function_exists('getNamesparepart')) {
+    function getNamesparepart($id)
+    {
+        $sparepart = Sparepart::find($id);
+
+        if ($sparepart) {
+            $nama_sparepart = $sparepart->nama_sparepart;
+            return $nama_sparepart;
         }
 
         return null; // Atau nilai default yang sesuai jika pengguna dengan ID tersebut tidak ditemukan

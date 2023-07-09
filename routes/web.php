@@ -96,7 +96,9 @@ Route::middleware('auth')->group(function () {
 
         Route::get('request', [SparepartController::class, 'requestsparepart'])->name('request_sparepart');
         Route::get('history', [SparepartController::class, 'historyrequest'])->name('history_sparepart');
-        Route::put('detail/{id}', [SparepartController::class, 'detailrequestsparepart'])->name('detailrequest_sparepart');
+        Route::get('detail/{id}', [SparepartController::class, 'detailrequestsparepart'])->name('detailrequest_sparepart');
+        Route::get('edit/request/{id}', [SparepartController::class, 'editrequestsparepart'])->name('editrequest_sparepart');
+        Route::put('editrequest/{id}', [SparepartController::class, 'editrequestsparepartproses'])->name('updaterequest_sparepart');
 
         Route::get('tambah', [SparepartController::class, 'txsparepart'])->name('add_sparepart');
         Route::post('tambah', [SparepartController::class, 'txsprproses'])->name('sparepart_proses');
@@ -104,7 +106,7 @@ Route::middleware('auth')->group(function () {
         Route::get('keluar', [SparepartController::class, 'txsparepartout'])->name('out_sparepart');
         Route::post('keluar', [SparepartController::class, 'txsparepartoutproses'])->name('sparepartout_proses');
 
-        Route::get('{id}/edit', [SparepartController::class, 'editsparepart'])->name('sparepart_edit');
+        Route::get('edit/{id}', [SparepartController::class, 'editsparepart'])->name('sparepart_edit');
         Route::put('{id}', [SparepartController::class, 'updatesparepart'])->name('sparepart_update');
         Route::delete('{id}', [SparepartController::class, 'hapussparepart'])->name('destroy_sparepart');
     });
