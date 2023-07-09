@@ -101,7 +101,8 @@ class SparepartController extends Controller
     {
 
         $history = keluarstok::where('user_id', '=', getUserId())->get();
-        return view('Masterdata.sparepart.historyrequestsparepart', compact('history'));
+        $groupedHistory = $history->groupBy('id_tx');
+        return view('Masterdata.sparepart.historyrequestsparepart', compact('history', 'groupedHistory'));
     }
 
 

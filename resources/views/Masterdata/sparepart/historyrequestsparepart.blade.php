@@ -54,7 +54,7 @@
                                 <table id="dari" class="table table-sm table-bordered table-striped user_datatable">
                                     <thead class="">
                                         <tr>
-                                            <th rowspan="2" class="align-middle text-center">No</th>
+                                            {{-- <th rowspan="2" class="align-middle text-center">No</th> --}}
                                             <th rowspan="2" class="align-middle text-center">No Transaksi</th>
                                             <th colspan="2" class="text-center">Rincian Sparepart</th>
                                             <th rowspan="2" class="align-middle text-center">Status</th>
@@ -66,19 +66,27 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($history as $h)
-                                            <tr>
-                                                <td class="text-center">{{ $loop->iteration }}</td>
-                                                <td class="text-center">{{ $h->id_tx }}</td>
-                                                <td class="text-center">{{ $h->id_spr }}</td>
-                                                <td class="text-center">{{ $h->qty }}</td>
-                                                <td class="text-center">{{ $h->status }}</td>
-                                                <td class="text-center">
-                                                    <a href="" class="btn btn-primary">Detail</a>
-                                                </td>
-                                            </tr>
+                                        @foreach ($groupedHistory as $idTx => $items)
+                                            @foreach ($items as $index => $item)
+                                                <tr>
+                                                    @if ($index === 0)
+                                                        <td rowspan="{{ count($items) }}" class="align-middle text-center">
+                                                            {{ $idTx }}</td>
+                                                    @endif
+                                                    <td class="text-center">{{ $item->id_spr }}</td>
+                                                    <td class="text-center">{{ $item->qty }}</td>
+                                                    @if ($index === 0)
+                                                        <td rowspan="{{ count($items) }}" class="align-middle text-center">
+                                                            {{ $item->status }}</td>
+                                                        <td rowspan="{{ count($items) }}" class="align-middle text-center">
+                                                            <a href="" class="btn btn-primary">Detail</a>
+                                                        </td>
+                                                    @endif
+                                                </tr>
+                                            @endforeach
                                         @endforeach
                                     </tbody>
+
                                 </table>
 
                             </div>
