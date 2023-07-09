@@ -17,7 +17,7 @@ class SparepartController extends Controller
 
     {
 
-        $sparepart = Sparepart::where('id_cabang','=', getUserCabang())->get();
+        $sparepart = Sparepart::where('id_cabang', '=', getUserCabang())->get();
         $results = [];
 
         foreach ($sparepart as $part) {
@@ -32,7 +32,7 @@ class SparepartController extends Controller
     //Sparepart in
     public function txsparepart()
     {
-        $sparepart = Sparepart::where('id_cabang','=', getUserCabang())->get();
+        $sparepart = Sparepart::where('id_cabang', '=', getUserCabang())->get();
         $suppliers = supplier::all();
         $cabang = session('cabang');
         return view('Masterdata.sparepart.addsparepart', compact('sparepart', 'suppliers', 'cabang'));
@@ -87,31 +87,50 @@ class SparepartController extends Controller
         return view('Masterdata.sparepart.outsparepart', compact('sparepart', 'users', 'cabang'));
     }
 
+    //Sparepart in
+    public function requestsparepart()
+    {
+        $users = user::all();
+        $sparepart = Sparepart::where('stok', '>', 0)->get();
+        $cabang = session('cabang');
+        return view('Masterdata.sparepart.requestsparepart', compact('sparepart', 'users', 'cabang'));
+    }
+
+    //Sparepart in
+    public function historyrequest()
+    {
+
+        $history = keluarstok::where('user_id', '=', getUserId())->get();
+        return view('Masterdata.sparepart.historyrequestsparepart', compact('history'));
+    }
+
 
     //transaksi sparepart
     public function txsparepartoutproses(Request $request)
     {
 
         $tgls = $request->input('tgl_permintaan');
-        $users = $request->input('user');
+        $users = $request->input('user_id');
         $cabangs = $request->input('id_cabang');
         $itemNames = $request->input('sparepart');
         // dd($itemNames);
         $qtys = $request->input('qty');
         $keterangan = $request->input('keterangan');
+        $status =  $request->input('status');
         $notx = keluarstok::generateNomor();
+
         // Loop melalui data input
         foreach ($itemNames as $index => $itemName) {
             // Buat instance model keluarstok
             $keluarstok = new keluarstok;
-
             // Set atribut-atribut model
-            $keluarstok->user_id = $users;
-            $keluarstok->cabang_id = $cabangs;
             $keluarstok->id_tx = $notx;
+            $keluarstok->user_id = getUserId();
+            $keluarstok->cabang_id = $cabangs;
             $keluarstok->tgl_permintaan = $tgls;
             $keluarstok->id_spr = $itemName;
             $keluarstok->keterangan = $keterangan;
+            $keluarstok->status = $status;
             $keluarstok->qty = $qtys[$index];
 
 
@@ -120,11 +139,15 @@ class SparepartController extends Controller
         }
 
 
+        if ($status == 1) {
+            return redirect()->route('request_sparepart')->with('success', 'Data sparepart berhasil dikeluarkan.');
+            // Melakukan redirect dan menyertakan pesan sukses
 
-        return redirect()->route('out_sparepart')->with('success', 'Data sparepart berhasil dikeluarkan.');
-        // Melakukan redirect dan menyertakan pesan sukses
+        } else {
+            return redirect()->route('out_sparepart')->with('success', 'Data sparepart berhasil dikeluarkan.');
+            // Melakukan redirect dan menyertakan pesan sukses
 
-
+        }
     }
     public function storesparepart(Request $request)
     {

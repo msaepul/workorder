@@ -48,59 +48,67 @@ Route::middleware('auth')->group(function () {
 
 
     //Routing WO
+    Route::prefix('Workorder')->group(function () {
+        Route::get('', [WorkorderController::class, 'create'])->name('Workorder_create');
+        Route::get('detail/{id}', [WorkorderController::class, 'detailwo'])->name('Workorder_detail');
+        Route::get('edit/{id}', [WorkorderController::class, 'editwo'])->name('Workorder_edit');
+        Route::put('edit/{id}', [WorkorderController::class, 'editwoproses'])->name('Workorder_editproses');
+        Route::get('{id}', [WorkorderController::class, 'confirm'])->name('wo_confadmin');
+        Route::post('', [WorkorderController::class, 'woproses'])->name('Workorder_proses');
+        Route::post('updates/{id}', [WorkorderController::class, 'updateStatus'])->name('woupdate_status');
+        Route::post('update/{id}', [WorkorderController::class, 'updateStatus2'])->name('woupdate_status2');
+        Route::get('datawo', [WorkorderController::class, 'datawo'])->name('Dataworkorder');
+    });
 
-    Route::get('Workorder', [WorkorderController::class, 'create'])->name('Workorder_create');
-    Route::get('Workorder/detail/{id}', [WorkorderController::class, 'detailwo'])->name('Workorder_detail');
-    Route::get('Workorder/edit/{id}', [WorkorderController::class, 'editwo'])->name('Workorder_edit');
-    Route::put('Workorder/edit/{id}', [WorkorderController::class, 'editwoproses'])->name('Workorder_editproses');
-    Route::get('Workorder/{id}', [WorkorderController::class, 'confirm'])->name('wo_confadmin');
-    Route::post('Workorder', [WorkorderController::class, 'woproses'])->name('Workorder_proses');
-    Route::post('/workorder/updates/{id}', [WorkorderController::class, 'updateStatus'])->name('woupdate_status');
-    Route::post('/workorder/update/{id}', [WorkorderController::class, 'updateStatus2'])->name('woupdate_status2');
 
-    Route::get('datawo', [WorkorderController::class, 'datawo'])->name('Dataworkorder');
-
-
-    //Routing TPM
-    Route::get('TPMRingan', [TPMController::class, 'TPMRingan'])->name('TPMRingan');
-    Route::get('TPMBerat', [TPMController::class, 'TPMBerat'])->name('TPMBerat');
-    Route::get('JadwalTPM', [TPMController::class, 'JadwalTPM'])->name('JadwalTPM');
-
+    Route::prefix('TPM')->group(function () {
+        Route::get('Ringan', [TPMController::class, 'TPMRingan'])->name('TPMRingan');
+        Route::get('Berat', [TPMController::class, 'TPMBerat'])->name('TPMBerat');
+        Route::get('Jadwal', [TPMController::class, 'JadwalTPM'])->name('JadwalTPM');
+    });
 
     // Routing Master Data User
-    Route::get('user', [MasterController::class, 'user'])->name('user');
-    Route::post('user', [MasterController::class, 'userProses'])->name('user_proses');
-    Route::patch('/user/{id}', ['as' => 'user.update', 'uses' => 'App\Http\Controllers\MasterController@updateUser']);
-    Route::delete('/delete/{id}', ['as' => 'user.delete', 'uses' => 'App\Http\Controllers\MasterController@deleteUser']);
-    Route::delete('user/{$id}', [MasterController::class, 'delete']);
-
-    //Routing Master Data Perangkat
-    Route::get('perangkat', [MasterController::class, 'perangkat'])->name('perangkat');
-    Route::post('perangkat-proses', [MasterController::class, 'perangkatproses'])->name('perangkat_proses');
-    Route::get('add-perangkat', [MasterController::class, 'tambahperangkat'])->name('add_perangkat');
-    Route::get('/edit-perangkat/{id}', [MasterController::class, 'editperangkat'])->name('edit-perangkat');
-    // Route::put('/perangkat/{id}', [MasterController::class, 'editperangkat'])->name('update-perangkat');
-    Route::put('/perangkat/{id}', [MasterController::class, 'updateperangkat'])->name('update_perangkat');
-    Route::delete('/perangkat/{id}', [MasterController::class, 'hapusperangkat'])->name('destroy_perangkat');
-
-    //Routing Master Data Sparepart   
-    Route::get('sparepart', [SparepartController::class, 'sparepart'])->name('sparepart');
+    Route::prefix('user')->group(function () {
+        Route::get('', [MasterController::class, 'user'])->name('user');
+        Route::post('', [MasterController::class, 'userProses'])->name('user_proses');
+        Route::patch('/{id}', ['as' => 'user.update', 'uses' => 'App\Http\Controllers\MasterController@updateUser']);
+        Route::delete('/delete/{id}', ['as' => 'user.delete', 'uses' => 'App\Http\Controllers\MasterController@deleteUser']);
+        Route::delete('/{id}', [MasterController::class, 'delete']);
+    });
 
 
-    // Route::get('sparepart/tambah', [SparepartController::class, 'txsparepart'])->name('add_sprbaru');
-    Route::post('sparepart-proses', [SparepartController::class, 'storesparepart'])->name('add_sprbaru');
+
+    Route::prefix('perangkat')->group(function () {
+        Route::get('', [MasterController::class, 'perangkat'])->name('perangkat');
+        Route::post('proses', [MasterController::class, 'perangkatproses'])->name('perangkat_proses');
+        Route::get('add', [MasterController::class, 'tambahperangkat'])->name('add_perangkat');
+        Route::get('edit/{id}', [MasterController::class, 'editperangkat'])->name('edit_perangkat');
+        Route::put('{id}', [MasterController::class, 'updateperangkat'])->name('update_perangkat');
+        Route::delete('{id}', [MasterController::class, 'hapusperangkat'])->name('destroy_perangkat');
+    });
 
 
-    //add tx sparepart
-    Route::get('/sparepart/tambah', [SparepartController::class, 'txsparepart'])->name('add_sparepart');
-    Route::post('/sparepart/tambah', [SparepartController::class, 'txsprproses'])->name('sparepart_proses');
 
-    Route::get('/sparepart/keluar', [SparepartController::class, 'txsparepartout'])->name('out_sparepart');
-    Route::post('/sparepart/keluar', [SparepartController::class, 'txsparepartoutproses'])->name('sparepartout_proses');
+    Route::prefix('sparepart')->group(function () {
+        Route::get('', [SparepartController::class, 'sparepart'])->name('sparepart');
 
-    Route::get('/sparepart/{id}/edit', [SparepartController::class, 'editsparepart'])->name('sparepart_edit');
-    Route::put('/sparepart/{id}', [SparepartController::class, 'updatesparepart'])->name('sparepart_update');
-    Route::delete('/sparepart/{id}', [SparepartController::class, 'hapussparepart'])->name('destroy_sparepart');
+        Route::post('sparepart-proses', [SparepartController::class, 'storesparepart'])->name('add_sprbaru');
+
+        Route::get('request', [SparepartController::class, 'requestsparepart'])->name('request_sparepart');
+        Route::get('history', [SparepartController::class, 'historyrequest'])->name('history_sparepart');
+        Route::put('detail/{id}', [SparepartController::class, 'detailrequestsparepart'])->name('detailrequest_sparepart');
+
+        Route::get('tambah', [SparepartController::class, 'txsparepart'])->name('add_sparepart');
+        Route::post('tambah', [SparepartController::class, 'txsprproses'])->name('sparepart_proses');
+
+        Route::get('keluar', [SparepartController::class, 'txsparepartout'])->name('out_sparepart');
+        Route::post('keluar', [SparepartController::class, 'txsparepartoutproses'])->name('sparepartout_proses');
+
+        Route::get('{id}/edit', [SparepartController::class, 'editsparepart'])->name('sparepart_edit');
+        Route::put('{id}', [SparepartController::class, 'updatesparepart'])->name('sparepart_update');
+        Route::delete('{id}', [SparepartController::class, 'hapussparepart'])->name('destroy_sparepart');
+    });
+
 
     // Route::get('/getbyid', [MasterController::class, 'getTypeByJenis'])->name('getbyid');
     // Route::get('/cobaadd-perangkat', [MasterController::class, 'cobatambahperangkat'])->name('cobaadd_perangkat');
