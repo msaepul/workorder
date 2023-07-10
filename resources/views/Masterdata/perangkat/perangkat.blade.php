@@ -30,7 +30,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <a href="add-perangkat" type="button" class="btn btn-primary">
+                                <a href="{{ route('add_perangkat') }}" type="button" class="btn btn-primary">
                                     <i class="nav-icon fas fa-plus"></i> Tambah Perangkat
                                 </a>
 
@@ -78,7 +78,7 @@
                                                 <td>{{ $device->cabang_name }}</td>
                                                 <td>{{ $device->status }}</td>
                                                 <td>
-                                                    <a href="{{ route('edit-perangkat', $device->id) }}"
+                                                    <a href="{{ route('edit_perangkat', $device->id) }}"
                                                         class="btn btn-primary">Edit</a>
 
                                                     <form action="{{ route('destroy_perangkat', $device->id) }}"

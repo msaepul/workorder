@@ -42,23 +42,23 @@
                             </div>
                             <div class="right-status">
                                 <div class="status-container">
-                                    <div class="box bg-primary">
+                                    <div class="box{{ $data->status == 1 ? ' bg-primary' : '' }}">
                                         <span class="status">Draft</span>
                                     </div>
                                     <div class="arrow"></div>
                                 </div>
                                 <div class="status-container">
-                                    <div class="box">
+                                    <div class="box x{{ $data->status == 2 ? ' bg-primary' : '' }}">
                                         <span class="status">Confirm</span>
                                     </div>
                                     <div class="arrow"></div>
                                 </div>
                                 <div class="status-container">
-                                    <div class="box">
+                                    <div class="box x{{ $data->status == 3 ? ' bg-primary' : '' }}">
                                         <span class="status">Done</span>
                                     </div>
-
                                 </div>
+
                             </div>
                         </div>
                     </div>

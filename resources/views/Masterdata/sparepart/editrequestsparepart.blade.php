@@ -93,7 +93,7 @@
                                         <tr>
                                             <td style="width: 60%">
                                                 <select class="form-control select2" name="sparepart[]" style="width: 100%;"
-                                                    required onchange="showStok(this)">
+                                                    required>
                                                     <option value="">Pilih Sparepart</option>
                                                     @foreach ($sparepart as $part)
                                                         <option value="{{ $part->id }}" data-stok="{{ $part->stok }}"

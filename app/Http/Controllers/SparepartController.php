@@ -184,7 +184,7 @@ class SparepartController extends Controller
 
 
         if ($status == 1) {
-            return redirect()->route('request_sparepart')->with('success', 'Data sparepart berhasil dikeluarkan.');
+            return redirect()->route('request_sparepart')->with('success', 'Data Permintaan Berhasil Ditambahkan, mohon menunggu EDP menyetujui Permintaan.');
             // Melakukan redirect dan menyertakan pesan sukses
 
         } else {

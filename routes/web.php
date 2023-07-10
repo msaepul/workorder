@@ -58,7 +58,7 @@ Route::middleware('auth')->group(function () {
         Route::post('updates/{id}', [WorkorderController::class, 'updateStatus'])->name('woupdate_status');
         Route::post('update/{id}', [WorkorderController::class, 'updateStatus2'])->name('woupdate_status2');
         Route::get('datawo', [WorkorderController::class, 'datawo'])->name('Dataworkorder');
-    });
+    });   Route::get('datawo', [WorkorderController::class, 'datawo'])->name('Dataworkorder');
 
 
     Route::prefix('TPM')->group(function () {
