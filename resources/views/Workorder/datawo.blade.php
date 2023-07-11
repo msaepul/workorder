@@ -65,7 +65,20 @@
                                                 <td>{{ $wo->obyek }}</td>
                                                 <td>{{ $wo->keadaan }}</td>
                                                 <td>{{ $wo->wo_create }}</td>
-                                                <td>{{ $wo->status }}</td>
+                                                <td>
+                                                    @if ($wo->status == 0)
+                                                        <span class="text-danger">Cancel</span>
+                                                    @elseif ($wo->status == 1)
+                                                        <span class="text-secondary">Draft</span>
+                                                    @elseif ($wo->status == 2)
+                                                        <span class="text-primary">Confirm</span>
+                                                    @elseif ($wo->status == 3)
+                                                        <span class="text-warning"> On Progress </span>
+                                                    @elseif ($wo->status == 4)
+                                                        <span class="text-success">Done</span>
+                                                    @endif
+                                                </td>
+
                                                 <td>{{ getFullName($wo->user_id) }}</td>
                                                 <td> <a href="{{ route('Workorder_detail', $wo->id) }}"
                                                         class="btn btn-primary">Lihat</a></td>

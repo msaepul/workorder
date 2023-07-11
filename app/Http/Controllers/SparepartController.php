@@ -139,6 +139,13 @@ class SparepartController extends Controller
                     $item->save();
                 }
             }
+            elseif ($status == 3) {
+                // Lakukan aksi untuk status = 0
+                foreach ($items as $item) {
+                    $item->status = 3;
+                    $item->save();
+                }
+            }
         }
         
         return redirect()->route('detailrequest_sparepart', $id);

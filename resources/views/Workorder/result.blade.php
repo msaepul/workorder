@@ -291,7 +291,7 @@
                                             </div>
                                             <hr>
 
-                                            @if ($workorders->status == 3 && getUserDept() == 'EDP')
+                                            @if ($workorders->status == 4)
                                                 <div
                                                     class="bg-danger rounded d-flex align-items-center justify-content-center">
                                                     <span class="text-white fw-bold fs-10">Suku Cadang / sparepart yang
@@ -299,52 +299,38 @@
                                                 </div>
                                                 <table class="table table-bordered text-center pb-2" id="items_table">
                                                     <tr>
-                                                        <th>Nama Sparepart </th>
-                                                        <th>
+                                                        <th>Kode Transaksi</th>
+                                                        <th>Nama Sparepart</th>
+                                                        {{-- <th>
                                                             <bold>Stok</bold>
-                                                        </th>
+                                                        </th> --}}
                                                         <th>
                                                             <bold>qty</bold>
                                                         </th>
-                                                        <th>
-                                                            <bold>+/-</bold>
-                                                        </th>
+
                                                     </tr>
-                                                    <tr>
 
-                                                        <td>
-                                                            {{-- <select class="form-control select2" name="part[]"
-                                                                style="width: 100%;" required onchange="showStok(this)">
-                                                                <option value="">Pilih Sparepart</option>
-                                                                @foreach ($sparepart as $part)
-                                                                    <option value="{{ $part->id }}"
-                                                                        data-stok="{{ $part->stok }}"
-                                                                        style="text-align: left;">
-                                                                        {{ $part->nama_sparepart }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select> --}}
+                                                    @foreach ($groupedHistory as $id_tx => $group)
+                                                        @php
+                                                            $groupSize = count($group);
+                                                        @endphp
+                                                        @foreach ($group as $key => $item)
+                                                            <tr>
+                                                                @if ($key === 0)
+                                                                    <td class="align-middle text-center"
+                                                                        rowspan="{{ $groupSize }}">
+                                                                        {{ $item->id_tx }}
+                                                                    </td>
+                                                                @endif
+                                                                <td>
+                                                                    {{ getNameSparepart($item['id_spr']) }}</td>
 
-                                                        </td>
-                                                        <td style="width: 200px;">
-                                                            <input type="text" class="form-control" name="stok[]"
-                                                                value="" disabled>
-                                                        </td>
+                                                                <td>{{ $item['qty'] }}</td>
 
-                                                        <td style="width: 200px;">
-                                                            <input type="text" class="form-control" name="qty[]"
-                                                                value="{{ old('qty') }}"
-                                                                onkeyup="calculateTotal(this)" required>
-                                                        </td>
-                                                        <td>
-                                                            <button type="button" class="btn btn-transparent"
-                                                                onclick="addRow()"><i
-                                                                    class="fas fa-plus text-primary"></i>
-                                                            </button>
+                                                            </tr>
+                                                        @endforeach
+                                                    @endforeach
 
-
-                                                        </td>
-                                                    </tr>
 
                                                 </table><br>
                                             @endif

@@ -130,6 +130,21 @@
             /* Memberikan efek 3D dengan rotasi pada sumbu X */
         }
 
+        .box2 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 20px;
+            color: #ffffff;
+            background-color: gray;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            /* Menambahkan efek shadow */
+            border-radius: 5px;
+            /* Melenkung elemen */
+            transform: perspective(200px) rotateX(5deg);
+            /* Memberikan efek 3D dengan rotasi pada sumbu X */
+        }
 
         .status {
             font-size: 12px;

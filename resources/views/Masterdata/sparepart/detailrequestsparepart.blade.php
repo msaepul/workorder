@@ -45,7 +45,7 @@
                                         </button>
                                     @elseif ($data->status == 2)
                                         <input type="hidden" name="id_tx" value="{{ $data->id_tx }}">
-                                        <button type="submit" name="status" value="2" class="btn btn-success mr-2"
+                                        <button type="submit" name="status" value="3" class="btn btn-success mr-2"
                                             onclick="return confirm('Apakah anda ingin mengkonfirmasi Permintaan Sparepart?')">
                                             Keluarkan
                                         </button>

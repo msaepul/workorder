@@ -103,11 +103,11 @@ class WorkorderController extends Controller
         // Mengambil data berdasarkan ID
         $workorders = workorder::findOrFail($id);
 
-        // $nameperangkat = workorder::join('tb_perangkat', 'workorders.perangkat_id', '=', 'tb_perangkat.id')
-        //     ->where('workorders.id', '=', 30)
-        //     ->select('tb_perangkat.nama_perangkat AS nama_perangkat')
-        //     ->get();
+        $data = $workorders->id_tx;
+        $items = keluarstok::where('id_tx', $data)->get();
+        $groupedHistory = $items->groupBy('id_tx');
 
+   
         $no_wo = $workorders->lampiran;
         $status = $workorders->status;
         $sparepart = Sparepart::where('id_cabang', '=', getUserCabang())->get();
@@ -135,7 +135,7 @@ class WorkorderController extends Controller
             return view('Workorder.detail', compact('workorders', 'lampiran','dateTime'));
         }
         else {
-            return view('Workorder.result', compact('workorders', 'lampiran','dateTime'));
+            return view('Workorder.result', compact('workorders', 'lampiran','dateTime','data', 'groupedHistory'));
         }
     }
 
@@ -263,6 +263,7 @@ class WorkorderController extends Controller
                 $keluarstok->qty = $qtys[$index];
                 $keluarstok->tgl_permintaan = $formattedDate;
                 $keluarstok->user_id = $data->user_id;
+                $keluarstok->status = 3;
                 $keluarstok->cabang_id = getUserCabang();
             // dd($itemNames);
                 // Simpan model ke database
