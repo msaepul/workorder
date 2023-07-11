@@ -268,8 +268,6 @@ class WorkorderController extends Controller
                 // Simpan model ke database
                 $keluarstok->save();
             }
-
-
             // Lakukan aksi untuk status = 0
             $item = Workorder::find($id); // Ganti dengan logika Anda untuk mendapatkan item yang sesuai
             $item->id_tx = $notx;
@@ -277,7 +275,6 @@ class WorkorderController extends Controller
             $item->tindakan =$request->input('tindakan');
             $item->status = 4;
             $item->save();
-    
          }
         // Kembalikan respon atau lakukan pengalihan (redirect) ke halaman yang sesuai
         return redirect()->route('Workorder_detail', $id);

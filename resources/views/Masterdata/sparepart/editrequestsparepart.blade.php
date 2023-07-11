@@ -110,7 +110,7 @@
                                             </td>
                                             @if ($key === 0)
                                                 <td class="align-middle text-center" rowspan="{{ $groupSize }}">
-                                                    <textarea type="text" class="form-control" name="keterangan[]" value="">{{ $item->keterangan }} </textarea>
+                                                    <textarea type="text" class="form-control" name="keterangan" value="">{{ $item->keterangan }} </textarea>
                                                 </td>
                                             @endif
                                         </tr>

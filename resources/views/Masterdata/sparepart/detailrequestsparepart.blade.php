@@ -25,23 +25,34 @@
 
         <!-- Main content -->
         <section class="content center">
-            <form method="POST" action="{{ route('sparepartout_proses') }}">
+            <form action="{{ route('updaterequest_status', ['id' => $data->id]) }}" method="post">
                 @csrf
                 <div class="d-flex justify-content-center ">
                     <div class="card card-flat col-12 col-md-10" style="height: 60px; ">
                         <div class="card-body-a d-flex align-items-center">
                             <div class="left-links">
                                 <div class="status-container">
-                                    <button type="submit" name="status" value="2" class="btn btn-success mr-2"
-                                        onclick="return confirm('Apakah anda ingin mengkonfirmasi Permintaan Sparepart?')">
-                                        Confirm
-                                    </button>
+                                    @if ($data->status == 1)
+                                        <input type="hidden" name="id_tx" value="{{ $data->id_tx }}">
+                                        <button type="submit" name="status" value="2" class="btn btn-success mr-2"
+                                            onclick="return confirm('Apakah anda ingin mengkonfirmasi Permintaan Sparepart?')">
+                                            Confirm
+                                        </button>
 
-                                    <button type="submit" name="status" value="0" class="btn btn-secondary "
-                                        onclick="return confirm('Apakah anda ingin membatalkan Permintaan Sparepart?')">
-                                        Cancel
-                                    </button>
-                                    {{-- <a href="{{ route('editrequest_sparepart', $data->id) }}" class="status">Edit</a> --}}
+                                        <button type="submit" name="status" value="0" class="btn btn-secondary "
+                                            onclick="return confirm('Apakah anda ingin membatalkan Permintaan Sparepart?')">
+                                            Cancel
+                                        </button>
+                                    @elseif ($data->status == 2)
+                                        <input type="hidden" name="id_tx" value="{{ $data->id_tx }}">
+                                        <button type="submit" name="status" value="2" class="btn btn-success mr-2"
+                                            onclick="return confirm('Apakah anda ingin mengkonfirmasi Permintaan Sparepart?')">
+                                            Keluarkan
+                                        </button>
+                                        <a href="{{ route('editrequest_sparepart', $data->id) }}"
+                                            class="btn btn-secondary "> <i class="nav-icon fas fa-edit"></i>
+                                            Edit</a>
+                                    @endif
 
                                 </div>
                             </div>
@@ -68,6 +79,9 @@
                         </div>
                     </div>
                 </div>
+            </form>
+            <form method="POST" action="{{ route('sparepartout_proses') }}">
+                @csrf
                 <div class="d-flex justify-content-center">
                     <div class="card card-success card-outline col-12 col-md-10">
                         <div class="card-header">

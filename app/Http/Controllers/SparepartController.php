@@ -77,7 +77,6 @@ class SparepartController extends Controller
 
     }
 
-    //Sparepart in
     public function txsparepartout()
     {
 
@@ -87,7 +86,7 @@ class SparepartController extends Controller
         return view('Masterdata.sparepart.outsparepart', compact('sparepart', 'users', 'cabang'));
     }
 
-    //Sparepart in
+   //Sparepart Request
     public function requestsparepart()
     {
         $users = user::all();
@@ -96,7 +95,7 @@ class SparepartController extends Controller
         return view('Masterdata.sparepart.requestsparepart', compact('sparepart', 'users', 'cabang'));
     }
 
-    //Sparepart in
+
     public function historyrequest()
     {
 
@@ -105,7 +104,7 @@ class SparepartController extends Controller
         return view('Masterdata.sparepart.historyrequestsparepart', compact('items', 'groupedHistory'));
     }
 
-    //Sparepart in
+
     public function detailrequestsparepart($id)
     {
         $items = keluarstok::where('user_id', '=', getUserId())->get();
@@ -120,6 +119,34 @@ class SparepartController extends Controller
         return view('Masterdata.sparepart.detailrequestsparepart', compact('users', 'sparepart', 'cabang', 'data', 'groupedHistory'));
     }
 
+    public function updatestatus(Request $request, $id){
+        $status = $request->input('status');
+        $data = keluarstok::findOrFail($id);
+        $items = keluarstok::where('id_tx', $data->id_tx)->get();
+        $groupedHistory = $items->groupBy('id_tx');
+        
+        foreach ($groupedHistory as $idTx => $items) {
+            if ($status == 2) {
+                // Lakukan aksi untuk status = 1
+                foreach ($items as $item) {
+                    $item->status = 2;
+                    $item->save();
+                }
+            } elseif ($status == 0) {
+                // Lakukan aksi untuk status = 0
+                foreach ($items as $item) {
+                    $item->status = 0;
+                    $item->save();
+                }
+            }
+        }
+        
+        return redirect()->route('detailrequest_sparepart', $id);
+        
+
+
+
+    }
     //edit Sparepart Request
     public function editrequestsparepart($id)
     {
@@ -137,12 +164,25 @@ class SparepartController extends Controller
     //edit Sparepart Request
     public function editrequestsparepartproses(Request $request, $id)
     {
-
         $data = keluarstok::findOrFail($id);
-
-
+        $items = keluarstok::where('id_tx', $data->id_tx)->get();
+        $groupedHistory = $items->groupBy('id_tx');
+    
+        $spareparts = $request->sparepart;
+        $qtys = $request->qty;
+    
+        foreach ($groupedHistory as $idTx => $group) {
+            foreach ($group as $key => $item) {
+                $item->id_spr = $spareparts[$key];
+                $item->qty = $qtys[$key];
+                $item->keterangan = $request->keterangan;
+                $item->save();
+            }
+        }
+    
         return redirect()->route('detailrequest_sparepart', $id);
     }
+    
 
     //transaksi sparepart
     public function txsparepartoutproses(Request $request)

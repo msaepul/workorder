@@ -96,6 +96,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('request', [SparepartController::class, 'requestsparepart'])->name('request_sparepart');
         Route::get('history', [SparepartController::class, 'historyrequest'])->name('history_sparepart');
+        Route::post('updates/{id}', [SparepartController::class, 'updatestatus'])->name('updaterequest_status');
         Route::get('detail/{id}', [SparepartController::class, 'detailrequestsparepart'])->name('detailrequest_sparepart');
         Route::get('edit/request/{id}', [SparepartController::class, 'editrequestsparepart'])->name('editrequest_sparepart');
         Route::put('editrequest/{id}', [SparepartController::class, 'editrequestsparepartproses'])->name('updaterequest_sparepart');
