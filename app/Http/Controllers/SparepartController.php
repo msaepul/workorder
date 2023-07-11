@@ -108,46 +108,41 @@ class SparepartController extends Controller
     //Sparepart in
     public function detailrequestsparepart($id)
     {
-  $items = keluarstok::where('user_id', '=', getUserId())->get();
-    
+        $items = keluarstok::where('user_id', '=', getUserId())->get();
+
         $users = user::all();
         $sparepart = Sparepart::where('stok', '>', 0)->get();
         $cabang = session('cabang');
-      
+
         $data = keluarstok::findOrFail($id);
         $items = keluarstok::where('id_tx', $data->id_tx)->get();
         $groupedHistory = $items->groupBy('id_tx');
         return view('Masterdata.sparepart.detailrequestsparepart', compact('users', 'sparepart', 'cabang', 'data', 'groupedHistory'));
-        
     }
 
-       //edit Sparepart Request
-       public function editrequestsparepart($id)
-       {
-       
-           $users = user::all();
-           $sparepart = Sparepart::where('stok', '>', 0)->get();
-           $cabang = session('cabang');
-         
-           $data = keluarstok::findOrFail($id);
-           $items = keluarstok::where('id_tx', $data->id_tx)->get();
-           $groupedHistory = $items->groupBy('id_tx');
-           return view('Masterdata.sparepart.editrequestsparepart', compact('users', 'sparepart', 'cabang', 'data', 'groupedHistory'));
-           
-       }
+    //edit Sparepart Request
+    public function editrequestsparepart($id)
+    {
 
-        //edit Sparepart Request
-        public function editrequestsparepartproses(Request $request, $id)
-        {
-        
+        $users = user::all();
+        $sparepart = Sparepart::where('stok', '>', 0)->get();
+        $cabang = session('cabang');
 
-          
-            $data = keluarstok::findOrFail($id);
+        $data = keluarstok::findOrFail($id);
+        $items = keluarstok::where('id_tx', $data->id_tx)->get();
+        $groupedHistory = $items->groupBy('id_tx');
+        return view('Masterdata.sparepart.editrequestsparepart', compact('users', 'sparepart', 'cabang', 'data', 'groupedHistory'));
+    }
 
-            
-            return redirect()->route('detailrequest_sparepart', $id);
-            
-        }
+    //edit Sparepart Request
+    public function editrequestsparepartproses(Request $request, $id)
+    {
+
+        $data = keluarstok::findOrFail($id);
+
+
+        return redirect()->route('detailrequest_sparepart', $id);
+    }
 
     //transaksi sparepart
     public function txsparepartoutproses(Request $request)
@@ -184,7 +179,8 @@ class SparepartController extends Controller
 
 
         if ($status == 1) {
-            return redirect()->route('request_sparepart')->with('success', 'Data Permintaan Berhasil Ditambahkan, mohon menunggu EDP menyetujui Permintaan.');
+            $idwo = keluarstok::where('id_tx', $notx)->max('id');
+            return redirect()->route('detailrequest_sparepart', $idwo)->with('success', 'Data Permintaan Berhasil Ditambahkan, mohon menunggu EDP menyetujui Permintaan.');
             // Melakukan redirect dan menyertakan pesan sukses
 
         } else {

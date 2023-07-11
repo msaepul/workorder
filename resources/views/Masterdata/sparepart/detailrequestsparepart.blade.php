@@ -32,12 +32,17 @@
                         <div class="card-body-a d-flex align-items-center">
                             <div class="left-links">
                                 <div class="status-container">
-                                    <div class="box bg-success mr-2">
-                                        <a href="" class="status">Confirm</a>
-                                    </div>
-                                    <div class="box bg-secondary ">
-                                        <a href="{{ route('editrequest_sparepart', $data->id) }}" class="status">Edit</a>
-                                    </div>
+                                    <button type="submit" name="status" value="2" class="btn btn-success mr-2"
+                                        onclick="return confirm('Apakah anda ingin mengkonfirmasi Permintaan Sparepart?')">
+                                        Confirm
+                                    </button>
+
+                                    <button type="submit" name="status" value="0" class="btn btn-secondary "
+                                        onclick="return confirm('Apakah anda ingin membatalkan Permintaan Sparepart?')">
+                                        Cancel
+                                    </button>
+                                    {{-- <a href="{{ route('editrequest_sparepart', $data->id) }}" class="status">Edit</a> --}}
+
                                 </div>
                             </div>
                             <div class="right-status">

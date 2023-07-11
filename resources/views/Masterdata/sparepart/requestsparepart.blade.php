@@ -135,7 +135,7 @@
                             <br>
 
                             <div class="form-group">
-                                <div class="card-footer">
+                                <div class="card-footer text-center">
                                     <input type="button" class="btn btn-secondary float-start" value="Cancel"
                                         onclick="window.history.back();">
 
