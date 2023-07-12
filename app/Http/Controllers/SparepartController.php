@@ -99,7 +99,12 @@ class SparepartController extends Controller
     public function historyrequest()
     {
 
-        $items = keluarstok::where('user_id', '=', getUserId())->get();
+        if(getUserDept() == "EDP"){
+            $items = keluarstok::where('cabang_id', '=', getUserCabang())->get();
+        }else{
+            $items = keluarstok::where('user_id', '=', getUserId())->get();
+
+        }
         $groupedHistory = $items->groupBy('id_tx');
         return view('Masterdata.sparepart.historyrequestsparepart', compact('items', 'groupedHistory'));
     }

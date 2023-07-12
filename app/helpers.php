@@ -59,7 +59,7 @@ if (!function_exists('getUserCabang')) {
         return $cabang;
     }
 }
-if (!function_exists('getUserName')) {
+if (!function_exists('getFullName')) {
     function getFullName($userId)
     {
         $user = User::find($userId);

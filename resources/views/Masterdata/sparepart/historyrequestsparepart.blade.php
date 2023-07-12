@@ -50,14 +50,15 @@
                                         document.getElementById('success-alert').style.display = 'none';
                                     }, 5000);
                                 </script>
+                                <table id="example1" class="table table-bordered table-striped">
 
-                                <table id="dari" class="table table-sm table-bordered table-striped user_datatable">
                                     <thead class="">
                                         <tr>
                                             {{-- <th rowspan="2" class="align-middle text-center">No</th> --}}
                                             <th rowspan="2" class="align-middle text-center">No Transaksi</th>
                                             <th colspan="2" class="text-center">Rincian Sparepart</th>
                                             <th rowspan="2" class="align-middle text-center">Status</th>
+                                            <th rowspan="2" class="align-middle text-center">Nama User</th>
                                             <th rowspan="2" class="align-middle text-center">Detail</th>
                                         </tr>
                                         <tr>
@@ -77,7 +78,18 @@
                                                     <td class="text-center">{{ $item->qty }}</td>
                                                     @if ($index === 0)
                                                         <td rowspan="{{ count($items) }}" class="align-middle text-center">
-                                                            {{ $item->status }}</td>
+                                                            @if ($item->status == 0)
+                                                                <span class="text-danger">Cancel</span>
+                                                            @elseif ($item->status == 1)
+                                                                <span class="text-secondary">Draft</span>
+                                                            @elseif ($item->status == 2)
+                                                                <span class="text-primary">Confirm</span>
+                                                            @elseif ($item->status == 3)
+                                                                <span class="text-warning">Done </span>
+                                                            @endif
+                                                        </td>
+                                                        <td rowspan="{{ count($items) }}" class="align-middle text-center">
+                                                            {{ getFullName($item->user_id) }}</td>
                                                         <td rowspan="{{ count($items) }}" class="align-middle text-center">
                                                             <a href="{{ route('detailrequest_sparepart', $item->id) }}"
                                                                 class="btn btn-primary">Detail</a>
@@ -104,24 +116,24 @@
         <!-- Main content -->
         <!-- /.content -->
     </div>
-    <script src="plugins/jquery/jquery.min.js"></script>
+    {{-- <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
     <script>
-        $(function() {
-            $("#dari").DataTable({
-                "responsive": true,
+        $(document).ready(function() {
+            $('#dari').DataTable({
                 "lengthChange": true,
+                "ordering": true,
+                "info": true,
+                "responsive": true,
                 "autoWidth": false,
-                "order": [
-                    [1, 'desc'],
-                    [0, 'desc'],
-                ],
-                "columnDefs": [{
-                        "orderable": false,
-                        "targets": 8,
-                    },
+            });
+        });
+    </script> --}}
+    <script src="plugins/jquery/jquery.min.js"></script>
 
-                ]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    <script>
+        $(document).ready(function() {
+            $('#example1').DataTable();
         });
     </script>
     <!-- /.content-wrapper -->
