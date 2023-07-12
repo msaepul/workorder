@@ -40,11 +40,9 @@
                with font-awesome or any other icon font library -->
                 <li class="nav-header">MENU UTAMA</li>
 
-                <li class="nav-item menu-open">
+                <li class="nav-item">
                     <a href="{{ route('dashboard') }}"
-                        @if (request()->route()->uri == 'Dashboard') class="nav-link active"
-     
-            @else
+                        @if (request()->route()->uri == 'Dashboard') class="nav-link active"   @else
             class="nav-link " @endif>
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
@@ -52,98 +50,71 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ route('Workorder_create') }}"
-                        @if (request()->route()->uri == 'Workorder') class="nav-link active"
-     
-              @else
-              class="nav-link " @endif>
-                        <i class="nav-icon fas fa-edit"></i>
-                        <p>
-                            Buat Work Order
-                        </p>
-                    </a>
-                </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('Dataworkorder') }}"
-                        @if (request()->route()->uri == 'datawo') class="nav-link active"
-              @else
-              class="nav-link " @endif>
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-clipboard-list"></i>
                         <p>
                             Work Order
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                </li>
+                    <ul class="nav nav-treeview">
 
-                @if (getUserDept() == 'EDP')
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-tree"></i>
-                            <p>
-                                TPM
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="TPMRingan"
-                                    @if (request()->route()->uri == 'TPMRingan') class="nav-link active"
-                                @else class="nav-link" @endif>
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>TPM Ringan</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="TPMBerat"
-                                    @if (request()->route()->uri == 'TPMBerat') class="nav-link active"
-                                @else class="nav-link" @endif>
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>TPM Berat</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                @endif
-
-                <li class="nav-item">
-                    <a href="JadwalTPM"
-                        @if (request()->route()->uri == 'JadwalTPM') class="nav-link active"
+                        <li class="nav-item">
+                            <a href="{{ route('Workorder_create') }}"
+                                @if (request()->route()->uri == 'Workorder') class="nav-link active"
+         
+                  @else
+                  class="nav-link " @endif>
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Buat Work Order
+                                </p>
+                            </a>
+                            <a href="{{ route('Dataworkorder') }}"
+                                @if (request()->route()->uri == 'datawo') class="nav-link active"
               @else
               class="nav-link " @endif>
-                        <i class="nav-icon fas fa-calendar-check"></i>
-                        <p>
-                            Jadwal TPM
-                        </p>
-                    </a>
-
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Data Work Order
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
                 <li class="nav-item">
-                    <a href="{{ route('request_sparepart') }}"
-                        @if (request()->is('sparepart/request')) class="nav-link active"
-                        @else class="nav-link" @endif>
-                        <i class="nav-icon fas fa-recycle"></i>
-                        <p>
-                            Permintaan Sparepart
-                        </p>
-                    </a>
-                </li>
-
-
-                <li class="nav-item">
-                    <a href="{{ route('history_sparepart') }}"
-                        @if (request()->is('sparepart/history')) class="nav-link active"
-                        @else class="nav-link" @endif>
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-clipboard-list"></i>
-
                         <p>
-                            History Permintaan
+                            Sparepart
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                </li>
+                    <ul class="nav nav-treeview">
 
+                        <li class="nav-item">
+                            <a href="{{ route('request_sparepart') }}"
+                                @if (request()->is('sparepart/request')) class="nav-link active"
+                        @else class="nav-link" @endif>
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    Permintaan Sparepart
+                                </p>
+                            </a>
+                            <a href="{{ route('history_sparepart') }}"
+                                @if (request()->is('sparepart/history')) class="nav-link active"
+                        @else class="nav-link" @endif>
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>
+                                    History Permintaan
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-item">
                     <a href="Gallery"
                         @if (request()->route()->uri == 'Gallery') class="nav-link active"

@@ -94,6 +94,16 @@
                                                     <span class="btn btn-secondary mr-2 disabled" data-toggle="modal"
                                                         data-target="#confirmModal"> EDP Sedang Mengerjakan WO</span>
                                                 @endif
+                                            @elseif ($workorders->status == 4)
+                                                @if (getUserDept() != 'EDP' || getUserDept($workorders->user_id) == 'EDP')
+                                                    <button type="submit" name="status" value="5"
+                                                        class="btn btn-success mr-2"
+                                                        onclick="return confirm('Apakah anda ingin Validasi WO?')">Validasi
+                                                        WO</button>
+                                                @else
+                                                    <span class="btn btn-secondary mr-2 disabled" data-toggle="modal"
+                                                        data-target="#confirmModal">Menunggu User Memvalidasi WO</span>
+                                                @endif
 
                                             @endif
 
@@ -114,13 +124,14 @@
                                                 <div class="arrow"></div>
                                             </div>
                                             <div class="status-container">
-                                                <div class="box {{ $workorders->status == 3 ? 'bg-primary' : '' }}">
+                                                <div
+                                                    class="box {{ $workorders->status == 3 || $workorders->status == 4 ? 'bg-primary' : '' }}">
                                                     <span class="status">On Progress</span>
                                                 </div>
                                                 <div class="arrow"></div>
                                             </div>
                                             <div class="status-container">
-                                                <div class="box {{ $workorders->status == 4 ? 'bg-primary' : '' }}">
+                                                <div class="box {{ $workorders->status == 5 ? 'bg-primary' : '' }}">
                                                     <span class="status">Done</span>
                                                 </div>
                                             </div>
@@ -142,7 +153,7 @@
                                             <button class="btn btn-link btn-toggle-collapse" type="button"
                                                 data-toggle="collapse" data-target="#collapseCard" aria-expanded="false"
                                                 aria-controls="collapseCard">
-                                                <i class="fa fa-plus"></i>
+                                                <i class="fa fa-plus text-secondary"></i>
                                             </button>
                                         </div>
                                     </div>
@@ -244,7 +255,7 @@
                                                 <button class="btn btn-link btn-toggle-collapse" type="button"
                                                     data-toggle="collapse" data-target="#collapseCard2"
                                                     aria-expanded="false" aria-controls="collapseCard">
-                                                    <i class="fa fa-minus"></i>
+                                                    <i class="fa fa-minus text-secondary"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -270,7 +281,7 @@
                                                     Kerusakan</label>
                                                 <div class="col-sm-10">
                                                     <textarea class="form-control " name="analisa" rows="2" cols="42" placeholder="Analisa Kerusakan "
-                                                        @if (getUserDept() != 'EDP') disabled @endif></textarea>
+                                                        @if (getUserDept() != 'EDP') disabled @endif required></textarea>
 
                                                 </div>
 
@@ -279,7 +290,7 @@
                                                     Penanganan</label>
                                                 <div class="col-sm-10 mt-2">
                                                     <textarea class="form-control " name="tindakan" rows="4" cols="82" placeholder="Tindakan Perbaikan"
-                                                        @if (getUserDept() != 'EDP') disabled @endif></textarea>
+                                                        @if (getUserDept() != 'EDP') disabled @endif required></textarea>
 
                                                 </div>
                                             </div>
@@ -309,7 +320,7 @@
 
                                                         <td>
                                                             <select class="form-control select2" name="part[]"
-                                                                style="width: 100%;" required onchange="showStok(this)">
+                                                                style="width: 100%;" onchange="showStok(this)">
                                                                 <option value="">Pilih Sparepart</option>
                                                                 @foreach ($sparepart as $part)
                                                                     <option value="{{ $part->id }}"
@@ -329,7 +340,7 @@
                                                         <td style="width: 200px;">
                                                             <input type="text" class="form-control" name="qty[]"
                                                                 value="{{ old('qty') }}"
-                                                                onkeyup="calculateTotal(this)" required>
+                                                                onkeyup="calculateTotal(this)">
                                                         </td>
                                                         <td>
                                                             <button type="button" class="btn btn-transparent"

@@ -72,9 +72,9 @@
                                                         <span class="text-secondary">Draft</span>
                                                     @elseif ($wo->status == 2)
                                                         <span class="text-primary">Confirm</span>
-                                                    @elseif ($wo->status == 3)
+                                                    @elseif ($wo->status == 3 || $wo->status == 4)
                                                         <span class="text-warning"> On Progress </span>
-                                                    @elseif ($wo->status == 4)
+                                                    @elseif ($wo->status == 5)
                                                         <span class="text-success">Done</span>
                                                     @endif
                                                 </td>

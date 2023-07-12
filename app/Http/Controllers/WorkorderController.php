@@ -128,15 +128,14 @@ class WorkorderController extends Controller
         } else {
             $lampiran = "null";
         }
-
-        if ($status > 2 && $status < 4) {
-            return view('Workorder.detailedp', compact('workorders', 'lampiran', 'sparepart','dateTime'));
-        } elseif($status <= 2) {
-            return view('Workorder.detail', compact('workorders', 'lampiran','dateTime'));
+        if ($status >= 4) {
+            return view('Workorder.result', compact('workorders', 'lampiran', 'dateTime', 'data', 'groupedHistory'));
+        } elseif ($status > 2 && $status <= 3) {
+            return view('Workorder.detailedp', compact('workorders', 'lampiran', 'sparepart', 'dateTime'));
+        } elseif ($status <= 2) {
+            return view('Workorder.detail', compact('workorders', 'lampiran', 'dateTime'));
         }
-        else {
-            return view('Workorder.result', compact('workorders', 'lampiran','dateTime','data', 'groupedHistory'));
-        }
+        
     }
 
     public function editwo($id)
@@ -247,36 +246,50 @@ class WorkorderController extends Controller
             $item->status = 3;
             $item->save();
         } elseif ($status == 4) {
-
-
+ 
             $itemNames = $request->input('part');
             $qtys = $request->input('qty');
             $notx = keluarstok::generateNomor();
             $currentDateTime = now();
             $formattedDate = $currentDateTime->format('Y-m-d');
-            
-            foreach ($itemNames as $index => $itemName) {
-                // Buat instance model keluarstok
-                $keluarstok = new keluarstok;
-                $keluarstok->id_tx = $notx;
-                $keluarstok->id_spr = $itemName;
-                $keluarstok->qty = $qtys[$index];
-                $keluarstok->tgl_permintaan = $formattedDate;
-                $keluarstok->user_id = $data->user_id;
-                $keluarstok->status = 3;
-                $keluarstok->cabang_id = getUserCabang();
             // dd($itemNames);
-                // Simpan model ke database
-                $keluarstok->save();
+            if (count($itemNames) == null && count($qtys) == null) {
+                foreach ($itemNames as $index => $itemName) {
+                    // Buat instance model keluarstok
+                    $keluarstok = new keluarstok;
+                    $keluarstok->id_tx = $notx;
+                    $keluarstok->id_spr = $itemName;
+                    $keluarstok->qty = $qtys[$index];
+                    $keluarstok->tgl_permintaan = $formattedDate;
+                    $keluarstok->user_id = $data->user_id;
+                    $keluarstok->status = 3;
+                    $keluarstok->cabang_id = getUserCabang();
+                    
+                    // Simpan model ke database
+                    $keluarstok->save();
+                }
+            
+                $item = Workorder::find($id);
+                $item->id_tx = $notx;
+                $item->analisa = $request->input('analisa');
+                $item->tindakan = $request->input('tindakan');
+                $item->date_actual = $request->input('date_actual');
+                $item->status = 4;
+                $item->save();
+            } else {
+                $item = Workorder::find($id);
+                $item->id_tx = null;
+                $item->analisa = $request->input('analisa');
+                $item->tindakan = $request->input('tindakan');
+                $item->date_actual = $request->input('date_actual');
+                $item->status = 4;
+                $item->save();
             }
-            // Lakukan aksi untuk status = 0
+         }elseif ($status == 5) {
+            // Lakukan aksi untuk status = 5
             $item = Workorder::find($id); // Ganti dengan logika Anda untuk mendapatkan item yang sesuai
-            $item->id_tx = $notx;
-            $item->analisa =$request->input('analisa');
-            $item->tindakan =$request->input('tindakan');
-            $item->status = 4;
-            $item->save();
-         }
+            $item->status = 5;
+            $item->save();}
         // Kembalikan respon atau lakukan pengalihan (redirect) ke halaman yang sesuai
         return redirect()->route('Workorder_detail', $id);
 

@@ -38,7 +38,7 @@
                             {{-- @include('Masterdata.perangkat.modaladdperangkat') --}}
 
                             <!-- /.card-header -->
-                            <div class="card-body">
+                            <div class="card-body table-responsive">
                                 @if (session('success'))
                                     <div id="success-alert" class="alert alert-success">
                                         {{ session('success') }}
@@ -50,15 +50,15 @@
                                         document.getElementById('success-alert').style.display = 'none';
                                     }, 5000);
                                 </script>
-                                <table id="example1" class="table table-bordered table-striped">
+                                <table id="eseses" class="table table-bordered table-striped">
 
                                     <thead class="">
                                         <tr>
                                             {{-- <th rowspan="2" class="align-middle text-center">No</th> --}}
                                             <th rowspan="2" class="align-middle text-center">No Transaksi</th>
                                             <th colspan="2" class="text-center">Rincian Sparepart</th>
-                                            <th rowspan="2" class="align-middle text-center">Status</th>
                                             <th rowspan="2" class="align-middle text-center">Nama User</th>
+                                            <th rowspan="2" class="align-middle text-center">Status</th>
                                             <th rowspan="2" class="align-middle text-center">Detail</th>
                                         </tr>
                                         <tr>
@@ -67,6 +67,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+
                                         @foreach ($groupedHistory as $idTx => $items)
                                             @foreach ($items as $index => $item)
                                                 <tr>
@@ -78,6 +79,8 @@
                                                     <td class="text-center">{{ $item->qty }}</td>
                                                     @if ($index === 0)
                                                         <td rowspan="{{ count($items) }}" class="align-middle text-center">
+                                                            {{ getFullName($item->user_id) }}</td>
+                                                        <td rowspan="{{ count($items) }}" class="align-middle text-center">
                                                             @if ($item->status == 0)
                                                                 <span class="text-danger">Cancel</span>
                                                             @elseif ($item->status == 1)
@@ -88,8 +91,7 @@
                                                                 <span class="text-warning">Done </span>
                                                             @endif
                                                         </td>
-                                                        <td rowspan="{{ count($items) }}" class="align-middle text-center">
-                                                            {{ getFullName($item->user_id) }}</td>
+
                                                         <td rowspan="{{ count($items) }}" class="align-middle text-center">
                                                             <a href="{{ route('detailrequest_sparepart', $item->id) }}"
                                                                 class="btn btn-primary">Detail</a>
@@ -98,6 +100,7 @@
                                                 </tr>
                                             @endforeach
                                         @endforeach
+
                                     </tbody>
 
                                 </table>
@@ -116,25 +119,13 @@
         <!-- Main content -->
         <!-- /.content -->
     </div>
-    {{-- <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            $('#dari').DataTable({
-                "lengthChange": true,
-                "ordering": true,
-                "info": true,
-                "responsive": true,
-                "autoWidth": false,
-            });
-        });
-    </script> --}}
-    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
 
     <script>
         $(document).ready(function() {
-            $('#example1').DataTable();
+            $('#eseses').DataTable();
         });
     </script>
-    <!-- /.content-wrapper -->
 @endsection

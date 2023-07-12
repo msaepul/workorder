@@ -191,7 +191,7 @@
                                             <button class="btn btn-link btn-toggle-collapse" type="button"
                                                 data-toggle="collapse" data-target="#collapseCard" aria-expanded="false"
                                                 aria-controls="collapseCard">
-                                                <i class="fa fa-minus"></i>
+                                                <i class="fa fa-minus text-secondary"></i>
                                             </button>
                                         </div>
                                     </div>

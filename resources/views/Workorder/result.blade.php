@@ -94,6 +94,16 @@
                                                     <span class="btn btn-secondary mr-2 disabled" data-toggle="modal"
                                                         data-target="#confirmModal"> EDP Sedang Mengerjakan WO</span>
                                                 @endif
+                                            @elseif ($workorders->status == 4)
+                                                @if (getUserDept() != 'EDP' || getUserDept($workorders->user_id) == 'EDP')
+                                                    <button type="submit" name="status" value="5"
+                                                        class="btn btn-success mr-2"
+                                                        onclick="return confirm('Apakah anda ingin Validasi WO?')">Validasi
+                                                        WO</button>
+                                                @else
+                                                    <span class="btn btn-secondary mr-2 disabled" data-toggle="modal"
+                                                        data-target="#confirmModal">Menunggu User Memvalidasi WO</span>
+                                                @endif
 
                                             @endif
 
@@ -114,13 +124,14 @@
                                                 <div class="arrow"></div>
                                             </div>
                                             <div class="status-container">
-                                                <div class="box {{ $workorders->status == 3 ? 'bg-primary' : '' }}">
+                                                <div
+                                                    class="box {{ $workorders->status == 3 || $workorders->status == 4 ? 'bg-primary' : '' }}">
                                                     <span class="status">On Progress</span>
                                                 </div>
                                                 <div class="arrow"></div>
                                             </div>
                                             <div class="status-container">
-                                                <div class="box {{ $workorders->status == 4 ? 'bg-primary' : '' }}">
+                                                <div class="box {{ $workorders->status == 5 ? 'bg-primary' : '' }}">
                                                     <span class="status">Done</span>
                                                 </div>
                                             </div>
@@ -142,7 +153,7 @@
                                             <button class="btn btn-link btn-toggle-collapse" type="button"
                                                 data-toggle="collapse" data-target="#collapseCard" aria-expanded="false"
                                                 aria-controls="collapseCard">
-                                                <i class="fa fa-plus"></i>
+                                                <i class="fa fa-plus text-secondary"></i>
                                             </button>
                                         </div>
                                     </div>
@@ -244,7 +255,7 @@
                                                 <button class="btn btn-link btn-toggle-collapse" type="button"
                                                     data-toggle="collapse" data-target="#collapseCard2"
                                                     aria-expanded="false" aria-controls="collapseCard">
-                                                    <i class="fa fa-minus"></i>
+                                                    <i class="fa fa-minus text-secondary"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -266,7 +277,7 @@
                                                 <div class="col-sm-3">
                                                     <span type="text"
                                                         class="form-control form-control-border disabled-input"
-                                                        name="tgl_dibuat" value="">{{ $workorders->actual }}
+                                                        name="tgl_dibuat" value="">{{ $workorders->date_actual }}
                                                     </span>
                                                 </div>
                                             </div>
@@ -291,7 +302,7 @@
                                             </div>
                                             <hr>
 
-                                            @if ($workorders->status == 4)
+                                            @if ($workorders->status >= 4)
                                                 <div
                                                     class="bg-danger rounded d-flex align-items-center justify-content-center">
                                                     <span class="text-white fw-bold fs-10">Suku Cadang / sparepart yang
@@ -309,29 +320,31 @@
                                                         </th>
 
                                                     </tr>
+                                                    @if ($workorders->id_tx === null)
+                                                        <td colspan="3">Tidak ada sparepart yang digunakan</td>
+                                                    @else
+                                                        @foreach ($groupedHistory as $id_tx => $group)
+                                                            @php
+                                                                $groupSize = count($group);
+                                                            @endphp
+                                                            @foreach ($group as $key => $item)
+                                                                <tr>
+                                                                    @if ($key === 0)
+                                                                        <td class="align-middle text-center"
+                                                                            rowspan="{{ $groupSize }}">
+                                                                            {{ $item->id_tx }}
+                                                                        </td>
+                                                                    @endif
+                                                                    <td>
+                                                                        {{ getNameSparepart($item['id_spr']) }}</td>
 
-                                                    @foreach ($groupedHistory as $id_tx => $group)
-                                                        @php
-                                                            $groupSize = count($group);
-                                                        @endphp
-                                                        @foreach ($group as $key => $item)
-                                                            <tr>
-                                                                @if ($key === 0)
-                                                                    <td class="align-middle text-center"
-                                                                        rowspan="{{ $groupSize }}">
-                                                                        {{ $item->id_tx }}
-                                                                    </td>
-                                                                @endif
-                                                                <td>
-                                                                    {{ getNameSparepart($item['id_spr']) }}</td>
+                                                                    <td>{{ $item['qty'] }}</td>
 
-                                                                <td>{{ $item['qty'] }}</td>
-
-                                                            </tr>
+                                                                </tr>
+                                                            @endforeach
                                                         @endforeach
-                                                    @endforeach
 
-
+                                                    @endif
                                                 </table><br>
                                             @endif
 
