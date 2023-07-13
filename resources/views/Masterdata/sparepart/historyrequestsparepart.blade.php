@@ -50,7 +50,7 @@
                                         document.getElementById('success-alert').style.display = 'none';
                                     }, 5000);
                                 </script>
-                                <table id="eseses" class="table table-bordered table-striped">
+                                <table id="example" class="display" cellspacing="0" width="100%">
 
                                     <thead class="">
                                         <tr>
@@ -125,7 +125,10 @@
 
     <script>
         $(document).ready(function() {
-            $('#eseses').DataTable();
+            var table = $('#example').DataTable({
+                // 'ajax': 'https://gyrocode.github.io/files/jquery-datatables/arrays.json',
+                'rowsGroup': [2]
+            });
         });
     </script>
 @endsection

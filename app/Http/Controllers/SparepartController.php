@@ -90,7 +90,9 @@ class SparepartController extends Controller
     public function requestsparepart()
     {
         $users = user::all();
-        $sparepart = Sparepart::where('stok', '>', 0)->get();
+        $sparepart = Sparepart::where('stok', '>', 0)
+        ->where('id_cabang', '=', getUserCabang())
+        ->get();
         $cabang = session('cabang');
         return view('Masterdata.sparepart.requestsparepart', compact('sparepart', 'users', 'cabang'));
     }
@@ -164,7 +166,9 @@ class SparepartController extends Controller
     {
 
         $users = user::all();
-        $sparepart = Sparepart::where('stok', '>', 0)->get();
+        $sparepart = Sparepart::where('stok', '>', 0)
+        ->where('id_cabang','=',getUserCabang())
+        ->get();
         $cabang = session('cabang');
 
         $data = keluarstok::findOrFail($id);

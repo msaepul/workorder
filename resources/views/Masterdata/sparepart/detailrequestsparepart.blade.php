@@ -33,25 +33,35 @@
                             <div class="left-links">
                                 <div class="status-container">
                                     @if ($data->status == 1)
-                                        <input type="hidden" name="id_tx" value="{{ $data->id_tx }}">
-                                        <button type="submit" name="status" value="2" class="btn btn-success mr-2"
-                                            onclick="return confirm('Apakah anda ingin mengkonfirmasi Permintaan Sparepart?')">
-                                            Confirm
-                                        </button>
+                                        @if (getDeptUser($data->user_id) == 'EDP' || getUserDept() != 'EDP')
+                                            <input type="hidden" name="id_tx" value="{{ $data->id_tx }}">
+                                            <button type="submit" name="status" value="2"
+                                                class="btn btn-success mr-2"
+                                                onclick="return confirm('Apakah anda ingin mengkonfirmasi Permintaan Sparepart?')">
+                                                Confirm
+                                            </button>
 
-                                        <button type="submit" name="status" value="0" class="btn btn-secondary "
-                                            onclick="return confirm('Apakah anda ingin membatalkan Permintaan Sparepart?')">
-                                            Cancel
-                                        </button>
+                                            <button type="submit" name="status" value="0" class="btn btn-secondary "
+                                                onclick="return confirm('Apakah anda ingin membatalkan Permintaan Sparepart?')">
+                                                Cancel
+                                            </button>
+                                        @endif
                                     @elseif ($data->status == 2)
-                                        <input type="hidden" name="id_tx" value="{{ $data->id_tx }}">
-                                        <button type="submit" name="status" value="3" class="btn btn-success mr-2"
-                                            onclick="return confirm('Apakah anda ingin mengkonfirmasi Permintaan Sparepart?')">
-                                            Keluarkan
-                                        </button>
-                                        <a href="{{ route('editrequest_sparepart', $data->id) }}"
-                                            class="btn btn-secondary "> <i class="nav-icon fas fa-edit"></i>
-                                            Edit</a>
+                                        @if (getUserDept() == 'EDP')
+                                            <input type="hidden" name="id_tx" value="{{ $data->id_tx }}">
+                                            <button type="submit" name="status" value="3"
+                                                class="btn btn-success mr-2"
+                                                onclick="return confirm('Apakah anda ingin mengkonfirmasi Permintaan Sparepart?')">
+                                                Keluarkan
+                                            </button>
+                                            <a href="{{ route('editrequest_sparepart', $data->id) }}"
+                                                class="btn btn-secondary "> <i class="nav-icon fas fa-edit"></i>
+                                                Edit</a>
+                                        @else
+                                            <span class="btn btn-secondary mr-2 disabled" data-toggle="modal"
+                                                data-target="#confirmModal">Menunggu EDP Mengeluarkan Sparepart</span>
+                                        @endif
+
                                     @endif
 
                                 </div>
@@ -159,7 +169,7 @@
 
 
                             </table>
-
+                            Dibuat oleh {{ getFullName($data->user_id) }}
                             <br>
 
             </form>
