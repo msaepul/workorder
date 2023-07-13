@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\perangkat;
+use App\Models\workorder;
 use App\Models\keluarstok;
+use App\Models\tambahstok;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -14,8 +16,25 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $UserCount = User::count();
-        return view('Admin.dashboard', ['jumlah_user' => $UserCount]);
+        $WoCount = workorder::query()
+        ->where('cabang_id', '=', getUserCabang())
+        ->count();
+    
+    $WoDoneCount = workorder::query()
+        ->where('status', '=', 5)
+        ->where('cabang_id', '=', getUserCabang())
+        ->count();
+    
+    $UserCount = User::query()
+        ->where('cabang','=',getUserCabang())
+        ->count();
+
+        $PurchaseCount = tambahstok::query()
+        ->where('id_cabang','=',getUserCabang())
+        ->count();
+    
+    return view('Admin.dashboard', compact('WoCount', 'UserCount', 'WoDoneCount','PurchaseCount'));
+    
     }
 
     public function Gallery()

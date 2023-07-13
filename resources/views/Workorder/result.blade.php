@@ -95,7 +95,7 @@
                                                         data-target="#confirmModal"> EDP Sedang Mengerjakan WO</span>
                                                 @endif
                                             @elseif ($workorders->status == 4)
-                                                @if (getUserDept() != 'EDP' || getUserDept($workorders->user_id) == 'EDP')
+                                                @if (getUserDept() != 'EDP' || getDeptUser($workorders->user_id) == 'EDP')
                                                     <button type="submit" name="status" value="5"
                                                         class="btn btn-success mr-2"
                                                         onclick="return confirm('Apakah anda ingin Validasi WO?')">Validasi

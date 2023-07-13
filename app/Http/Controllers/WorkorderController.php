@@ -246,14 +246,21 @@ class WorkorderController extends Controller
             $item->status = 3;
             $item->save();
         } elseif ($status == 4) {
- 
             $itemNames = $request->input('part');
             $qtys = $request->input('qty');
             $notx = keluarstok::generateNomor();
             $currentDateTime = now();
             $formattedDate = $currentDateTime->format('Y-m-d');
-            // dd($itemNames);
-            if (count($itemNames) == null && count($qtys) == null) {
+            // dd(count($itemNames));
+            if ($itemNames[0] === null)  {
+                $item = Workorder::find($id);
+                $item->id_tx = null;
+                $item->analisa = $request->input('analisa');
+                $item->tindakan = $request->input('tindakan');
+                $item->date_actual = $request->input('date_actual');
+                $item->status = 4;
+                $item->save();
+            } else {
                 foreach ($itemNames as $index => $itemName) {
                     // Buat instance model keluarstok
                     $keluarstok = new keluarstok;
@@ -268,7 +275,6 @@ class WorkorderController extends Controller
                     // Simpan model ke database
                     $keluarstok->save();
                 }
-            
                 $item = Workorder::find($id);
                 $item->id_tx = $notx;
                 $item->analisa = $request->input('analisa');
@@ -276,15 +282,8 @@ class WorkorderController extends Controller
                 $item->date_actual = $request->input('date_actual');
                 $item->status = 4;
                 $item->save();
-            } else {
-                $item = Workorder::find($id);
-                $item->id_tx = null;
-                $item->analisa = $request->input('analisa');
-                $item->tindakan = $request->input('tindakan');
-                $item->date_actual = $request->input('date_actual');
-                $item->status = 4;
-                $item->save();
             }
+            
          }elseif ($status == 5) {
             // Lakukan aksi untuk status = 5
             $item = Workorder::find($id); // Ganti dengan logika Anda untuk mendapatkan item yang sesuai
