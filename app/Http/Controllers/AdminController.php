@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
+use Charts;
 
 class AdminController extends Controller
 {
@@ -33,6 +34,10 @@ class AdminController extends Controller
         ->where('id_cabang','=',getUserCabang())
         ->count();
     
+        // $chart = Charts::create('bar', 'chartjs')
+        //     ->title('Contoh Grafik')
+        //     ->labels(['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'])
+        //     ->values([50, 80, 30, 60, 20, 75]);
     return view('Admin.dashboard', compact('WoCount', 'UserCount', 'WoDoneCount','PurchaseCount'));
     
     }
