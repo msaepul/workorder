@@ -156,9 +156,6 @@ class SparepartController extends Controller
         }
         
         return redirect()->route('detailrequest_sparepart', $id);
-        
-
-
 
     }
     //edit Sparepart Request
