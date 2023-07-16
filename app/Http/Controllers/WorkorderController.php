@@ -8,9 +8,15 @@ use App\Models\perangkat;
 use App\Models\Sparepart;
 use App\Models\workorder;
 use App\Models\keluarstok;
+use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\WorkordersExport;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+
 
 class WorkorderController extends Controller
 {
@@ -293,6 +299,156 @@ class WorkorderController extends Controller
         return redirect()->route('Workorder_detail', $id);
 
     }
+
+    public function generatePDF($id){
+
+        $now = Carbon::now()->tz('Asia/Jakarta');
+        $dateTime = $now->toDateTimeString();
+        // Mengambil data berdasarkan ID
+        $workorders = workorder::findOrFail($id);
+
+        $data = $workorders->id_tx;
+        $items = keluarstok::where('id_tx', $data)->get();
+        $groupedHistory = $items->groupBy('id_tx');
+
+   
+        $no_wo = $workorders->lampiran;
+        $status = $workorders->status;
+        $sparepart = Sparepart::where('id_cabang', '=', getUserCabang())->get();
+
+
+        $html = '<style>';
+        $html .= 'body { border: 1px solid black; padding: 20px; }';
+        $html .= 'table { border-collapse: collapse; width: 100%; }';
+        $html .= 'th, td { border: 1px solid black; padding: 5px;  }';
+        $html .= 'th { background-color: #f2f2f2; }';
+        $html .= '.border-left { border :none; border-left: 1px solid black; }';
+        $html .= '.border-right { border :none; border-right: 1px solid black; text-align: left;  padding-left: 20px; }';
+        $html .= '</style>';
+        
+        $html .= '<table>';
+
+        $html .= '<tr>';
+        $html .= '<th rowspan="2">Logo</th>';
+        $html .= '<th rowspan="2" colspan="2">Form Work Order</th>';
+        $html .= '<th>'.$workorders->no_wo.'</th>'; 
+   
+        $html .= '</tr>';
+        $html .= '<tr>';
+        $html .= '<th>'.$workorders->wo_create.'</th>';
+        $html .= '</tr>';
+        
+        $html .= '<td colspan="4" style="text-align: center; border-bottom: 1px solid black; background-color: #f2f2f2;"> Informasi Work Order </td>';
+        $html .= '</tr>';
+        
+        $html .= '<tr>';
+        $html .= '<td class="border-left"> Pembuat </td>';
+        $html .= '<td style="border: none;">'.getFullName($workorders->user_id).'</td>';
+        $html .= '<td style="border: none; text-align: right;">Pelaksana</td>';
+        $html .= '<td class="border-right">'.getFullName($workorders->userfix_id).'</td>';
+        $html .= '</tr>';
+        
+        $html .= '<tr>';
+        $html .= '<td class="border-left"> Jenis WO </td>';
+        $html .= '<td style="border: none;">'.$workorders->kategori_wo.'</td>';
+        $html .= '<td style="border: none; text-align: right;">Target Selesai</td>';
+        $html .= '<td class="border-right">'.$workorders->date_end.'</td>';
+        $html .= '</tr>';
+        
+        $html .= '<tr>';
+        $html .= '<td class="border-left"></td>';
+        $html .= '<td style="border: none;"></td>';
+        $html .= '<td style="border: none; text-align: right;">Aktual Selesai</td>';
+        $html .= '<td class="border-right">'.$workorders->date_actual.'</td>';
+        $html .= '</tr>';
+        
+        $html .= '<tr>';
+        $html .= '<td colspan="4" style="text-align: center; border-bottom: 1px solid black; background-color: #f2f2f2;"> Informasi Masalah </td>';
+        $html .= '</tr>';
+        
+        $html .= '<tr>';
+        $html .= '<td colspan="2" style="text-align: center; border-right: 1px solid black;  background-color: #f2f2f2;"> Objek </td>';
+        $html .= '<td colspan="2" style="text-align: center;  background-color: #f2f2f2;"> Keluhan </td>';
+        $html .= '</tr>';
+        
+        $html .= '<tr>';
+        $html .= '<td colspan="2" style="text-align: center; border-right: 1px solid black; padding: 30px;">'.$workorders->obyek.'</td>';
+        $html .= '<td colspan="2" style="text-align: center; padding: 30px;">'.$workorders->keadaan.' </td>';
+        $html .= '</tr>';
+        
+        $html .= '<tr>';
+        $html .= '<td colspan="4" style="text-align: center; border-bottom: 1px solid black; background-color: #f2f2f2;"> Informasi Pebaikan </td>';
+        $html .= '</tr>';
+        
+        $html .= '<tr>';
+        $html .= '<td colspan="2" style="text-align: center; border-right: 1px solid black ;  background-color: #f2f2f2;"> Anlisa Kerusakan </td>';
+        $html .= '<td colspan="2" style="text-align: center;  background-color: #f2f2f2;"> Tindakan Perbaikan </td>';
+        $html .= '</tr>';
+        
+        $html .= '<tr>';
+        $html .= '<td colspan="2" style="text-align: center; padding: 30px; border-right: 1px solid black;">'.$workorders->analisa.'</td>';
+        $html .= '<td colspan="2" style="text-align: center; padding: 30px;">'.$workorders->tindakan.' </td>';
+        $html .= '</tr>';
+    
+          $html .= '<tr>';
+        $html .= '<td colspan="2" style="text-align: center; border-right: 1px solid black ;  background-color: #f2f2f2;">Waktu Mulai Mengerjakan </td>';
+        $html .= '<td colspan="2" style="text-align: center;  background-color: #f2f2f2;"> Sparepart/sukucadang</td>';
+        $html .= '</tr>';
+
+        if ($workorders->id_tx === null) {
+            $html .= '<tr>';
+            $html .= '<td colspan="2">'.$workorders->date_start.'</td>';
+            $html .= '<td colspan="2">Tidak ada sparepart yang digunakan</td>';
+            $html .= '</tr>';
+        } else {
+            foreach ($groupedHistory as $id_tx => $group) {
+                $groupSize = count($group);
+                foreach ($group as $key => $item) {
+                    $html .= '<tr>';
+                    if ($key === 0) {
+                        $html .= '<td class="align-middle text-center" style="text-align: center;"colspan="2" rowspan="' . $groupSize . '">';
+
+                        $html .= $workorders->date_start;
+                        $html .= '</td>';
+                    }
+                    $html .= '<td   >';
+                    $html .= getNameSparepart($item['id_spr']);
+                    $html .= '</td>';
+                    $html .= '<td style="text-align: center;">';
+                    $html .= $item['qty'];
+                    $html .= '</td>';
+                    $html .= '</tr>';
+                }
+            }
+        }
+        
+        $html .= '</table>';
+        
+        
+        
+          // foreach ($users as $user) {
+        //     $html .= '<tr><td>' . $user->nama_lengkap . '</td><td>' . $user->email . '</td></tr>';
+        // }
+        $dompdf = new Dompdf();
+        $dompdf->set_option('isRemoteEnabled', true);
+        $dompdf->loadHtml($html);
+        $dompdf -> setPaper ([ 0 , 0 , 685.98 , 515.85 ], 'lanskap' );
+
+        // Render HTML to PDF
+        $dompdf->render();
+        
+        // Save or display the PDF
+        $dompdf->stream('output.pdf', ['Attachment' => false]);
+        
+        
+      }
+
+     public function export()
+    {
+        return Excel::download(new WorkordersExport, 'WO.xlsx');
+    }
+ 
+ 
 
     
 }

@@ -51,14 +51,18 @@ Route::middleware('auth')->group(function () {
     Route::prefix('Workorder')->group(function () {
         Route::get('', [WorkorderController::class, 'create'])->name('Workorder_create');
         Route::get('detail/{id}', [WorkorderController::class, 'detailwo'])->name('Workorder_detail');
+        Route::get('detail/{id}/pdf', [WorkorderController::class, 'generatePDF'])->name('detailrequest_sparepart.pdf');
         Route::get('edit/{id}', [WorkorderController::class, 'editwo'])->name('Workorder_edit');
         Route::put('edit/{id}', [WorkorderController::class, 'editwoproses'])->name('Workorder_editproses');
+        
         Route::get('{id}', [WorkorderController::class, 'confirm'])->name('wo_confadmin');
         Route::post('', [WorkorderController::class, 'woproses'])->name('Workorder_proses');
         Route::post('updates/{id}', [WorkorderController::class, 'updateStatus'])->name('woupdate_status');
         Route::post('update/{id}', [WorkorderController::class, 'updateStatus2'])->name('woupdate_status2');
         Route::get('datawo', [WorkorderController::class, 'datawo'])->name('Dataworkorder');
+       
     });   Route::get('datawo', [WorkorderController::class, 'datawo'])->name('Dataworkorder');
+    Route::get('/export', [WorkorderController::class, 'export'])->name('export_wo');
 
 
     Route::prefix('TPM')->group(function () {

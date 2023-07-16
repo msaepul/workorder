@@ -7,9 +7,11 @@ use App\Models\User;
 use App\Models\supplier;
 use App\Models\tambahstok;
 use App\Models\Sparepart;
+use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\HtmlString;
+use Illuminate\Support\Facades\Storage;
 class SparepartController extends Controller
 {
 
@@ -344,4 +346,5 @@ class SparepartController extends Controller
         return redirect()->route('sparepart')->with('success', 'Data sparepart berhasil ditambahkan.');
         // Melakukan redirect dan menyertakan pesan sukses
     }
+
 }

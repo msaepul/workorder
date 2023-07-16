@@ -104,6 +104,10 @@
                                                     <span class="btn btn-secondary mr-2 disabled" data-toggle="modal"
                                                         data-target="#confirmModal">Menunggu User Memvalidasi WO</span>
                                                 @endif
+                                            @elseif ($workorders->status == 5)
+                                                <a class="btn btn-success"
+                                                    href="{{ route('detailrequest_sparepart.pdf', ['id' => $workorders->id]) }}"
+                                                    target="_blank"><i class="fa-solid fa-print"></i> Print WO</a>
 
                                             @endif
 
@@ -148,7 +152,10 @@
                             <div class="card card-secondary card-outline col-12 col-md-10">
                                 <div class="card-header">
                                     <div class="d-flex align-items-center justify-content-between">
-                                        <h3 class="card-title font-weight-bold">Form Work Order</h3>
+                                        <h3 class="card-title font-weight-bold">Form Work Order <a
+                                                href="{{ route('export_wo') }}" class="btn btn-primary">Unduh Laporan
+                                                Excel</a>
+                                        </h3>
                                         <div class="ml-auto">
                                             <button class="btn btn-link btn-toggle-collapse" type="button"
                                                 data-toggle="collapse" data-target="#collapseCard" aria-expanded="false"
@@ -349,7 +356,8 @@
                                             @endif
 
                                             <h6>(Diperbaiki Oleh: {{ Auth::user()->nama_lengkap }})</h6>
-
+                                            <img src="http://localhost:8000/images/logo_jordan.png" alt="Logo Perusahaan"
+                                                style="width: 100px; height: auto; margin-bottom: 20px;">
                                         </div>
 
                                     </div>
