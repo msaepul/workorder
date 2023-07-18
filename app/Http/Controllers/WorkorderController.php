@@ -322,14 +322,17 @@ class WorkorderController extends Controller
         $html .= 'table { border-collapse: collapse; width: 100%; }';
         $html .= 'th, td { border: 1px solid black; padding: 5px;  }';
         $html .= 'th { background-color: #f2f2f2; }';
-        $html .= '.border-left { border :none; border-left: 1px solid black; }';
-        $html .= '.border-right { border :none; border-right: 1px solid black; text-align: left;  padding-left: 20px; }';
+        $html .= '.border-left { border :none; border-left: 1px solid black;  }';
+        $html .= '.border-right { border :none; border-right: 1px solid black; text-align: left;  padding-left: 40px; }';
         $html .= '</style>';
         
         $html .= '<table>';
 
         $html .= '<tr>';
+        // $html .= '<th rowspan="2"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/2048px-Instagram_logo_2016.svg.png" style="width:20%;"></th>';
         $html .= '<th rowspan="2">Logo</th>';
+
+
         $html .= '<th rowspan="2" colspan="2">Form Work Order</th>';
         $html .= '<th>'.$workorders->no_wo.'</th>'; 
    
@@ -343,23 +346,23 @@ class WorkorderController extends Controller
         
         $html .= '<tr>';
         $html .= '<td class="border-left"> Pembuat </td>';
-        $html .= '<td style="border: none;">'.getFullName($workorders->user_id).'</td>';
+        $html .= '<td style="border: none;"> : '.getFullName($workorders->user_id).'</td>';
         $html .= '<td style="border: none; text-align: right;">Pelaksana</td>';
-        $html .= '<td class="border-right">'.getFullName($workorders->userfix_id).'</td>';
+        $html .= '<td class="border-right"> : '.getFullName($workorders->userfix_id).'</td>';
         $html .= '</tr>';
         
         $html .= '<tr>';
         $html .= '<td class="border-left"> Jenis WO </td>';
-        $html .= '<td style="border: none;">'.$workorders->kategori_wo.'</td>';
+        $html .= '<td style="border: none;"> : '.$workorders->kategori_wo.'</td>';
         $html .= '<td style="border: none; text-align: right;">Target Selesai</td>';
-        $html .= '<td class="border-right">'.$workorders->date_end.'</td>';
+        $html .= '<td class="border-right"> : '.$workorders->date_end.'</td>';
         $html .= '</tr>';
         
         $html .= '<tr>';
         $html .= '<td class="border-left"></td>';
         $html .= '<td style="border: none;"></td>';
         $html .= '<td style="border: none; text-align: right;">Aktual Selesai</td>';
-        $html .= '<td class="border-right">'.$workorders->date_actual.'</td>';
+        $html .= '<td class="border-right"> : '.$workorders->date_actual.'</td>';
         $html .= '</tr>';
         
         $html .= '<tr>';
@@ -397,8 +400,8 @@ class WorkorderController extends Controller
 
         if ($workorders->id_tx === null) {
             $html .= '<tr>';
-            $html .= '<td colspan="2">'.$workorders->date_start.'</td>';
-            $html .= '<td colspan="2">Tidak ada sparepart yang digunakan</td>';
+            $html .= '<td colspan="2" style="text-align: center;">'.$workorders->date_start.'</td>';
+            $html .= '<td colspan="2" style="text-align: center;">Tidak ada sparepart yang digunakan</td>';
             $html .= '</tr>';
         } else {
             foreach ($groupedHistory as $id_tx => $group) {
@@ -406,7 +409,7 @@ class WorkorderController extends Controller
                 foreach ($group as $key => $item) {
                     $html .= '<tr>';
                     if ($key === 0) {
-                        $html .= '<td class="align-middle text-center" style="text-align: center;"colspan="2" rowspan="' . $groupSize . '">';
+                        $html .= '<td class="align-middle text-center" style="text-align: center;" colspan="2" rowspan="' . $groupSize . '">';
 
                         $html .= $workorders->date_start;
                         $html .= '</td>';

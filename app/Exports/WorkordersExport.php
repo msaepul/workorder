@@ -19,6 +19,7 @@ class WorkordersExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
+            'ID',
             'No WO',
             'WO Created',
             'Kategori WO',

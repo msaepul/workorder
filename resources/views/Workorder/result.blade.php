@@ -152,9 +152,9 @@
                             <div class="card card-secondary card-outline col-12 col-md-10">
                                 <div class="card-header">
                                     <div class="d-flex align-items-center justify-content-between">
-                                        <h3 class="card-title font-weight-bold">Form Work Order <a
-                                                href="{{ route('export_wo') }}" class="btn btn-primary">Unduh Laporan
-                                                Excel</a>
+                                        <h3 class="card-title font-weight-bold">Form Work Order
+                                            {{-- <a href="{{ route('export_wo') }}" class="btn btn-primary">Unduh Laporan
+                                                Excel</a> --}}
                                         </h3>
                                         <div class="ml-auto">
                                             <button class="btn btn-link btn-toggle-collapse" type="button"
