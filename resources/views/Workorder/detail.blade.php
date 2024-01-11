@@ -185,26 +185,38 @@
                         <div class="d-flex justify-content-center">
                             <div class="card card-secondary card-outline col-12 col-md-10">
                                 <div class="card-header">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <h3 class="card-title font-weight-bold">Form Work Order</h3>
-                                        <div class="ml-auto">
-                                            <button class="btn btn-link btn-toggle-collapse" type="button"
-                                                data-toggle="collapse" data-target="#collapseCard" aria-expanded="false"
-                                                aria-controls="collapseCard">
-                                                <i class="fa fa-minus text-secondary"></i>
-                                            </button>
-                                        </div>
-                                    </div>
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td style="width: 120px;">
+                                                <img src="{{ asset('images/logo_jordan.jpg') }}" alt="Nama Gambar"
+                                                    style="max-width: 130%;">
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <h1 class="card-title font-weight-bold " style="font-size: 2em;">Form
+                                                        Work Order</h1>
 
+                                                </div>
+                                            </td>
+                                            <td style="width: 120px;">
+                                                EDP-12 Rev.00
+                                            </td>
+                                        </tr>
 
+                                    </table>
+                                    <tr>
+                                        <center>
+                                            <span><b>No WO : </b>{{ $workorders->no_wo }}</span>
+                                        </center>
+                                    </tr>
                                 </div>
                                 <div class="collapse show" id="collapseCard">
                                     <div class="card-body">
                                         <div class="form-group row">
-                                            <label for="nomor" class="col-sm-2 col-form-label">Nomor WO</label>
+                                            <label for="nomor" class="col-sm-2 col-form-label">Tanggal WO</label>
                                             <div class="col-sm-3">
                                                 <span class="form-control form-control-border disabled-input"
-                                                    name="no_wo"> {{ $workorders->no_wo }}</span>
+                                                    name="no_wo"> {{ $workorders->wo_create }}</span>
                                             </div>
                                             <div class="col-sm-2"></div>
                                             <label for="kategori" class="col-sm-2 col-form-label">Kategori</label>
@@ -218,11 +230,24 @@
                                         </div>
 
                                         <div class="form-group row">
-                                            <label for="tgl" class="col-sm-2 col-form-label">Tanggal WO</label>
+                                            <label for="tgl" class="col-sm-2 col-form-label">Prioritas</label>
                                             <div class="col-sm-3">
-                                                <span class="form-control form-control-border disabled-input"
-                                                    name="tgl_dibuat">{{ $workorders->wo_create }} </span>
-
+                                                <span type="text"
+                                                    class="form-control form-control-border disabled-input"
+                                                    name="kategori_wo" value="">
+                                                    @if ($workorders->level == 1)
+                                                        Segera
+                                                    @elseif($workorders->level == 2)
+                                                        Tinggi
+                                                    @elseif($workorders->level == 3)
+                                                        Sedang
+                                                    @elseif($workorders->level == 4)
+                                                        Rendah
+                                                    @elseif($workorders->level == 3)
+                                                        Tidak Mendesak
+                                                        <!-- Pilihan lain, jika diperlukan -->
+                                                    @endif
+                                                </span>
 
                                             </div>
                                             <div class="col-sm-2"></div>

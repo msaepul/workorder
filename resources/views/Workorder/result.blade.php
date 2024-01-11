@@ -151,21 +151,31 @@
                         <div class="d-flex justify-content-center">
                             <div class="card card-secondary card-outline col-12 col-md-10">
                                 <div class="card-header">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <h3 class="card-title font-weight-bold">Form Work Order
-                                            {{-- <a href="{{ route('export_wo') }}" class="btn btn-primary">Unduh Laporan
-                                                Excel</a> --}}
-                                        </h3>
-                                        <div class="ml-auto">
-                                            <button class="btn btn-link btn-toggle-collapse" type="button"
-                                                data-toggle="collapse" data-target="#collapseCard" aria-expanded="false"
-                                                aria-controls="collapseCard">
-                                                <i class="fa fa-plus text-secondary"></i>
-                                            </button>
-                                        </div>
-                                    </div>
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td style="width: 120px;">
+                                                <img src="{{ asset('images/logo_jordan.jpg') }}" alt="Nama Gambar"
+                                                    style="max-width: 100%;">
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <h1 class="card-title font-weight-bold " style="font-size: 2em;">Form
+                                                        Work Order</h1>
+
+                                                </div>
+                                            </td>
+                                            <td style="width: 150px;">
+                                                EDP-12 Rev.00 <button class="btn btn-link btn-toggle-collapse"
+                                                    type="button" data-toggle="collapse" data-target="#collapseCard"
+                                                    aria-expanded="false" aria-controls="collapseCard">
+                                                    <i class="fa fa-minus text-secondary"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </table>
+
                                 </div>
-                                <div class="collapse" id="collapseCard">
+                                <div class="collapse show" id="collapseCard">
                                     <div class="card-body">
                                         <div class="form-group row">
                                             <label for="nomor" class="col-sm-2 col-form-label">Nomor WO</label>
@@ -206,42 +216,133 @@
                                                 </div>
                                             @endif
 
-
                                         </div>
-                                        <hr>
+                                        <br>
+                                        <br>
 
                                         {{-- <h5 class="text-bold mt-5">Uraian Masalah :</h5> --}}
 
-                                        <div class="form-group row">
-                                            <label for="obyek" class="col-sm-2 col-form-label">Obyek</label>
-                                            <div class="col-sm-10">
-                                                <span type="text"
-                                                    class="form-control form-control form-control-border disabled-input"
-                                                    name="obyek" id="obyek"
-                                                    value="">{{ $workorders->obyek }} </span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="keadaan" class="col-sm-2 col-form-label">Informasi Keluhan /
-                                                Permintaan</label>
-                                            <div class="col-sm-10">
-                                                <textarea class="form-control disabled-input" name="keadaan" rows="4" cols="82" style="resize: none;"
-                                                    readonly>{{ $workorders->keadaan }}</textarea>
 
+                                        <ul class="nav nav-tabs" id="myTabs">
+                                            <li class="nav-item">
+                                                <a class="nav-link active text-dark font-weight-bold" id="tab1"
+                                                    data-toggle="tab" href="#contentTab1">Informasi Work order</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link text-dark font-weight-bold" id="tab2"
+                                                    data-toggle="tab" href="#contentTab2">Perbaikan</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link text-dark font-weight-bold" id="tab3"
+                                                    data-toggle="tab" href="#contentTab3">Sparepart</a>
+                                            </li>
+                                            <!-- Add more tabs as needed -->
+                                        </ul>
+
+                                        <div class="tab-content mt-2">
+                                            <div class="tab-pane fade show active" id="contentTab1">
+                                                <div class="form-group row">
+                                                    <label for="obyek" class="col-sm-2 col-form-label">Obyek</label>
+                                                    <div class="col-sm-10">
+                                                        <span type="text"
+                                                            class="form-control form-control form-control-border disabled-input"
+                                                            name="obyek" id="obyek"
+                                                            value="">{{ $workorders->obyek }} </span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="keadaan" class="col-sm-2 col-form-label">Informasi
+                                                        Keluhan /
+                                                        Permintaan</label>
+                                                    <div class="col-sm-10">
+                                                        <textarea class="form-control disabled-input" name="keadaan" rows="4" cols="82" style="resize: none;"
+                                                            readonly>{{ $workorders->keadaan }}</textarea>
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="gambar" class="col-sm-2 col-form-label">Lampiran</label>
+                                                    <div class="col-sm-10">
+                                                        @if ($lampiran && file_exists(public_path($lampiran)))
+                                                            <a href="{{ asset($lampiran) }}" target="_blank"
+                                                                class="zoom-image">
+                                                                <img src="{{ asset($lampiran) }}" alt="Lampiran"
+                                                                    class="gambar-kecil">
+                                                            </a>
+                                                        @else
+                                                            <p>Tidak ada lampiran</p>
+                                                        @endif
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="gambar" class="col-sm-2 col-form-label">Lampiran</label>
-                                            <div class="col-sm-10">
-                                                @if ($lampiran && file_exists(public_path($lampiran)))
-                                                    <a href="{{ asset($lampiran) }}" target="_blank" class="zoom-image">
-                                                        <img src="{{ asset($lampiran) }}" alt="Lampiran"
-                                                            class="gambar-kecil">
-                                                    </a>
-                                                @else
-                                                    <p>Tidak ada lampiran</p>
-                                                @endif
+                                            <div class="tab-pane fade" id="contentTab2">
+                                                <div class="form-group row">
+
+                                                    <label for="analisa" class="col-sm-2 col-form-label">Analisa
+                                                        Kerusakan</label>
+                                                    <div class="col-sm-10">
+                                                        <textarea class="form-control " name="analisa" rows="2" cols="42" placeholder="Analisa Kerusakan "
+                                                            disabled> {{ $workorders->analisa }}</textarea>
+
+                                                    </div>
+
+                                                    <label for="tindakan" class="col-sm-2 col-form-label">Tindakan
+                                                        Perbaikan /
+                                                        Detail
+                                                        Penanganan</label>
+                                                    <div class="col-sm-10 mt-2">
+                                                        <textarea class="form-control " name="tindakan" rows="4" cols="82" placeholder="Tindakan Perbaikan"
+                                                            disabled> {{ $workorders->tindakan }}</textarea>
+
+                                                    </div>
+                                                </div>
                                             </div>
+                                            <div class="tab-pane fade" id="contentTab3">
+                                                <div
+                                                    class="bg-danger rounded d-flex align-items-center justify-content-center">
+                                                    <span class="text-white fw-bold fs-10">Suku Cadang / sparepart yang
+                                                        digunakan</span>
+                                                </div>
+                                                <table class="table table-bordered text-center pb-2" id="items_table">
+                                                    <tr>
+                                                        <th>Kode Transaksi</th>
+                                                        <th>Nama Sparepart</th>
+                                                        {{-- <th>
+                                                            <bold>Stok</bold>
+                                                        </th> --}}
+                                                        <th>
+                                                            <bold>qty</bold>
+                                                        </th>
+
+                                                    </tr>
+                                                    @if ($workorders->id_tx === null)
+                                                        <td colspan="3">Tidak ada sparepart yang digunakan</td>
+                                                    @else
+                                                        @foreach ($groupedHistory as $id_tx => $group)
+                                                            @php
+                                                                $groupSize = count($group);
+                                                            @endphp
+                                                            @foreach ($group as $key => $item)
+                                                                <tr>
+                                                                    @if ($key === 0)
+                                                                        <td class="align-middle text-center"
+                                                                            rowspan="{{ $groupSize }}">
+                                                                            {{ $item->id_tx }}
+                                                                        </td>
+                                                                    @endif
+                                                                    <td>
+                                                                        {{ getNameSparepart($item['id_spr']) }}</td>
+
+                                                                    <td>{{ $item['qty'] }}</td>
+
+                                                                </tr>
+                                                            @endforeach
+                                                        @endforeach
+
+                                                    @endif
+                                                </table><br>
+                                            </div>
+                                            <!-- Add more tab content as needed -->
                                         </div>
                                         <h6>(Dibuat Oleh: {{ getFullName($workorders->user_id) }})</h6>
 
@@ -356,8 +457,7 @@
                                             @endif
 
                                             <h6>(Diperbaiki Oleh: {{ Auth::user()->nama_lengkap }})</h6>
-                                            <img src="http://localhost:8000/images/logo_jordan.png" alt="Logo Perusahaan"
-                                                style="width: 100px; height: auto; margin-bottom: 20px;">
+
                                         </div>
 
                                     </div>

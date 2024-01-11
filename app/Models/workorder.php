@@ -14,6 +14,7 @@ class workorder extends Model
     protected $fillable = [
         'no_wo',
         'wo_create',
+        'level',
         'kategori_wo',
         'perangkat_idanydesk',
         'lokasi',

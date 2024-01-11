@@ -191,6 +191,12 @@
             max-width: 300px;
             max-height: 200px;
         }
+
+        /* Your custom CSS file */
+        .close-white {
+            color: #fff !important;
+            /* Use !important to override any conflicting styles */
+        }
     </style>
 </head>
 

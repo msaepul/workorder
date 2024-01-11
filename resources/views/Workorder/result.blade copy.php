@@ -3,9 +3,7 @@
 @section('title', 'Data Order')
 
 @section('content')
-    @php
-        \Carbon\Carbon::setLocale('id_ID');
-    @endphp
+
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -106,6 +104,10 @@
                                                     <span class="btn btn-secondary mr-2 disabled" data-toggle="modal"
                                                         data-target="#confirmModal">Menunggu User Memvalidasi WO</span>
                                                 @endif
+                                            @elseif ($workorders->status == 5)
+                                                <a class="btn btn-success"
+                                                    href="{{ route('detailrequest_sparepart.pdf', ['id' => $workorders->id]) }}"
+                                                    target="_blank"><i class="fa-solid fa-print"></i> Print WO</a>
 
                                             @endif
 
@@ -149,53 +151,22 @@
                         <div class="d-flex justify-content-center">
                             <div class="card card-secondary card-outline col-12 col-md-10">
                                 <div class="card-header">
-                                    <table style="width: 100%;">
-                                        <tr>
-                                            <td style="width: 120px;">
-                                                <img src="{{ asset('images/logo_jordan.jpg') }}" alt="Nama Gambar"
-                                                    style="max-width: 100%;">
-                                            </td>
-                                            <td>
-                                                <div class="d-flex align-items-center justify-content-center">
-                                                    <h1 class="card-title font-weight-bold " style="font-size: 2em;">Form
-                                                        Work Order</h1>
-
-                                                </div>
-                                            </td>
-                                            <td style="width: 150px;">
-                                                EDP-12 Rev.00 <button class="btn btn-link btn-toggle-collapse"
-                                                    type="button" data-toggle="collapse" data-target="#collapseCard"
-                                                    aria-expanded="false" aria-controls="collapseCard">
-                                                    <i class="fa fa-minus text-secondary"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </table>
-
-                                </div>
-                                <div class="collapse show" id="collapseCard">
-                                    <div class="card-body">
-                                        <div class="alert alert-danger" role="alert">
-                                            <div class="row align-items-center">
-                                                <div class="col-sm-10">
-                                                    <div class="row justify-content-center">
-                                                        <div id="countdown" class="countdown"></div>
-                                                        <span
-                                                            class="ml-2">({{ \Carbon\Carbon::parse($workorders->date_end)->isoFormat('dddd, D MMMM YYYY HH:mm') }})</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-2 text-right">
-                                                    <button type="button" class="close close-white" data-dismiss="alert"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-
-                                                </div>
-                                            </div>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <h3 class="card-title font-weight-bold">Form Work Order
+                                            <a href="{{ route('export_wo') }}" class="btn btn-primary">Unduh Laporan
+                                                Excel</a>
+                                        </h3>
+                                        <div class="ml-auto">
+                                            <button class="btn btn-link btn-toggle-collapse" type="button"
+                                                data-toggle="collapse" data-target="#collapseCard" aria-expanded="false"
+                                                aria-controls="collapseCard">
+                                                <i class="fa fa-plus text-secondary"></i>
+                                            </button>
                                         </div>
-
-
-
+                                    </div>
+                                </div>
+                                <div class="collapse" id="collapseCard">
+                                    <div class="card-body">
                                         <div class="form-group row">
                                             <label for="nomor" class="col-sm-2 col-form-label">Nomor WO</label>
                                             <div class="col-sm-3">
@@ -214,7 +185,14 @@
                                         </div>
 
                                         <div class="form-group row">
+                                            <label for="tgl" class="col-sm-2 col-form-label">Tanggal WO</label>
+                                            <div class="col-sm-3">
+                                                <span class="form-control form-control-border disabled-input"
+                                                    name="tgl_dibuat">{{ $workorders->wo_create }} </span>
 
+
+                                            </div>
+                                            <div class="col-sm-2"></div>
                                             @if ($workorders->kategori_wo == 'hardware')
                                                 <label for="jenis" class="col-sm-2 col-form-label" id="jenis_label">
                                                     Perangkat
@@ -227,6 +205,8 @@
 
                                                 </div>
                                             @endif
+
+
                                         </div>
                                         <hr>
 
@@ -263,113 +243,7 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        @if ($workorders->status >= 2)
-                                            <ul class="nav nav-tabs" id="myTabs">
-                                                <li class="nav-item">
-                                                    <a class="nav-link active text-dark font-weight-bold" id="tab1"
-                                                        data-toggle="tab" href="#contentTab1">Perbaikan</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link text-dark font-weight-bold" id="tab2"
-                                                        data-toggle="tab" href="#contentTab2">Sparepart</a>
-                                                </li>
-                                                <!-- Add more tabs as needed -->
-                                            </ul>
-
-                                            <!-- Tab panes -->
-                                            <div class="tab-content mt-2">
-                                                <div class="tab-pane fade show active" id="contentTab1">
-                                                    <div class="form-group row">
-
-                                                        <label for="analisa" class="col-sm-2 col-form-label">Analisa
-                                                            Kerusakan</label>
-                                                        <div class="col-sm-10">
-                                                            <textarea class="form-control " name="analisa" rows="2" cols="42" placeholder="Analisa Kerusakan "
-                                                                @if (getUserDept() != 'EDP') disabled @endif required></textarea>
-
-                                                        </div>
-
-                                                        <label for="tindakan" class="col-sm-2 col-form-label">Tindakan
-                                                            Perbaikan /
-                                                            Detail
-                                                            Penanganan</label>
-                                                        <div class="col-sm-10 mt-2">
-                                                            <textarea class="form-control " name="tindakan" rows="4" cols="82" placeholder="Tindakan Perbaikan"
-                                                                @if (getUserDept() != 'EDP') disabled @endif required></textarea>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="tab-pane fade" id="contentTab2">
-                                                    @if ($workorders->status == 3 && getUserDept() == 'EDP')
-
-                                                        <div
-                                                            class="bg-danger rounded d-flex align-items-center justify-content-center">
-                                                            <span class="text-white fw-bold fs-10">Suku Cadang / sparepart
-                                                                yang
-                                                                digunakan</span>
-                                                        </div>
-                                                        <table class="table table-bordered text-center pb-2"
-                                                            id="items_table">
-                                                            <tr>
-                                                                <th>Nama Sparepart </th>
-                                                                <th>
-                                                                    <bold>Stok</bold>
-                                                                </th>
-                                                                <th>
-                                                                    <bold>qty</bold>
-                                                                </th>
-                                                                <th>
-                                                                    <bold>+/-</bold>
-                                                                </th>
-                                                            </tr>
-                                                            <tr>
-
-                                                                <td>
-                                                                    <select class="form-control select2" name="part[]"
-                                                                        style="width: 100%;" onchange="showStok(this)">
-                                                                        <option value="">Pilih Sparepart</option>
-                                                                        @foreach ($sparepart as $part)
-                                                                            <option value="{{ $part->id }}"
-                                                                                data-stok="{{ $part->stok }}"
-                                                                                style="text-align: left;">
-                                                                                {{ $part->nama_sparepart }}
-                                                                            </option>
-                                                                        @endforeach
-                                                                    </select>
-
-                                                                </td>
-                                                                <td style="width: 200px;">
-                                                                    <input type="text" class="form-control"
-                                                                        name="stok[]" value="" disabled>
-                                                                </td>
-
-                                                                <td style="width: 200px;">
-                                                                    <input type="text" class="form-control"
-                                                                        name="qty[]" value="{{ old('qty') }}"
-                                                                        onkeyup="calculateTotal(this)">
-                                                                </td>
-                                                                <td>
-                                                                    <button type="button" class="btn btn-transparent"
-                                                                        onclick="addRow()"><i
-                                                                            class="fas fa-plus text-primary"></i>
-                                                                    </button>
-
-
-                                                                </td>
-                                                            </tr>
-
-                                                        </table><br>
-                                                    @endif
-                                                </div>
-                                                <!-- Add more tab content as needed -->
-                                            </div>
-
-                                            <p style="font-size: 14px; color: #555; background-color: #f0f0f0; padding: 5px; border: 1px solid #ccc; margin: 5px 0;"
-                                                class="text-right">
-                                                <strong>Dibuat Oleh:</strong> {{ getFullName($workorders->user_id) }} -
-                                                {{ date('l, F j, Y H:i', strtotime($workorders->wo_create)) }}
-                                            </p>
+                                        <h6>(Dibuat Oleh: {{ getFullName($workorders->user_id) }})</h6>
 
                                     </div>
                                 </div>
@@ -377,121 +251,116 @@
                             <!-- /.card -->
 
                         </div>
+                        @if ($workorders->status >= 2)
 
-                        {{-- 
-                        <div class="d-flex justify-content-center">
-                            <div class="card card-secondary card-outline col-12 col-md-10">
-                                <div class="card-header">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <h3 class="card-title font-weight-bold">Form Perbaikan</h3>
-                                        <div class="ml-auto">
-                                            <button class="btn btn-link btn-toggle-collapse" type="button"
-                                                data-toggle="collapse" data-target="#collapseCard2" aria-expanded="false"
-                                                aria-controls="collapseCard">
-                                                <i class="fa fa-minus text-secondary"></i>
-                                            </button>
+                            <div class="d-flex justify-content-center">
+                                <div class="card card-secondary card-outline col-12 col-md-10">
+                                    <div class="card-header">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <h3 class="card-title font-weight-bold">Form Perbaikan</h3>
+                                            <div class="ml-auto">
+                                                <button class="btn btn-link btn-toggle-collapse" type="button"
+                                                    data-toggle="collapse" data-target="#collapseCard2"
+                                                    aria-expanded="false" aria-controls="collapseCard">
+                                                    <i class="fa fa-minus text-secondary"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="collapse show" id="collapseCard2">
-                                    <div class="card-body">
-                                        <div class="form-group row">
-                                            <label for="tgl" class="col-sm-2 col-form-label">Target
-                                                Selesai</label>
-                                            <div class="col-sm-3">
-                                                <input type="text"
-                                                    class="form-control form-control-border disabled-input"
-                                                    name="tgl_dibuat" value="{{ $workorders->date_end }}">
+                                    <div class="collapse show" id="collapseCard2">
+                                        <div class="card-body">
+                                            <div class="form-group row">
+                                                <label for="tgl" class="col-sm-2 col-form-label">Target
+                                                    Selesai</label>
+                                                <div class="col-sm-3">
+                                                    <span type="text"
+                                                        class="form-control form-control-border disabled-input"
+                                                        name="tgl_dibuat" value="">{{ $workorders->date_end }}
+                                                    </span>
+                                                </div>
+                                                <div class="col-2"></div>
+                                                <label for="tgl" class="col-sm-2 col-form-label">Aktual
+                                                    Selesai</label>
+                                                <div class="col-sm-3">
+                                                    <span type="text"
+                                                        class="form-control form-control-border disabled-input"
+                                                        name="tgl_dibuat" value="">{{ $workorders->date_actual }}
+                                                    </span>
+                                                </div>
                                             </div>
-                                            <div class="col-sm-2"></div>
-                                            <div class="col-sm-5">
-                                                <div id="countdown" class="countdown"></div>
+                                            <div class="form-group row">
+
+                                                <label for="analisa" class="col-sm-2 col-form-label">Analisa
+                                                    Kerusakan</label>
+                                                <div class="col-sm-10">
+                                                    <textarea class="form-control " name="analisa" rows="2" cols="42" placeholder="Analisa Kerusakan "
+                                                        disabled> {{ $workorders->analisa }}</textarea>
+
+                                                </div>
+
+                                                <label for="tindakan" class="col-sm-2 col-form-label">Tindakan Perbaikan /
+                                                    Detail
+                                                    Penanganan</label>
+                                                <div class="col-sm-10 mt-2">
+                                                    <textarea class="form-control " name="tindakan" rows="4" cols="82" placeholder="Tindakan Perbaikan"
+                                                        disabled> {{ $workorders->tindakan }}</textarea>
+
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
+                                            <hr>
 
-                                            <label for="analisa" class="col-sm-2 col-form-label">Analisa
-                                                Kerusakan</label>
-                                            <div class="col-sm-10">
-                                                <textarea class="form-control " name="analisa" rows="2" cols="42" placeholder="Analisa Kerusakan "
-                                                    @if (getUserDept() != 'EDP') disabled @endif required></textarea>
+                                            @if ($workorders->status >= 4)
+                                                <div
+                                                    class="bg-danger rounded d-flex align-items-center justify-content-center">
+                                                    <span class="text-white fw-bold fs-10">Suku Cadang / sparepart yang
+                                                        digunakan</span>
+                                                </div>
+                                                <table class="table table-bordered text-center pb-2" id="items_table">
+                                                    <tr>
+                                                        <th>Kode Transaksi</th>
+                                                        <th>Nama Sparepart</th>
+                                                        {{-- <th>
+                                                            <bold>Stok</bold>
+                                                        </th> --}}
+                                                        <th>
+                                                            <bold>qty</bold>
+                                                        </th>
 
-                                            </div>
+                                                    </tr>
+                                                    @if ($workorders->id_tx === null)
+                                                        <td colspan="3">Tidak ada sparepart yang digunakan</td>
+                                                    @else
+                                                        @foreach ($groupedHistory as $id_tx => $group)
+                                                            @php
+                                                                $groupSize = count($group);
+                                                            @endphp
+                                                            @foreach ($group as $key => $item)
+                                                                <tr>
+                                                                    @if ($key === 0)
+                                                                        <td class="align-middle text-center"
+                                                                            rowspan="{{ $groupSize }}">
+                                                                            {{ $item->id_tx }}
+                                                                        </td>
+                                                                    @endif
+                                                                    <td>
+                                                                        {{ getNameSparepart($item['id_spr']) }}</td>
 
-                                            <label for="tindakan" class="col-sm-2 col-form-label">Tindakan Perbaikan /
-                                                Detail
-                                                Penanganan</label>
-                                            <div class="col-sm-10 mt-2">
-                                                <textarea class="form-control " name="tindakan" rows="4" cols="82" placeholder="Tindakan Perbaikan"
-                                                    @if (getUserDept() != 'EDP') disabled @endif required></textarea>
+                                                                    <td>{{ $item['qty'] }}</td>
 
-                                            </div>
-                                        </div>
-                                        <hr>
-
-                                        @if ($workorders->status == 3 && getUserDept() == 'EDP')
-
-                                            <div
-                                                class="bg-danger rounded d-flex align-items-center justify-content-center">
-                                                <span class="text-white fw-bold fs-10">Suku Cadang / sparepart yang
-                                                    digunakan</span>
-                                            </div>
-                                            <table class="table table-bordered text-center pb-2" id="items_table">
-                                                <tr>
-                                                    <th>Nama Sparepart </th>
-                                                    <th>
-                                                        <bold>Stok</bold>
-                                                    </th>
-                                                    <th>
-                                                        <bold>qty</bold>
-                                                    </th>
-                                                    <th>
-                                                        <bold>+/-</bold>
-                                                    </th>
-                                                </tr>
-                                                <tr>
-
-                                                    <td>
-                                                        <select class="form-control select2" name="part[]"
-                                                            style="width: 100%;" onchange="showStok(this)">
-                                                            <option value="">Pilih Sparepart</option>
-                                                            @foreach ($sparepart as $part)
-                                                                <option value="{{ $part->id }}"
-                                                                    data-stok="{{ $part->stok }}"
-                                                                    style="text-align: left;">
-                                                                    {{ $part->nama_sparepart }}
-                                                                </option>
+                                                                </tr>
                                                             @endforeach
-                                                        </select>
+                                                        @endforeach
 
-                                                    </td>
-                                                    <td style="width: 200px;">
-                                                        <input type="text" class="form-control" name="stok[]"
-                                                            value="" disabled>
-                                                    </td>
+                                                    @endif
+                                                </table><br>
+                                            @endif
 
-                                                    <td style="width: 200px;">
-                                                        <input type="text" class="form-control" name="qty[]"
-                                                            value="{{ old('qty') }}" onkeyup="calculateTotal(this)">
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-transparent"
-                                                            onclick="addRow()"><i class="fas fa-plus text-primary"></i>
-                                                        </button>
+                                            <h6>(Diperbaiki Oleh: {{ Auth::user()->nama_lengkap }})</h6>
 
-
-                                                    </td>
-                                                </tr>
-
-                                            </table><br>
-                                        @endif
-
-                                        <h6>(Diperbaiki Oleh: {{ Auth::user()->nama_lengkap }})</h6>
+                                        </div>
 
                                     </div>
-
                                 </div>
-                            </div> --}}
                     </form>
                 </div>
                 <!-- /.content -->
@@ -527,7 +396,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             // Inisialisasi Select2 pada elemen dengan class "item-select"
             $('.item-select').select2();
@@ -561,7 +430,7 @@
             var i = row.parentNode.parentNode.rowIndex;
             document.getElementById("items_table").deleteRow(i);
         }
-    </script>
+    </script> --}}
     <script>
         function showStok(selectElement) {
             var selectedIndex = selectElement.selectedIndex;

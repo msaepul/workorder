@@ -51,9 +51,6 @@ class AdminController extends Controller
     public function profile()
     {
 
-
-
-
         $id = Auth::user()->id;
         $hisparepart = keluarstok::join('tb_sparepart','tb_keluarstok.id_Spr','=','tb_sparepart.id')
         ->select('tb_keluarstok.*','tb_sparepart.nama_sparepart AS nama_sparepart')

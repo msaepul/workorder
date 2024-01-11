@@ -51,19 +51,45 @@
                         @endif
                         <!-- /.card -->
                         <div class="d-flex justify-content-center">
+
                             <div class="card card-secondary card-outline col-12 col-md-10">
                                 <div class="card-header">
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <h3 class="card-title font-weight-bold">Form Work Order</h3>
-                                    </div>
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td style="width: 120px;">
+                                                <img src="{{ asset('images/logo_jordan.jpg') }}" alt="Nama Gambar"
+                                                    style="max-width: 130%;">
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <h1 class="card-title font-weight-bold " style="font-size: 2em;">Form
+                                                        Work Order</h1>
+
+                                                    <input type="hidden" class="form-control form-control-border"
+                                                        name="no_wo" value="{{ $no }}">
+                                                </div>
+                                            </td>
+                                            <td style="width: 120px;">
+                                                EDP-12 Rev.00
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                    <tr>
+                                        <center>
+                                            <span><b>No WO : </b>{{ $no }}</span>
+                                        </center>
+                                    </tr>
                                 </div>
+
 
                                 <div class="card-body">
                                     <div class="form-group row">
-                                        <label for="nomor" class="col-sm-2 col-form-label">Nomor WO</label>
+                                        <label for="tanggal" class="col-sm-2 col-form-label">Tanggal WO</label>
                                         <div class="col-sm-3">
-                                            <input type="text" class="form-control form-control-border" name="no_wo"
-                                                value="{{ $no }}">
+                                            <input type="datetime-local" class="form-control form-control-border"
+                                                name="tgl_dibuat" id="tgl_dibuat" required>
+
                                         </div>
                                         <div class="col-sm-2"></div>
                                         <label for="kategori" class="col-sm-2 col-form-label">Kategori</label>
@@ -71,20 +97,25 @@
                                             <select class="form-control form-control-border" name="kategori_wo"
                                                 id="kategori_wo">
                                                 <option value="" selected disabled>-----</option>
-                                                <option value="hardware">Hardware</option>
-                                                <option value="software">Software</option>
-                                                <option value="brainware">Brainware</option>
+                                                <option value="hardware">Perbaikan</option>
+                                                <option value="software">Perbantuan/penambahan</option>
+                                                <option value="brainware">Proyek Baru</option>
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="tgl" class="col-sm-2 col-form-label">Tanggal WO</label>
+                                        <label for="tgl" class="col-sm-2 col-form-label">Prioritas</label>
                                         <div class="col-sm-3">
-                                            <input type="datetime-local" class="form-control form-control-border"
-                                                name="tgl_dibuat" id="tgl_dibuat" required>
+                                            <select class="form-control form-control-border" name="level" id="level">
+                                                <option value="" selected disabled>-----</option>
+                                                <option value="1">Segera</option>
+                                                <option value="2">Tinggi</option>
+                                                <option value="3">Sedang</option>
+                                                <option value="4">Rendah</option>
+                                                <option value="5">Tidak Mendesak</option>
 
-
+                                            </select>
                                         </div>
                                         <div class="col-sm-2"></div>
                                         <label for="jenis" class="col-sm-2 col-form-label" id="jenis_label">
@@ -122,7 +153,8 @@
                                     <div class="form-group row">
                                         <label for="gambar" class="col-sm-2 col-form-label">Gambar</label>
                                         <div class="col-sm-10">
-                                            <input type="file" class="form-control-file" name="gambar" id="gambar">
+                                            <input type="file" class="form-control-file" name="gambar"
+                                                id="gambar">
                                         </div>
                                     </div>
                                     <h6>(Dibuat Oleh: {{ Auth::user()->nama_lengkap }})</h6>
