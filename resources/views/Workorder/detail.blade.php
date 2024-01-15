@@ -251,9 +251,9 @@
 
                                             </div>
                                             <div class="col-sm-2"></div>
-                                            @if ($workorders->kategori_wo == 'hardware')
+                                            @if ($workorders->kategori_wo == 'perbaikan')
                                                 <label for="jenis" class="col-sm-2 col-form-label" id="jenis_label">
-                                                    Perangkat
+                                                    Perbaikan
                                                 </label>
                                                 <div class="col-sm-3">
 

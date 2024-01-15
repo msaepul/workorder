@@ -5,6 +5,7 @@ use App\Models\Cabang;
 use App\Models\perangkat;
 use App\Models\Sparepart;
 use App\Models\Supplier;
+use App\Models\Jenis;
 use App\Models\workorder;
 use App\Models\Modelakses;
 use App\Models\Modelutama;
@@ -22,6 +23,8 @@ if (!function_exists(function: 'cabang')) {
         return "$cabang";
     }
 }
+
+
 if (!function_exists('getUserId')) {
     function getUserId()
     {
@@ -100,7 +103,19 @@ if (!function_exists('getNamesparepart')) {
         return null; // Atau nilai default yang sesuai jika pengguna dengan ID tersebut tidak ditemukan
     }
 }
+if (!function_exists('getNamejenis')) {
+    function getNamejenis($id)
+    {
+        $jenis = jenis::find($id);
 
+        if ($jenis) {
+            $nama_jenis = $jenis->jenis_perangkat;
+            return $nama_jenis;
+        }
+
+        return null; // Atau nilai default yang sesuai jika pengguna dengan ID tersebut tidak ditemukan
+    }
+}
 
 
 if (!function_exists(function: 'cabangs')) {

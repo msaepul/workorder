@@ -74,15 +74,17 @@
                                             <select class="form-control form-control-border" name="kategori_wo"
                                                 id="kategori_wo" onchange="kategoriWoOnChange()">
                                                 <option value="" disabled>-----</option>
-                                                <option value="hardware"
-                                                    {{ $workorders->kategori_wo === 'hardware' ? 'selected' : '' }}>Hardware
+                                                <option value="perbaikan"
+                                                    {{ $workorders->kategori_wo === 'perbaikan' ? 'selected' : '' }}>
+                                                    Perbaikan
                                                 </option>
-                                                <option value="software"
-                                                    {{ $workorders->kategori_wo === 'software' ? 'selected' : '' }}>Software
+                                                <option value="perbantuan"
+                                                    {{ $workorders->kategori_wo === 'perbantuan' ? 'selected' : '' }}>
+                                                    Perbantuan/penambahan
                                                 </option>
-                                                <option value="brainware"
-                                                    {{ $workorders->kategori_wo === 'brainware' ? 'selected' : '' }}>
-                                                    Brainware</option>
+                                                <option value="proyek"
+                                                    {{ $workorders->kategori_wo === 'proyek' ? 'selected' : '' }}>
+                                                    Proyek Baru</option>
                                             </select>
                                         </div>
                                     </div>
@@ -177,7 +179,7 @@
             var jenisPerangkatField = document.getElementById('jenis');
             var jenisPerangkatLabel = document.getElementById('jenis_label');
 
-            if (selectedCategory === 'hardware') {
+            if (selectedCategory === 'perbaikan') {
                 jenisPerangkatField.style.display = 'block';
                 jenisPerangkatLabel.style.display = 'block';
             } else {

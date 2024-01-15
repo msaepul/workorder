@@ -30,8 +30,6 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
 
-
-
         //login valid?
 
         if (Auth::attempt($credentials)) {
@@ -39,11 +37,6 @@ class AuthController extends Controller
             $user = auth()->user();
             session(['cabang'=> $user->cabang],['dept'=>$user->dept],['id'=>$user->id]);
             return redirect('/Dashboard');
-
-           
-
-            // return redirect()->intended('dashboard');
-
 
         }
         return back()->withErrors('password')->with('failed', 'Email atau Password Salah !!');

@@ -12,7 +12,7 @@
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1>
-                            MASTER DATA PERANGKAT
+
                         </h1>
                     </div>
                     <div class="col-sm-6">
@@ -30,14 +30,15 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header ">
-                                <a href="{{ route('add_sparepart') }}" type="button" class="btn btn-primary"
+
+                                <a href="{{ route('add_sparepart') }}" type="button" class="btn btn-success"
                                     style="margin-left: 3px;">
-                                    <i class="nav-icon fas fa-plus"></i> Sparepart Masuk
+                                    <i class="nav-icon fas fa-plus"></i> Sparepart IN
                                 </a>
 
                                 <a href="{{ route('out_sparepart') }}" type="button" class="btn btn-danger"
                                     style="margin-left: 3px;">
-                                    <i class="nav-icon fas fa-minus"></i> Sparepart Keluar
+                                    <i class="nav-icon fas fa-minus"></i> Sparepart Out
                                 </a>
                             </div>
 
@@ -66,7 +67,6 @@
                                             <th>Total Harga</th>
                                             <th>Pembelian Terakhir</th>
 
-                                            <th>Action </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -81,25 +81,6 @@
                                                 <td>{{ 'Rp ' . number_format($results[$key]) }}</td>
 
                                                 <td>{{ $part->tgl_pbl }}</td>
-
-
-                                                <td>
-                                                    {{-- <form action="{{ route('destroy_sparepart', $part->id) }}"
-                                                        method="POST" class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-warning"> <i
-                                                                class="nav-icon fas fa-pencil-alt"></i>permintaan</button>
-                                                    </form> --}}
-                                                    <form action="{{ route('destroy_sparepart', $part->id) }}"
-                                                        method="POST" class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger"
-                                                            onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
-                                                    </form>
-
-                                                </td>
 
                                             </tr>
                                         @endforeach

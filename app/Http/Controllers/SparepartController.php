@@ -30,6 +30,33 @@ class SparepartController extends Controller
         return view('Masterdata.sparepart.sparepart', compact('sparepart', 'results'));
     }
 
+    public function masterSparepart()
+
+    {
+
+        $sparepart = Sparepart::where('id_cabang', '=', getUserCabang())->get();
+    
+        return view('Masterdata.sparepart.mastersparepart', compact('sparepart'));
+    }
+
+    public function masteredit(Request $request, $id)
+{
+    // Validate the request data as needed
+    $validatedData = $request->validate([
+        'nama_sparepart' => 'required|string|max:255',
+        'ket_sparepart' => 'nullable|string',
+        // Add other validation rules as needed
+    ]);
+
+    $sparepart = Sparepart::findOrFail($id);
+
+    // Update the sparepart with the validated data
+    $sparepart->update($validatedData);
+
+    // Redirect to the sparepart list or wherever you need to go after the update
+    return redirect()->route('mastersparepart')->with('success', 'Data Sparepart Berhasil di Update');
+}
+
 
     //Sparepart in
     public function txsparepart()
@@ -264,8 +291,9 @@ class SparepartController extends Controller
         // Sparepart::create($request->all());
         // // Membuat data sparepart baru berdasarkan data yang diambil dari request
 
-        return redirect()->route('add_sparepart')->with('success', 'Data sparepart berhasil ditambahkan.');
-        // Melakukan redirect dan menyertakan pesan sukses
+        return back()->with('success', 'Data sparepart berhasil ditambahkan.');
+        // Redirect back and include success message
+        
     }
 
 
@@ -305,8 +333,6 @@ class SparepartController extends Controller
         return view('sparepart.edit', compact('sparepart'));
         // Mengirimkan data sparepart ke view 'edit'
     }
-
-
 
     public function hapussparepart($id)
     {

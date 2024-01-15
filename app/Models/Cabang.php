@@ -11,7 +11,7 @@ class Cabang extends Model
     protected $table = "tb_cabang";
     protected $primarykey = "id";
     protected $fillable = [
-        'id', 'cabang', 'ket'
+        'id', 'cabang', 'ket','updated_at','created_at'
     ];
 
     public function users()

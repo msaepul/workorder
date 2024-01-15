@@ -1,11 +1,12 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="Dashboard" class="brand-link">
-        <img src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-            style="opacity: .8">
-
-        <span class="brand-text font-weight-light">SO EDP</span>
+    <a href="#" class="brand-link">
+        <img id="sidebar-logo" src="{{ asset('dist/img/arnonlogo.png') }}" alt="AdminLTE Logo"
+            class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light text-sm">SP Work Order</span>
     </a>
+
+
 
     <!-- Sidebar -->
     <div class="sidebar sidebar-dark-primary">
@@ -51,7 +52,8 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
+                <li class="nav-item  @if (request()->route()->getName() == 'Workorder_create' ||
+                        request()->route()->getName() == 'Dataworkorder') menu-open @endif">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-clipboard-list"></i>
                         <p>
@@ -60,23 +62,21 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-
                         <li class="nav-item">
                             <a href="{{ route('Workorder_create') }}"
-                                @if (request()->route()->uri == 'Workorder') class="nav-link active"
-         
-                  @else
-                  class="nav-link " @endif>
-                                <i class="far fa-circle nav-icon"></i>
+                                @if (request()->route()->getName() == 'Workorder_create') class="nav-link active"
+                @else class="nav-link" @endif>
+                                <i class="fas fa-ellipsis-h nav-icon"></i>
                                 <p>
                                     Buat Work Order
                                 </p>
                             </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('Dataworkorder') }}"
-                                @if (request()->route()->uri == 'datawo') class="nav-link active"
-              @else
-              class="nav-link " @endif>
-                                <i class="far fa-circle nav-icon"></i>
+                                @if (request()->route()->getName() == 'Dataworkorder') class="nav-link active"
+                @else class="nav-link" @endif>
+                                <i class="fas fa-ellipsis-h nav-icon"></i>
                                 <p>
                                     Data Work Order
                                 </p>
@@ -85,29 +85,41 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
+
+                <li class="nav-item @if (request()->is('sparepart/request') || request()->is('sparepart') || request()->is('sparepart/history')) menu-open @endif">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-clipboard-list"></i>
+                        <i class="fas fa-cogs nav-icon"></i>
                         <p>
                             Sparepart
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-
                         <li class="nav-item">
                             <a href="{{ route('request_sparepart') }}"
-                                @if (request()->is('sparepart/request')) class="nav-link active"
-                        @else class="nav-link" @endif>
-                                <i class="far fa-circle nav-icon"></i>
+                                @if (request()->is('sparepart/request')) class="nav-link active" @else class="nav-link" @endif>
+                                <i class="fas fa-ellipsis-h nav-icon"></i>
+
                                 <p>
                                     Permintaan Sparepart
                                 </p>
                             </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('sparepart') }}"
+                                @if (request()->is('sparepart')) class="nav-link active" @else class="nav-link" @endif>
+                                <i class="fas fa-ellipsis-h nav-icon"></i>
+
+                                <p>
+                                    Stok Sparepart
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('history_sparepart') }}"
-                                @if (request()->is('sparepart/history')) class="nav-link active"
-                        @else class="nav-link" @endif>
-                                <i class="far fa-circle nav-icon"></i>
+                                @if (request()->is('sparepart/history')) class="nav-link active" @else class="nav-link" @endif>
+                                <i class="fas fa-ellipsis-h nav-icon"></i>
+
                                 <p>
                                     History Permintaan
                                 </p>
@@ -115,21 +127,23 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="Gallery"
-                        @if (request()->route()->uri == 'Gallery') class="nav-link active"
-              @else
-              class="nav-link " @endif>
-                        <i class="nav-icon fas fa-images"></i>
-                        <p>
-                            Galeri
-
-                        </p>
-                    </a>
-
-                </li>
                 @if (Auth::user()->dept == 'EDP')
-                    <li class="nav-header">MASTER DATA</li>
+                    <li class="nav-header">MANAGE PERANGKAT</li>
+
+                    <li class="nav-item">
+                        <a href="{{ route('perangkat') }}"
+                            @if (request()->route()->uri == 'perangkat') class="nav-link active"
+                            @elseif (request()->route()->uri == 'tambah-perangkat') class="nav-link active"
+                               @else class="nav-link " @endif>
+                            <i class="nav-icon fas fa-laptop"></i>
+                            <p>
+                                Asset
+                            </p>
+                        </a>
+                    </li>
+
+                    <li class="nav-header">MANAGE USER</li>
+
 
                     <li class="nav-item">
                         <a href="user"
@@ -142,80 +156,119 @@
                             </p>
                         </a>
                     </li>
-                    {{-- <li class="nav-item">
-                        <a href="#" class="nav-link ">
-                            <i class="nav-icon fas fa-tree"></i>
-                            <p>
-                                Asset
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item ">
-                                <a href="TPMRingan"
-                                    @if (request()->route()->uri == 'TPMRingan') class="nav-link active"
-                      @else
-                      class="nav-link " @endif>
-                                    <i class="far fa-circle nav-icon "></i>
-                                    <p>TPM Ringan</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a
-                                    href="TPMBerat"@if (request()->route()->uri == 'TPMBerat') class="nav-link active"
-                      @else
-                      class="nav-link " @endif>
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>TPM Berat</p>
-                                </a>
+                    @if (Auth::user()->cabang == 100)
+                        <li class="nav-item">
+                            <a href="{{ route('mastercabang') }}"
+                                @if (request()->route()->uri == 'mastercabang') class="nav-link active"
+              @else
+              class="nav-link " @endif>
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>
+                                    Master Cabang
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('masterdepartemen') }}"
+                                @if (request()->route()->uri == 'masterdepartemen') class="nav-link active"
+              @else
+              class="nav-link " @endif>
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>
+                                    Master Departemen
+                                </p>
+                            </a>
+                        </li>
+                    @endif
+                    <li class="nav-header">MASTER DATA</li>
 
-                        </ul>
-                    </li> --}}
                     <li class="nav-item">
-                        <a href="{{ route('perangkat') }}"
-                            @if (request()->route()->uri == 'perangkat') class="nav-link active"
-                            @elseif (request()->route()->uri == 'tambah-perangkat') class="nav-link active"
-                               @else class="nav-link " @endif>
-                            <i class="nav-icon fas fa-laptop"></i>
-                            <p>
-                                Asset
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('sparepart') }}"
-                            @if (request()->route()->uri == 'sparepart') class="nav-link active"
+                        <a href="{{ route('mastersparepart') }}"
+                            @if (request()->route()->uri == 'mastersparepart') class="nav-link active"
               @else
               class="nav-link " @endif>
                             <i class="nav-icon fas fa-book"></i>
                             <p>
-                                Sparepart
+                                Master Sparepart
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('masterbrand') }}"
+                            @if (request()->route()->uri == 'masterbrand') class="nav-link active"
+              @else
+              class="nav-link " @endif>
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>
+                                Master Brand
+                            </p>
+                        </a>
+                    </li>
+
+                    @if (Auth::user()->cabang == 100)
+                        <li class="nav-item">
+                            <a href="{{ route('masterjenis') }}"
+                                @if (request()->route()->uri == 'masterjenis') class="nav-link active"
+              @else
+              class="nav-link " @endif>
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>
+                                    Master Jenis Perangkat
+                                </p>
+                            </a>
+                        </li>
+                    @endif
+                    <li class="nav-item">
+                        <a href="{{ route('mastertype') }}"
+                            @if (request()->route()->uri == 'mastertype') class="nav-link active"
+              @else
+              class="nav-link " @endif>
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>
+                                Master Type Perangkat
+                            </p>
+                        </a>
+                    </li>
+
+
+
+                    <li class="nav-header">LAPORAN</li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-tools"></i>
+                            <p>
+                                Work Order
+                                <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
                     </li>
                 @endif
-                <li class="nav-header">LAPORAN</li>
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-tools"></i>
-                        <p>
-                            Work Order
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-book"></i>
-                        <p>
-                            TPM
-                        </p>
-                    </a>
-                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
 </aside>
+<script>
+    $(document).ready(function() {
+        // Function to hide/show the image based on the sidebar state
+        function updateLogoVisibility() {
+            var isSidebarCollapsed = $('body').hasClass('sidebar-collapse');
+
+            if (isSidebarCollapsed) {
+                $('#sidebar-logo').addClass('d-none');
+            } else {
+                $('#sidebar-logo').removeClass('d-none');
+            }
+        }
+
+        // Initial check on page load
+        updateLogoVisibility();
+
+        // Add an event listener for changes in the sidebar state
+        $('body').on('collapsed.lte.pushmenu expanded.lte.pushmenu', function() {
+            updateLogoVisibility();
+        });
+    });
+</script>

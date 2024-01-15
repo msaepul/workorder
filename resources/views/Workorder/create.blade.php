@@ -97,9 +97,9 @@
                                             <select class="form-control form-control-border" name="kategori_wo"
                                                 id="kategori_wo">
                                                 <option value="" selected disabled>-----</option>
-                                                <option value="hardware">Perbaikan</option>
-                                                <option value="software">Perbantuan/penambahan</option>
-                                                <option value="brainware">Proyek Baru</option>
+                                                <option value="perbaikan">Perbaikan</option>
+                                                <option value="perbantuan">Perbantuan/penambahan</option>
+                                                <option value="proyek">Proyek Baru</option>
                                             </select>
                                         </div>
                                     </div>

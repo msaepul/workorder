@@ -99,9 +99,11 @@ class WorkorderController extends Controller
         return redirect()->route('Workorder_detail', $idwo);
     }
 
-    public function confirm()
-    {
-    }
+    // public function confirm()
+    // {
+
+
+    // }
 
     public function detailwo($id)
     {
@@ -301,7 +303,89 @@ class WorkorderController extends Controller
 
     }
 
-    // public function generatePDF($id){
+   
+      public function generatePDF($id){
+
+        $now = Carbon::now()->tz('Asia/Jakarta');
+        $dateTime = $now->toDateTimeString();
+        // Mengambil data berdasarkan ID
+        $workorders = workorder::findOrFail($id);
+
+        $data = $workorders->id_tx;
+        $items = keluarstok::where('id_tx', $data)->get();
+        $groupedHistory = $items->groupBy('id_tx');
+
+   
+        $no_wo = $workorders->lampiran;
+        $status = $workorders->status;
+        $sparepart = Sparepart::where('id_cabang', '=', getUserCabang())->get();
+
+
+        $html = '<style>';
+        $html .= 'body { border: 1px solid black; padding: 20px; }';
+        $html .= 'table { border-collapse: collapse; width: 100%; }';
+        $html .= 'th, td { border: 1px solid black;  }';
+        $html .= 'th { background-color: #f2f2f2; }';
+        $html .= '.border-left { border :none; border-left: 1px solid black;  }';
+        $html .= '.border-right { border :none; border-right: 1px solid black; text-align: left;  padding-left: 40px; }';
+        $html .= '</style>';
+        
+        $html .= '<table>';
+
+        $html .= '<tr>';
+        // $html .= '<th rowspan="2"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/2048px-Instagram_logo_2016.svg.png" style="width:20%;"></th>';
+        $html .= '<th rowspan="2">Logo</th>';
+
+        $html .= '<th rowspan="2"></th>';
+        $html .= '<th  rowspan="2"></th>';
+        $html .= '<th rowspan="2" colspan="3">Form Work Order</th>';
+        $html .= '<th rowspan="2"></th>';
+        $html .= '<th  rowspan="2"></th>';
+        $html .= '<th><p>EDP-01 Rev.01</p></th>'; 
+        $html .= '</table>';
+   
+        $html .= '<table>';
+        $html .= '</tr>';
+        $html .= '<tr>';
+        $html .= '<th></th>';    
+        $html .= '</tr>';
+        
+          $html .= '<tr>';
+        $html .= '<td"></td>';
+        $html .= '<td"></td>';
+        $html .= '<td"></td>';
+        $html .= '<td"></td>';
+        $html .= '<td"></td>';
+        $html .= '</tr>';
+        
+        $html .= '</table>';
+        
+     
+        
+        
+        
+          // foreach ($users as $user) {
+        //     $html .= '<tr><td>' . $user->nama_lengkap . '</td><td>' . $user->email . '</td></tr>';
+        // }
+        $dompdf = new Dompdf();
+        $dompdf->set_option('isRemoteEnabled', true);
+        $dompdf->loadHtml($html);
+        $dompdf -> setPaper ([ 0 , 0 , 685.98 , 515.85 ], 'lanskap' );
+
+        // Render HTML to PDF
+        $dompdf->render();
+        
+        // Save or display the PDF
+        $dompdf->stream('output.pdf', ['Attachment' => false]);
+        
+        
+      }
+     public function export()
+    {
+        return Excel::download(new WorkordersExport, 'WO.xlsx');
+    }
+ 
+  // public function generatePDF($id){
 
     //     $now = Carbon::now()->tz('Asia/Jakarta');
     //     $dateTime = $now->toDateTimeString();
@@ -447,88 +531,6 @@ class WorkorderController extends Controller
         
     //   }
 
-      public function generatePDF($id){
-
-        $now = Carbon::now()->tz('Asia/Jakarta');
-        $dateTime = $now->toDateTimeString();
-        // Mengambil data berdasarkan ID
-        $workorders = workorder::findOrFail($id);
-
-        $data = $workorders->id_tx;
-        $items = keluarstok::where('id_tx', $data)->get();
-        $groupedHistory = $items->groupBy('id_tx');
-
-   
-        $no_wo = $workorders->lampiran;
-        $status = $workorders->status;
-        $sparepart = Sparepart::where('id_cabang', '=', getUserCabang())->get();
-
-
-        $html = '<style>';
-        $html .= 'body { border: 1px solid black; padding: 20px; }';
-        $html .= 'table { border-collapse: collapse; width: 100%; }';
-        $html .= 'th, td { border: 1px solid black;  }';
-        $html .= 'th { background-color: #f2f2f2; }';
-        $html .= '.border-left { border :none; border-left: 1px solid black;  }';
-        $html .= '.border-right { border :none; border-right: 1px solid black; text-align: left;  padding-left: 40px; }';
-        $html .= '</style>';
-        
-        $html .= '<table>';
-
-        $html .= '<tr>';
-        // $html .= '<th rowspan="2"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/2048px-Instagram_logo_2016.svg.png" style="width:20%;"></th>';
-        $html .= '<th rowspan="2">Logo</th>';
-
-        $html .= '<th rowspan="2"></th>';
-        $html .= '<th  rowspan="2"></th>';
-        $html .= '<th rowspan="2" colspan="3">Form Work Order</th>';
-        $html .= '<th rowspan="2"></th>';
-        $html .= '<th  rowspan="2"></th>';
-        $html .= '<th><p>EDP-01 Rev.01</p></th>'; 
-        $html .= '</table>';
-   
-        $html .= '<table>';
-        $html .= '</tr>';
-        $html .= '<tr>';
-        $html .= '<th></th>';    
-        $html .= '</tr>';
-        
-          $html .= '<tr>';
-        $html .= '<td"></td>';
-        $html .= '<td"></td>';
-        $html .= '<td"></td>';
-        $html .= '<td"></td>';
-        $html .= '<td"></td>';
-        $html .= '</tr>';
-        
-        $html .= '</table>';
-        
-     
-        
-        
-        
-          // foreach ($users as $user) {
-        //     $html .= '<tr><td>' . $user->nama_lengkap . '</td><td>' . $user->email . '</td></tr>';
-        // }
-        $dompdf = new Dompdf();
-        $dompdf->set_option('isRemoteEnabled', true);
-        $dompdf->loadHtml($html);
-        $dompdf -> setPaper ([ 0 , 0 , 685.98 , 515.85 ], 'lanskap' );
-
-        // Render HTML to PDF
-        $dompdf->render();
-        
-        // Save or display the PDF
-        $dompdf->stream('output.pdf', ['Attachment' => false]);
-        
-        
-      }
-     public function export()
-    {
-        return Excel::download(new WorkordersExport, 'WO.xlsx');
-    }
- 
- 
 
     
 }

@@ -194,8 +194,6 @@
                                             </div>
                                         </div>
 
-
-
                                         <div class="form-group row">
                                             <label for="nomor" class="col-sm-2 col-form-label">Nomor WO</label>
                                             <div class="col-sm-3">
@@ -214,8 +212,28 @@
                                         </div>
 
                                         <div class="form-group row">
+                                            <label for="tgl" class="col-sm-2 col-form-label">Prioritas</label>
+                                            <div class="col-sm-3">
+                                                <span type="text"
+                                                    class="form-control form-control-border disabled-input"
+                                                    name="kategori_wo" value="">
+                                                    @if ($workorders->level == 1)
+                                                        Segera
+                                                    @elseif($workorders->level == 2)
+                                                        Tinggi
+                                                    @elseif($workorders->level == 3)
+                                                        Sedang
+                                                    @elseif($workorders->level == 4)
+                                                        Rendah
+                                                    @elseif($workorders->level == 3)
+                                                        Tidak Mendesak
+                                                        <!-- Pilihan lain, jika diperlukan -->
+                                                    @endif
+                                                </span>
 
-                                            @if ($workorders->kategori_wo == 'hardware')
+                                            </div>
+                                            <div class="col-sm-2"></div>
+                                            @if ($workorders->kategori_wo == 'perbaikan')
                                                 <label for="jenis" class="col-sm-2 col-form-label" id="jenis_label">
                                                     Perangkat
                                                 </label>
@@ -583,7 +601,7 @@
             var jenisPerangkatField = document.getElementById('jenis');
             var jenisPerangkatLabel = document.getElementById('jenis_label');
 
-            if (selectedCategory === 'hardware') {
+            if (selectedCategory === 'perbaikan') {
                 jenisPerangkatField.style.display = 'block';
                 jenisPerangkatLabel.style.display = 'block';
             } else {

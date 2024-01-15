@@ -18,6 +18,8 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 class MasterDataController extends Controller
 {
+
+  // Master Data User
   public function user()
   {
 
@@ -48,8 +50,7 @@ class MasterDataController extends Controller
     $users = User::with('Cabang')->get();
     return view('Masterdata.user.user', compact('users'));
   }
-
-
+  
   public function updateUser(Request $request, $id)
   {
     $user = User::find($id);
@@ -72,8 +73,7 @@ class MasterDataController extends Controller
     $user->delete();
   }
 
-
-
+// Master Data Perangkat
   public function perangkat()
   {
 
@@ -153,7 +153,6 @@ class MasterDataController extends Controller
     return redirect()->route('perangkat')->with('success', 'Perangkat berhasil ditambahkan.');
   }
 
-  //edit perangkat
   public function editperangkat($id)
   {
     // Mengambil data berdasarkan ID
@@ -181,6 +180,7 @@ class MasterDataController extends Controller
   }
 
 
+// Master Data Sparepart
   public function sparepart()
   {
     return view('Masterdata.sparepart.sparepart');
@@ -193,7 +193,7 @@ class MasterDataController extends Controller
 
 
 
-
+// Master Brand
   public function brandproses(Request $request)
   {
     $validatedData = $request->validate([
@@ -213,6 +213,10 @@ class MasterDataController extends Controller
     return redirect()->back();
   }
 
+
+
+  
+  // Master Type Perangkat
   public function typeproses(Request $request)
   {
     $validatedData = $request->validate([
@@ -232,6 +236,12 @@ class MasterDataController extends Controller
 
     return redirect()->back();
   }
+  
+  
+  
+  
+  
+  
   // public function getTypeByJenis(Request $request)
   // {
   //     // Mendapatkan jenis perangkat yang dipilih dari permintaan AJAX

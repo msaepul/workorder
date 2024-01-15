@@ -110,9 +110,9 @@
                                             <select class="form-control form-control-border" name="kategori_wo"
                                                 id="kategori_wo">
                                                 <option value="" selected disabled>-----</option>
-                                                <option value="hardware">Hardware</option>
-                                                <option value="software">Software</option>
-                                                <option value="brainware">Brainware</option>
+                                                <option value="perbaikan">Perbaikan</option>
+                                                <option value="perbantuan">Perbantuan/penambahan</option>
+                                                <option value="proyek">Proyek Baru</option>
                                             </select>
                                         </div>
                                     </div>
@@ -195,7 +195,7 @@
             var jenisPerangkatField = document.getElementById('jenis');
             var jenisPerangkatLabel = document.getElementById('jenis_label');
 
-            if (selectedCategory === 'hardware') {
+            if (selectedCategory === 'perbaikan') {
                 jenisPerangkatField.style.display = 'block';
                 jenisPerangkatLabel.style.display = 'block';
             } else {

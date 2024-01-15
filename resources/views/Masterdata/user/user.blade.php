@@ -85,26 +85,18 @@
         <!-- Main content -->
         <!-- /.content -->
     </div>
+
     <script src="plugins/jquery/jquery.min.js"></script>
     <script>
-        $(function() {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-            $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-
+        $(document).ready(function() {
+            $('#example1').DataTable({
+                autoWidth: true,
+                responsive: true,
+                pageLength: 10, // Menampilkan 10 baris per halaman
+                dom: 'Bfrtip',
             });
         });
     </script>
+
     <!-- /.content-wrapper -->
 @endsection

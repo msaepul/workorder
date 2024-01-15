@@ -95,6 +95,9 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('sparepart')->group(function () {
         Route::get('', [SparepartController::class, 'sparepart'])->name('sparepart');
+        Route::get('master', [SparepartController::class, 'mastersparepart'])->name('mastersparepart');
+        Route::put('editmaster/{id}', [SparepartController::class, 'masteredit'])->name('masteredit');
+        // Route::get('', [SparepartController::class, 'sparepart'])->name('stoksparepart');
 
         Route::post('sparepart-proses', [SparepartController::class, 'storesparepart'])->name('add_sprbaru');
 
@@ -121,13 +124,46 @@ Route::middleware('auth')->group(function () {
     // Route::get('/cobaadd-perangkat', [MasterController::class, 'cobatambahperangkat'])->name('cobaadd_perangkat');
     // Route::resource('perangkat', MasterController::class);
 
-    //proses input brand ke db
+    //Master Data brand ke db
+    Route::get('brand', [MasterController::class, 'masterbrand'])->name('masterbrand');
     Route::post('brand-proses', [MasterController::class, 'brandproses'])->name('brand_proses');
+    Route::put('editbrand/{id}', [MasterController::class, 'mastereditbrand'])->name('mastereditbrand');
 
-    //proses input type ke db
-    Route::post('type-proses', [MasterController::class, 'typeproses'])->name('type_proses');
+    Route::delete('brand/{id}', [MasterController::class, 'hapusbrand'])->name('destory_brand');
+
+
+   
 
 
     //Master Data Supplier
     Route::post('supplier-proses', [MasterController::class, 'supplierproses'])->name('supplier_proses');
+
+
+    // Master Data Departemen
+
+    Route::get('departemen', [MasterController::class, 'masterdepartemen'])->name('masterdepartemen');
+    Route::post('departemen-proses', [MasterController::class, 'departemenproses'])->name('departemen_proses');
+    Route::put('editdepartemen/{id}', [MasterController::class, 'mastereditdepartemen'])->name('mastereditdepartemen');
+    Route::delete('departemen/{id}', [MasterController::class, 'hapusdepartemen'])->name('destory_departemen');
+
+    //  Master Data Cabang
+    Route::get('cabang', [MasterController::class, 'mastercabang'])->name('mastercabang');
+    Route::post('cabang-proses', [MasterController::class, 'cabangproses'])->name('cabang_proses');
+    Route::put('editcabang/{id}', [MasterController::class, 'mastereditcabang'])->name('mastereditcabang');
+    Route::delete('cabang/{id}', [MasterController::class, 'hapuscabang'])->name('destory_cabang');
+
+    //Master Data jenis ke db
+    Route::get('jenis', [MasterController::class, 'masterjenis'])->name('masterjenis');
+    Route::post('jenis-proses', [MasterController::class, 'jenisproses'])->name('jenis_proses');
+    Route::put('editjenis/{id}', [MasterController::class, 'mastereditjenis'])->name('mastereditjenis');
+
+    Route::delete('jenis/{id}', [MasterController::class, 'hapusjenis'])->name('destory_jenis');
+
+        //Master Data type ke db
+    Route::get('type', [MasterController::class, 'mastertype'])->name('mastertype');
+    Route::post('type-proses', [MasterController::class, 'typeproses'])->name('type_proses');
+    Route::put('edittype/{id}', [MasterController::class, 'masteredittype'])->name('masteredittype');
+
+    Route::delete('type/{id}', [MasterController::class, 'hapustype'])->name('destory_type');
+
 });

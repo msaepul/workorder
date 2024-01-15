@@ -203,7 +203,7 @@
 
                                             </div>
                                             <div class="col-sm-2"></div>
-                                            @if ($workorders->kategori_wo == 'hardware')
+                                            @if ($workorders->kategori_wo == 'perbaikan')
                                                 <label for="jenis" class="col-sm-2 col-form-label" id="jenis_label">
                                                     Perangkat
                                                 </label>
@@ -352,120 +352,11 @@
                             <!-- /.card -->
 
                         </div>
-                        @if ($workorders->status >= 2)
 
-                            <div class="d-flex justify-content-center">
-                                <div class="card card-secondary card-outline col-12 col-md-10">
-                                    <div class="card-header">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <h3 class="card-title font-weight-bold">Form Perbaikan</h3>
-                                            <div class="ml-auto">
-                                                <button class="btn btn-link btn-toggle-collapse" type="button"
-                                                    data-toggle="collapse" data-target="#collapseCard2"
-                                                    aria-expanded="false" aria-controls="collapseCard">
-                                                    <i class="fa fa-minus text-secondary"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="collapse show" id="collapseCard2">
-                                        <div class="card-body">
-                                            <div class="form-group row">
-                                                <label for="tgl" class="col-sm-2 col-form-label">Target
-                                                    Selesai</label>
-                                                <div class="col-sm-3">
-                                                    <span type="text"
-                                                        class="form-control form-control-border disabled-input"
-                                                        name="tgl_dibuat" value="">{{ $workorders->date_end }}
-                                                    </span>
-                                                </div>
-                                                <div class="col-2"></div>
-                                                <label for="tgl" class="col-sm-2 col-form-label">Aktual
-                                                    Selesai</label>
-                                                <div class="col-sm-3">
-                                                    <span type="text"
-                                                        class="form-control form-control-border disabled-input"
-                                                        name="tgl_dibuat" value="">{{ $workorders->date_actual }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-
-                                                <label for="analisa" class="col-sm-2 col-form-label">Analisa
-                                                    Kerusakan</label>
-                                                <div class="col-sm-10">
-                                                    <textarea class="form-control " name="analisa" rows="2" cols="42" placeholder="Analisa Kerusakan "
-                                                        disabled> {{ $workorders->analisa }}</textarea>
-
-                                                </div>
-
-                                                <label for="tindakan" class="col-sm-2 col-form-label">Tindakan Perbaikan /
-                                                    Detail
-                                                    Penanganan</label>
-                                                <div class="col-sm-10 mt-2">
-                                                    <textarea class="form-control " name="tindakan" rows="4" cols="82" placeholder="Tindakan Perbaikan"
-                                                        disabled> {{ $workorders->tindakan }}</textarea>
-
-                                                </div>
-                                            </div>
-                                            <hr>
-
-                                            @if ($workorders->status >= 4)
-                                                <div
-                                                    class="bg-danger rounded d-flex align-items-center justify-content-center">
-                                                    <span class="text-white fw-bold fs-10">Suku Cadang / sparepart yang
-                                                        digunakan</span>
-                                                </div>
-                                                <table class="table table-bordered text-center pb-2" id="items_table">
-                                                    <tr>
-                                                        <th>Kode Transaksi</th>
-                                                        <th>Nama Sparepart</th>
-                                                        {{-- <th>
-                                                            <bold>Stok</bold>
-                                                        </th> --}}
-                                                        <th>
-                                                            <bold>qty</bold>
-                                                        </th>
-
-                                                    </tr>
-                                                    @if ($workorders->id_tx === null)
-                                                        <td colspan="3">Tidak ada sparepart yang digunakan</td>
-                                                    @else
-                                                        @foreach ($groupedHistory as $id_tx => $group)
-                                                            @php
-                                                                $groupSize = count($group);
-                                                            @endphp
-                                                            @foreach ($group as $key => $item)
-                                                                <tr>
-                                                                    @if ($key === 0)
-                                                                        <td class="align-middle text-center"
-                                                                            rowspan="{{ $groupSize }}">
-                                                                            {{ $item->id_tx }}
-                                                                        </td>
-                                                                    @endif
-                                                                    <td>
-                                                                        {{ getNameSparepart($item['id_spr']) }}</td>
-
-                                                                    <td>{{ $item['qty'] }}</td>
-
-                                                                </tr>
-                                                            @endforeach
-                                                        @endforeach
-
-                                                    @endif
-                                                </table><br>
-                                            @endif
-
-                                            <h6>(Diperbaiki Oleh: {{ Auth::user()->nama_lengkap }})</h6>
-
-                                        </div>
-
-                                    </div>
-                                </div>
                     </form>
                 </div>
                 <!-- /.content -->
-                @endif
+
             </div>
     </div>
     </div>
@@ -553,7 +444,7 @@
             var jenisPerangkatField = document.getElementById('jenis');
             var jenisPerangkatLabel = document.getElementById('jenis_label');
 
-            if (selectedCategory === 'hardware') {
+            if (selectedCategory === 'perbaikan') {
                 jenisPerangkatField.style.display = 'block';
                 jenisPerangkatLabel.style.display = 'block';
             } else {

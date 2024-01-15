@@ -11,7 +11,7 @@ class Departemen extends Model
     protected $table = "departemen";
     protected $primarykey ="id";
     protected $fillable = [
-        'id','departemen'
+        'id','departemen','updated_at','created_at'
     ];
 
     public function user()
