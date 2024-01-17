@@ -2,21 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use Charts;
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\perangkat;
 use App\Models\workorder;
 use App\Models\keluarstok;
 use App\Models\tambahstok;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-
-use Charts;
 
 class AdminController extends Controller
 {
     public function index()
     {
+        $Wo = workorder::all();
+        foreach ($Wo as $d) {
+            $d->formatted_date_start = Carbon::parse($d->date_start)->format('Y, n - 1, j, G, i');
+            $d->formatted_date_end = $d->date_end !== null
+                ? Carbon::parse($d->date_end)->format('Y, n - 1, j, G, i')
+                : false;
+        }
+        if (getUserDept() == "EDP") {
+            $items = keluarstok::where('cabang_id', '=', getUserCabang())->get();
+        } else {
+            $items = keluarstok::where('user_id', '=', getUserId())->get();
+        }
+
         $WoCount = workorder::query()
             ->where('cabang_id', '=', getUserCabang())
             ->count();
@@ -38,7 +52,7 @@ class AdminController extends Controller
         //     ->title('Contoh Grafik')
         //     ->labels(['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'])
         //     ->values([50, 80, 30, 60, 20, 75]);
-        return view('Admin.dashboard', compact('WoCount', 'UserCount', 'WoDoneCount', 'PurchaseCount'));
+        return view('Admin.dashboard', compact('WoCount', 'UserCount', 'WoDoneCount', 'PurchaseCount', 'Wo', 'items'));
     }
 
     public function Gallery()

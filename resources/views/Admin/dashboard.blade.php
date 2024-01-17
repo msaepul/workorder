@@ -92,7 +92,7 @@
                     <!-- /.row -->
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-7">
                             <!-- BAR CHART -->
                             <div class="card card-success">
                                 <div class="card-header">
@@ -117,9 +117,55 @@
                             </div>
                             <!-- /.card -->
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-5 ">
+                            <!-- PRODUCT LIST -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Aktivitas Sparepart</h3>
+
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body p-0">
+                                    <ul class="products-list product-list-in-card pl-2 pr-2">
+
+                                        <li class="item">
+                                            <div class="product-img">
+                                                <img src="dist/img/default-150x150.png" alt="Product Image"
+                                                    class="img-size-50">
+                                            </div>
+                                            <div class="product-info">
+                                                <a href="javascript:void(0)" class="product-title">
+                                                    Xbox One <span class="badge badge-danger float-right">
+                                                        $350
+                                                    </span>
+                                                </a>
+                                                <span class="product-description">
+                                                    Xbox One Console Bundle with Halo Master Chief Collection.
+                                                </span>
+                                            </div>
+                                        </li>
+                                        <!-- /.item -->
+                                    </ul>
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer text-center">
+                                    <a href="javascript:void(0)" class="uppercase">View All Products</a>
+                                </div>
+                                <!-- /.card-footer -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                        <div class="col-md-3">
                             <!-- AREA CHART -->
-                            <div class="card card-primary">
+                            <div class="card card-primary" style=" display: none;">
                                 <div class="card-header">
                                     <h3 class="card-title">Area Chart</h3>
 
@@ -147,100 +193,33 @@
                     </div>
                     <!-- /.row -->
                     <!-- /.row -->
-                    <div class="row d-flex">
-                        <div class="col-md-5 ">
-                            <!-- PRODUCT LIST -->
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Recently Added Products</h3>
-
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <!-- /.card-header -->
-                                <div class="card-body p-0">
-                                    <ul class="products-list product-list-in-card pl-2 pr-2">
-                                        <li class="item">
-                                            <div class="product-img">
-                                                <img src="dist/img/default-150x150.png" alt="Product Image"
-                                                    class="img-size-50">
-                                            </div>
-                                            <div class="product-info">
-                                                <a href="javascript:void(0)" class="product-title">Samsung TV
-                                                    <span class="badge badge-warning float-right">$1800</span></a>
-                                                <span class="product-description">
-                                                    Samsung 32" 1080p 60Hz LED Smart HDTV.
-                                                </span>
-                                            </div>
-                                        </li>
-                                        <!-- /.item -->
-                                        <li class="item">
-                                            <div class="product-img">
-                                                <img src="dist/img/default-150x150.png" alt="Product Image"
-                                                    class="img-size-50">
-                                            </div>
-                                            <div class="product-info">
-                                                <a href="javascript:void(0)" class="product-title">Bicycle
-                                                    <span class="badge badge-info float-right">$700</span></a>
-                                                <span class="product-description">
-                                                    26" Mongoose Dolomite Men's 7-speed, Navy Blue.
-                                                </span>
-                                            </div>
-                                        </li>
-                                        <!-- /.item -->
-                                        <li class="item">
-                                            <div class="product-img">
-                                                <img src="dist/img/default-150x150.png" alt="Product Image"
-                                                    class="img-size-50">
-                                            </div>
-                                            <div class="product-info">
-                                                <a href="javascript:void(0)" class="product-title">
-                                                    Xbox One <span class="badge badge-danger float-right">
-                                                        $350
-                                                    </span>
-                                                </a>
-                                                <span class="product-description">
-                                                    Xbox One Console Bundle with Halo Master Chief Collection.
-                                                </span>
-                                            </div>
-                                        </li>
-                                        <!-- /.item -->
-                                        <li class="item">
-                                            <div class="product-img">
-                                                <img src="dist/img/default-150x150.png" alt="Product Image"
-                                                    class="img-size-50">
-                                            </div>
-                                            <div class="product-info">
-                                                <a href="javascript:void(0)" class="product-title">PlayStation 4
-                                                    <span class="badge badge-success float-right">$399</span></a>
-                                                <span class="product-description">
-                                                    PlayStation 4 500GB Console (PS4)
-                                                </span>
-                                            </div>
-                                        </li>
-                                        <!-- /.item -->
-                                    </ul>
-                                </div>
-                                <!-- /.card-body -->
-                                <div class="card-footer text-center">
-                                    <a href="javascript:void(0)" class="uppercase">View All Products</a>
-                                </div>
-                                <!-- /.card-footer -->
-                            </div>
-                            <!-- /.card -->
-                        </div>
-                    </div>
-                    <!-- /.col -->
                 </div>
             </div><!-- /.container-fluid -->
         </section>
         <!-- /.content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="card card-primary">
+                            <div class="card-body">
+                                <!-- THE CALENDAR -->
+                                <div id="calendar" style="height: 20%;"></div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </section>
+
+
+
     </div>
 
     <!-- jQuery -->
@@ -293,32 +272,6 @@
                 ]
             }
 
-            var areaChartOptions = {
-                maintainAspectRatio: false,
-                responsive: true,
-                legend: {
-                    display: false
-                },
-                scales: {
-                    xAxes: [{
-                        gridLines: {
-                            display: false,
-                        }
-                    }],
-                    yAxes: [{
-                        gridLines: {
-                            display: false,
-                        }
-                    }]
-                }
-            }
-
-            // This will get the first returned node in the jQuery collection.
-            new Chart(areaChartCanvas, {
-                type: 'line',
-                data: areaChartData,
-                options: areaChartOptions
-            })
 
 
             //-------------
@@ -344,5 +297,146 @@
             })
 
         })
+    </script>
+    {{-- <!-- fullCalendar 2.2.5 -->
+    <script src="../plugins/moment/moment.min.js"></script>
+    <script src="../plugins/fullcalendar/main.js"></script> --}}
+
+    <!-- Page specific script -->
+    <script>
+        $(function() {
+            /* initialize the external events
+              -----------------------------------------------------------------*/
+            function ini_events(ele) {
+                ele.each(function() {
+                    // create an Event Object (https://fullcalendar.io/docs/event-object)
+                    // it doesn't need to have a start or end
+                    var eventObject = {
+                        title: $.trim($(this).text()), // use the element's text as the event title
+                    };
+
+                    // store the Event Object in the DOM element so we can get to it later
+                    $(this).data("eventObject", eventObject);
+
+                    // make the event draggable using jQuery UI
+                    $(this).draggable({
+                        zIndex: 1070,
+                        revert: true, // will cause the event to go back to its
+                        revertDuration: 0, //  original position after the drag
+                    });
+                });
+            }
+
+            ini_events($("#external-events div.external-event"));
+
+            /* initialize the calendar
+              -----------------------------------------------------------------*/
+            //Date for the calendar events (dummy data)
+            var date = new Date();
+            var d = date.getDate(),
+                m = date.getMonth(),
+                y = date.getFullYear();
+
+            var Calendar = FullCalendar.Calendar;
+            var Draggable = FullCalendar.Draggable;
+
+            var containerEl = document.getElementById("external-events");
+            var checkbox = document.getElementById("drop-remove");
+            var calendarEl = document.getElementById("calendar");
+
+            // initialize the external events
+            // -----------------------------------------------------------------
+
+            // new Draggable(containerEl, {
+            //   itemSelector: ".external-event",
+            //   eventData: function (eventEl) {
+            //     return {
+            //       title: eventEl.innerText,
+            //       backgroundColor: window
+            //         .getComputedStyle(eventEl, null)
+            //         .getPropertyValue("background-color"),
+            //       borderColor: window
+            //         .getComputedStyle(eventEl, null)
+            //         .getPropertyValue("background-color"),
+            //       textColor: window
+            //         .getComputedStyle(eventEl, null)
+            //         .getPropertyValue("color"),
+            //     };
+            //   },
+            // });
+
+            var calendar = new Calendar(calendarEl, {
+                headerToolbar: {
+                    left: "prev,next today",
+                    center: "title",
+                    right: "dayGridMonth,timeGridWeek,timeGridDay",
+                },
+                themeSystem: "bootstrap",
+                //Random default events
+                events: [
+                    @foreach ($Wo as $d)
+                        {
+                            title: "{{ $d->no_wo . ' - ' . $d->kategori_wo }}",
+                            start: new Date({{ $d->formatted_date_start }}),
+                            end: {{ $d->formatted_date_end !== false ? 'new Date(' . $d->formatted_date_end . ')' : 'false' }},
+                            backgroundColor: "{!! getStatusColor($d->status) !!}",
+                            borderColor: 'black',
+                            allDay: true,
+                            url: "{{ route('Workorder_detail', ['id' => $d->id]) }}",
+                            style: {
+                                fontSize: '16px', // Adjust the font size as needed for the title
+                                padding: '100px', // Adjust the padding to increase/decrease the box size
+                                // You can add other CSS properties here
+                            }
+                        },
+                    @endforeach
+                    @foreach ($items as $i)
+                        {
+                            title: "{{ 'Sparepart ' . $i->id_tx }}",
+                            start: new Date(
+                                "{{ \Carbon\Carbon::parse($i->tgl_permintaan)->format('Y-m-d\TH:i:s') }}"
+                            ),
+                            backgroundColor: "red",
+                            borderColor: 'black',
+                            allDay: true,
+                            url: "{{ route('detailrequest_sparepart', ['id' => $i->id]) }}",
+                            style: {
+                                fontSize: '16px', // Adjust the font size as needed for the title
+                                padding: '100px', // Adjust the padding to increase/decrease the box size
+                                // You can add other CSS properties here
+                            }
+                        },
+                    @endforeach
+                ],
+
+
+                editable: true,
+                droppable: true, // this allows things to be dropped onto the calendar !!!
+                drop: function(info) {
+                    // is the "remove after drop" checkbox checked?
+                    if (checkbox.checked) {
+                        // if so, remove the element from the "Draggable Events" list
+                        info.draggedEl.parentNode.removeChild(info.draggedEl);
+                    }
+                },
+            });
+
+            calendar.render();
+            // $('#calendar').fullCalendar()
+
+            /* ADDING EVENTS */
+            var currColor = "#3c8dbc"; //Red by default
+            // Color chooser button
+            $("#color-chooser > li > a").click(function(e) {
+                e.preventDefault();
+                // Save color
+                currColor = $(this).css("color");
+                // Add color effect to button
+                $("#add-new-event").css({
+                    "background-color": currColor,
+                    "border-color": currColor,
+                });
+            });
+        });
     </script>
 @endsection

@@ -187,6 +187,23 @@ if (!function_exists(function: 'marital')) {
         return "$marital";
     }
 }
+// Inside a helper file or in an appropriate location
+// Inside a helper file or in an appropriate location
+
+function getStatusColor($status)
+{
+    switch ($status) {
+        case 5:
+            return 'green';
+        case 'completed':
+            return 'green';
+        case 'cancelled':
+            return 'red';
+        default:
+            return 'bluelight'; // Default color
+    }
+}
+
 
 // if (!function_exists(function: 'akses')) {
 //     function akses()
