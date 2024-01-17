@@ -18,28 +18,27 @@ class AdminController extends Controller
     public function index()
     {
         $WoCount = workorder::query()
-        ->where('cabang_id', '=', getUserCabang())
-        ->count();
-    
-    $WoDoneCount = workorder::query()
-        ->where('status', '=', 5)
-        ->where('cabang_id', '=', getUserCabang())
-        ->count();
-    
-    $UserCount = User::query()
-        ->where('cabang','=',getUserCabang())
-        ->count();
+            ->where('cabang_id', '=', getUserCabang())
+            ->count();
+
+        $WoDoneCount = workorder::query()
+            ->where('status', '=', 5)
+            ->where('cabang_id', '=', getUserCabang())
+            ->count();
+
+        $UserCount = User::query()
+            ->where('cabang', '=', getUserCabang())
+            ->count();
 
         $PurchaseCount = tambahstok::query()
-        ->where('id_cabang','=',getUserCabang())
-        ->count();
-    
+            ->where('id_cabang', '=', getUserCabang())
+            ->count();
+
         // $chart = Charts::create('bar', 'chartjs')
         //     ->title('Contoh Grafik')
         //     ->labels(['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'])
         //     ->values([50, 80, 30, 60, 20, 75]);
-    return view('Admin.dashboard', compact('WoCount', 'UserCount', 'WoDoneCount','PurchaseCount'));
-    
+        return view('Admin.dashboard', compact('WoCount', 'UserCount', 'WoDoneCount', 'PurchaseCount'));
     }
 
     public function Gallery()
@@ -48,30 +47,36 @@ class AdminController extends Controller
         return view('Admin.gallery');
     }
 
+    public function calender()
+    {
+        // $UserCount = User::count();
+        return view('Admin.calender');
+    }
+
     public function profile()
     {
 
         $id = Auth::user()->id;
-        $hisparepart = keluarstok::join('tb_sparepart','tb_keluarstok.id_Spr','=','tb_sparepart.id')
-        ->select('tb_keluarstok.*','tb_sparepart.nama_sparepart AS nama_sparepart')
-        ->where('tb_keluarstok.user_id','=',$id)
-        ->get();
+        $hisparepart = keluarstok::join('tb_sparepart', 'tb_keluarstok.id_Spr', '=', 'tb_sparepart.id')
+            ->select('tb_keluarstok.*', 'tb_sparepart.nama_sparepart AS nama_sparepart')
+            ->where('tb_keluarstok.user_id', '=', $id)
+            ->get();
 
         $perangkatcpu = perangkat::where('user_id', $id)
-        ->where('id_jenis', 13)
-        ->get();
+            ->where('id_jenis', 13)
+            ->get();
 
         $perangkatmon = perangkat::where('user_id', $id)
-        ->where('id_jenis', 19)
-        ->get();
+            ->where('id_jenis', 19)
+            ->get();
 
         $perangkatups = perangkat::where('user_id', $id)
-        ->where('id_jenis', 34)
-        ->get();
+            ->where('id_jenis', 34)
+            ->get();
         $perangkatprt = perangkat::where('user_id', $id)
-        ->where('id_jenis', 23)
-        ->get();
-       $user = user::all();
-        return view('Admin.profile', compact('user','perangkatcpu','perangkatmon','perangkatups','perangkatprt','hisparepart','id'));
+            ->where('id_jenis', 23)
+            ->get();
+        $user = user::all();
+        return view('Admin.profile', compact('user', 'perangkatcpu', 'perangkatmon', 'perangkatups', 'perangkatprt', 'hisparepart', 'id'));
     }
 }

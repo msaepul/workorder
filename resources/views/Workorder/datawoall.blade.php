@@ -31,7 +31,7 @@
                         <div class="card">
                             <div class="card-header ">
                                 <center>
-                                    <h5><b>DATA WORK ORDER CABANG {{ cabangs() }}</b></h5>
+                                    <h5><b>DATA WORK ORDER CABANG</b></h5>
                                 </center>
                             </div>
 
@@ -55,7 +55,6 @@
                                             <th>Dibuat oleh</th>
                                             <th>Action</th>
                                         </tr>
-
                                     </thead>
                                     <tbody>
                                         @foreach ($workorders as $wo)

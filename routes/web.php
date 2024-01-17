@@ -38,7 +38,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('Dashboard', [AdminController::class, 'index'])->name('dashboard');
-    Route::get('Adminspr', [AdminController::class, 'dashboardspr']);
+    Route::get('calender', [AdminController::class, 'calender'])->name('calender');
+    // Route::get('Adminspr', [AdminController::class, 'dashboardspr']);
     Route::get('Gallery', [AdminController::class, 'gallery']);
     Route::get('Cabang', [CabangController::class, 'index'])->middleware('only_cabang');
 
@@ -54,14 +55,15 @@ Route::middleware('auth')->group(function () {
         Route::get('detail/{id}/pdf', [WorkorderController::class, 'generatePDF'])->name('detailrequest_sparepart.pdf');
         Route::get('edit/{id}', [WorkorderController::class, 'editwo'])->name('Workorder_edit');
         Route::put('edit/{id}', [WorkorderController::class, 'editwoproses'])->name('Workorder_editproses');
-        
+
         Route::get('{id}', [WorkorderController::class, 'confirm'])->name('wo_confadmin');
         Route::post('', [WorkorderController::class, 'woproses'])->name('Workorder_proses');
         Route::post('updates/{id}', [WorkorderController::class, 'updateStatus'])->name('woupdate_status');
         Route::post('update/{id}', [WorkorderController::class, 'updateStatus2'])->name('woupdate_status2');
-        Route::get('datawo', [WorkorderController::class, 'datawo'])->name('Dataworkorder');
-       
-    });   Route::get('datawo', [WorkorderController::class, 'datawo'])->name('Dataworkorder');
+        // Route::get('datawo', [WorkorderController::class, 'datawo'])->name('Dataworkorder');
+    });
+    Route::get('datawo', [WorkorderController::class, 'datawo'])->name('Dataworkorder');
+    Route::get('datawoall', [WorkorderController::class, 'datawoall'])->name('datawoall');
     Route::get('/export', [WorkorderController::class, 'export'])->name('export_wo');
 
 
@@ -132,7 +134,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('brand/{id}', [MasterController::class, 'hapusbrand'])->name('destory_brand');
 
 
-   
+
 
 
     //Master Data Supplier
@@ -159,11 +161,10 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('jenis/{id}', [MasterController::class, 'hapusjenis'])->name('destory_jenis');
 
-        //Master Data type ke db
+    //Master Data type ke db
     Route::get('type', [MasterController::class, 'mastertype'])->name('mastertype');
     Route::post('type-proses', [MasterController::class, 'typeproses'])->name('type_proses');
     Route::put('edittype/{id}', [MasterController::class, 'masteredittype'])->name('masteredittype');
 
     Route::delete('type/{id}', [MasterController::class, 'hapustype'])->name('destory_type');
-
 });

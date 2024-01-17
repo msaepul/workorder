@@ -79,13 +79,13 @@
                                                 <td>{{ $device->status }}</td>
                                                 <td>
                                                     <a href="{{ route('edit_perangkat', $device->id) }}"
-                                                        class="btn btn-primary">Edit</a>
+                                                        class="btn btn-sm btn-primary">Edit</a>
 
                                                     <form action="{{ route('destroy_perangkat', $device->id) }}"
                                                         method="POST" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger"
+                                                        <button type="submit" class="btn btn-sm btn-danger"
                                                             onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
                                                     </form>
                                                 </td>

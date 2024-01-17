@@ -49,6 +49,16 @@ class WorkorderController extends Controller
         $users = User::all()->first();
         return view('Workorder.datawo', compact('users', 'workorders'));
     }
+    public function datawoall()
+    {
+        // $departemen = Departemen::all();
+
+
+        $workorders = workorder::all();
+
+        $users = User::all()->first();
+        return view('Workorder.datawoall', compact('workorders'));
+    }
     public function woproses(Request $request)
     {
 
@@ -99,11 +109,6 @@ class WorkorderController extends Controller
         return redirect()->route('Workorder_detail', $idwo);
     }
 
-    // public function confirm()
-    // {
-
-
-    // }
 
     public function detailwo($id)
     {
@@ -116,10 +121,10 @@ class WorkorderController extends Controller
         $items = keluarstok::where('id_tx', $data)->get();
         $groupedHistory = $items->groupBy('id_tx');
 
-   
+
         $no_wo = $workorders->lampiran;
         $status = $workorders->status;
-        $sparepart = Sparepart::where('id_cabang', '=', getUserCabang())->get();
+        $sparepart = Sparepart::where('id_cabang', '=', getUserCabang())->where('stok', '>', 0)->get();
 
 
         if ($no_wo !== null) {
@@ -144,7 +149,6 @@ class WorkorderController extends Controller
         } elseif ($status <= 2) {
             return view('Workorder.detail', compact('workorders', 'lampiran', 'dateTime'));
         }
-        
     }
 
     public function editwo($id)
@@ -228,7 +232,7 @@ class WorkorderController extends Controller
     public function updateStatus(Request $request, $id)
     {
 
-      
+
         $status = $request->input('status');
         // Lakukan pembaruan status sesuai dengan nilai yang dikirimkan
         $data = Workorder::find($id); // Ganti dengan logika Anda untuk mendapatkan data yang sesuai
@@ -236,7 +240,7 @@ class WorkorderController extends Controller
         // Lakukan pembaruan status sesuai dengan nilai yang dikirimkan
         if ($status == 2) {
             // Lakukan aksi untuk status = 1
-            $item = Workorder::find($id); 
+            $item = Workorder::find($id);
             // Ganti dengan logika Anda untuk mendapatkan item yang sesuai
             $item->status = 2;
             $item->save();
@@ -248,9 +252,9 @@ class WorkorderController extends Controller
         } elseif ($status == 3) {
             // Lakukan aksi untuk status = 0
             $item = Workorder::find($id); // Ganti dengan logika Anda untuk mendapatkan item yang sesuai
-            $item->userfix_id =$request->input('userfix_id');
-            $item->date_start =$request->input('date_start');
-            $item->date_end=$request->input('date_end');
+            $item->userfix_id = $request->input('userfix_id');
+            $item->date_start = $request->input('date_start');
+            $item->date_end = $request->input('date_end');
 
             $item->status = 3;
             $item->save();
@@ -261,7 +265,7 @@ class WorkorderController extends Controller
             $currentDateTime = now();
             $formattedDate = $currentDateTime->format('Y-m-d');
             // dd(count($itemNames));
-            if ($itemNames[0] === null)  {
+            if ($itemNames[0] === null) {
                 $item = Workorder::find($id);
                 $item->id_tx = null;
                 $item->analisa = $request->input('analisa');
@@ -280,7 +284,7 @@ class WorkorderController extends Controller
                     $keluarstok->user_id = $data->user_id;
                     $keluarstok->status = 3;
                     $keluarstok->cabang_id = getUserCabang();
-                    
+
                     // Simpan model ke database
                     $keluarstok->save();
                 }
@@ -292,19 +296,19 @@ class WorkorderController extends Controller
                 $item->status = 4;
                 $item->save();
             }
-            
-         }elseif ($status == 5) {
+        } elseif ($status == 5) {
             // Lakukan aksi untuk status = 5
             $item = Workorder::find($id); // Ganti dengan logika Anda untuk mendapatkan item yang sesuai
             $item->status = 5;
-            $item->save();}
+            $item->save();
+        }
         // Kembalikan respon atau lakukan pengalihan (redirect) ke halaman yang sesuai
         return redirect()->route('Workorder_detail', $id);
-
     }
 
-   
-      public function generatePDF($id){
+
+    public function generatePDF($id)
+    {
 
         $now = Carbon::now()->tz('Asia/Jakarta');
         $dateTime = $now->toDateTimeString();
@@ -315,7 +319,7 @@ class WorkorderController extends Controller
         $items = keluarstok::where('id_tx', $data)->get();
         $groupedHistory = $items->groupBy('id_tx');
 
-   
+
         $no_wo = $workorders->lampiran;
         $status = $workorders->status;
         $sparepart = Sparepart::where('id_cabang', '=', getUserCabang())->get();
@@ -329,7 +333,7 @@ class WorkorderController extends Controller
         $html .= '.border-left { border :none; border-left: 1px solid black;  }';
         $html .= '.border-right { border :none; border-right: 1px solid black; text-align: left;  padding-left: 40px; }';
         $html .= '</style>';
-        
+
         $html .= '<table>';
 
         $html .= '<tr>';
@@ -341,51 +345,49 @@ class WorkorderController extends Controller
         $html .= '<th rowspan="2" colspan="3">Form Work Order</th>';
         $html .= '<th rowspan="2"></th>';
         $html .= '<th  rowspan="2"></th>';
-        $html .= '<th><p>EDP-01 Rev.01</p></th>'; 
+        $html .= '<th><p>EDP-01 Rev.01</p></th>';
         $html .= '</table>';
-   
+
         $html .= '<table>';
         $html .= '</tr>';
         $html .= '<tr>';
-        $html .= '<th></th>';    
+        $html .= '<th></th>';
         $html .= '</tr>';
-        
-          $html .= '<tr>';
+
+        $html .= '<tr>';
         $html .= '<td"></td>';
         $html .= '<td"></td>';
         $html .= '<td"></td>';
         $html .= '<td"></td>';
         $html .= '<td"></td>';
         $html .= '</tr>';
-        
+
         $html .= '</table>';
-        
-     
-        
-        
-        
-          // foreach ($users as $user) {
+
+
+
+
+
+        // foreach ($users as $user) {
         //     $html .= '<tr><td>' . $user->nama_lengkap . '</td><td>' . $user->email . '</td></tr>';
         // }
         $dompdf = new Dompdf();
         $dompdf->set_option('isRemoteEnabled', true);
         $dompdf->loadHtml($html);
-        $dompdf -> setPaper ([ 0 , 0 , 685.98 , 515.85 ], 'lanskap' );
+        $dompdf->setPaper([0, 0, 685.98, 515.85], 'lanskap');
 
         // Render HTML to PDF
         $dompdf->render();
-        
+
         // Save or display the PDF
         $dompdf->stream('output.pdf', ['Attachment' => false]);
-        
-        
-      }
-     public function export()
+    }
+    public function export()
     {
         return Excel::download(new WorkordersExport, 'WO.xlsx');
     }
- 
-  // public function generatePDF($id){
+
+    // public function generatePDF($id){
 
     //     $now = Carbon::now()->tz('Asia/Jakarta');
     //     $dateTime = $now->toDateTimeString();
@@ -396,7 +398,7 @@ class WorkorderController extends Controller
     //     $items = keluarstok::where('id_tx', $data)->get();
     //     $groupedHistory = $items->groupBy('id_tx');
 
-   
+
     //     $no_wo = $workorders->lampiran;
     //     $status = $workorders->status;
     //     $sparepart = Sparepart::where('id_cabang', '=', getUserCabang())->get();
@@ -410,7 +412,7 @@ class WorkorderController extends Controller
     //     $html .= '.border-left { border :none; border-left: 1px solid black;  }';
     //     $html .= '.border-right { border :none; border-right: 1px solid black; text-align: left;  padding-left: 40px; }';
     //     $html .= '</style>';
-        
+
     //     $html .= '<table>';
 
     //     $html .= '<tr>';
@@ -420,64 +422,64 @@ class WorkorderController extends Controller
 
     //     $html .= '<th rowspan="2" colspan="2">Form Work Order</th>';
     //     $html .= '<th>'.$workorders->no_wo.'</th>'; 
-   
+
     //     $html .= '</tr>';
     //     $html .= '<tr>';
     //     $html .= '<th>'.$workorders->wo_create.'</th>';
     //     $html .= '</tr>';
-        
+
     //     $html .= '<td colspan="4" style="text-align: center; border-bottom: 1px solid black; background-color: #f2f2f2;"> Informasi Work Order </td>';
     //     $html .= '</tr>';
-        
+
     //     $html .= '<tr>';
     //     $html .= '<td class="border-left"> Pembuat </td>';
     //     $html .= '<td style="border: none;"> : '.getFullName($workorders->user_id).'</td>';
     //     $html .= '<td style="border: none; text-align: right;">Pelaksana</td>';
     //     $html .= '<td class="border-right"> : '.getFullName($workorders->userfix_id).'</td>';
     //     $html .= '</tr>';
-        
+
     //     $html .= '<tr>';
     //     $html .= '<td class="border-left"> Jenis WO </td>';
     //     $html .= '<td style="border: none;"> : '.$workorders->kategori_wo.'</td>';
     //     $html .= '<td style="border: none; text-align: right;">Target Selesai</td>';
     //     $html .= '<td class="border-right"> : '.$workorders->date_end.'</td>';
     //     $html .= '</tr>';
-        
+
     //     $html .= '<tr>';
     //     $html .= '<td class="border-left"></td>';
     //     $html .= '<td style="border: none;"></td>';
     //     $html .= '<td style="border: none; text-align: right;">Aktual Selesai</td>';
     //     $html .= '<td class="border-right"> : '.$workorders->date_actual.'</td>';
     //     $html .= '</tr>';
-        
+
     //     $html .= '<tr>';
     //     $html .= '<td colspan="4" style="text-align: center; border-bottom: 1px solid black; background-color: #f2f2f2;"> Informasi Masalah </td>';
     //     $html .= '</tr>';
-        
+
     //     $html .= '<tr>';
     //     $html .= '<td colspan="2" style="text-align: center; border-right: 1px solid black;  background-color: #f2f2f2;"> Objek </td>';
     //     $html .= '<td colspan="2" style="text-align: center;  background-color: #f2f2f2;"> Keluhan </td>';
     //     $html .= '</tr>';
-        
+
     //     $html .= '<tr>';
     //     $html .= '<td colspan="2" style="text-align: center; border-right: 1px solid black; padding: 30px;">'.$workorders->obyek.'</td>';
     //     $html .= '<td colspan="2" style="text-align: center; padding: 30px;">'.$workorders->keadaan.' </td>';
     //     $html .= '</tr>';
-        
+
     //     $html .= '<tr>';
     //     $html .= '<td colspan="4" style="text-align: center; border-bottom: 1px solid black; background-color: #f2f2f2;"> Informasi Pebaikan </td>';
     //     $html .= '</tr>';
-        
+
     //     $html .= '<tr>';
     //     $html .= '<td colspan="2" style="text-align: center; border-right: 1px solid black ;  background-color: #f2f2f2;"> Anlisa Kerusakan </td>';
     //     $html .= '<td colspan="2" style="text-align: center;  background-color: #f2f2f2;"> Tindakan Perbaikan </td>';
     //     $html .= '</tr>';
-        
+
     //     $html .= '<tr>';
     //     $html .= '<td colspan="2" style="text-align: center; padding: 30px; border-right: 1px solid black;">'.$workorders->analisa.'</td>';
     //     $html .= '<td colspan="2" style="text-align: center; padding: 30px;">'.$workorders->tindakan.' </td>';
     //     $html .= '</tr>';
-    
+
     //       $html .= '<tr>';
     //     $html .= '<td colspan="2" style="text-align: center; border-right: 1px solid black ;  background-color: #f2f2f2;">Waktu Mulai Mengerjakan </td>';
     //     $html .= '<td colspan="2" style="text-align: center;  background-color: #f2f2f2;"> Sparepart/sukucadang</td>';
@@ -509,11 +511,11 @@ class WorkorderController extends Controller
     //             }
     //         }
     //     }
-        
+
     //     $html .= '</table>';
-        
-        
-        
+
+
+
     //       // foreach ($users as $user) {
     //     //     $html .= '<tr><td>' . $user->nama_lengkap . '</td><td>' . $user->email . '</td></tr>';
     //     // }
@@ -524,13 +526,13 @@ class WorkorderController extends Controller
 
     //     // Render HTML to PDF
     //     $dompdf->render();
-        
+
     //     // Save or display the PDF
     //     $dompdf->stream('output.pdf', ['Attachment' => false]);
-        
-        
+
+
     //   }
 
 
-    
+
 }

@@ -82,6 +82,18 @@
                                 </p>
                             </a>
                         </li>
+                        @if (Auth::user()->cabang == 100 && Auth::user()->dept == 'EDP')
+                            <li class="nav-item">
+                                <a href="{{ route('datawoall') }}"
+                                    @if (request()->route()->getName() == 'datawoall') class="nav-link active"
+                @else class="nav-link" @endif>
+                                    <i class="fas fa-ellipsis-h nav-icon"></i>
+                                    <p>
+                                        Seluruh Data WOrk Order
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </li>
 
@@ -128,6 +140,16 @@
                     </ul>
                 </li>
                 @if (Auth::user()->dept == 'EDP')
+                    <li class="nav-item">
+                        <a href="{{ route('calender') }}"
+                            @if (request()->route()->uri == 'calender') class="nav-link active"   @else
+            class="nav-link " @endif>
+                            <i class="nav-icon far fa-calendar-alt"></i>
+                            <p>
+                                Kalender
+                            </p>
+                        </a>
+                    </li>
                     <li class="nav-header">MANAGE PERANGKAT</li>
 
                     <li class="nav-item">
