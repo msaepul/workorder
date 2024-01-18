@@ -18,41 +18,43 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $Wo = workorder::all();
+        if (getUserDept() == "EDP" &&  getUserCabang() == 100) {
+            $Wo = workorder::all();
+            $items = keluarstok::get();
+        } else {
+            $Wo = workorder::where('cabang_id', '=', getUserCabang())->get();
+            $items = keluarstok::where('cabang_id', '=', getUserCabang())->get();
+        }
+
+
         foreach ($Wo as $d) {
             $d->formatted_date_start = Carbon::parse($d->date_start)->format('Y, n - 1, j, G, i');
-            $d->formatted_date_end = $d->date_end !== null
-                ? Carbon::parse($d->date_end)->format('Y, n - 1, j, G, i')
-                : false;
-        }
-        if (getUserDept() == "EDP") {
-            $items = keluarstok::where('cabang_id', '=', getUserCabang())->get();
-        } else {
-            $items = keluarstok::where('user_id', '=', getUserId())->get();
+            $d->formatted_date_end = $d->date_end !== null ? Carbon::parse($d->date_end)->format('Y, n - 1, j, G, i') : false;
         }
 
-        $WoCount = workorder::query()
-            ->where('cabang_id', '=', getUserCabang())
-            ->count();
 
-        $WoDoneCount = workorder::query()
-            ->where('status', '=', 5)
-            ->where('cabang_id', '=', getUserCabang())
-            ->count();
+        $purchase = tambahstok::where('id_cabang', '=', getUserCabang())->get();
 
-        $UserCount = User::query()
-            ->where('cabang', '=', getUserCabang())
-            ->count();
 
-        $PurchaseCount = tambahstok::query()
-            ->where('id_cabang', '=', getUserCabang())
-            ->count();
+        // Menggabungkan dua koleksi
+        $activities = $purchase->merge($items);
+
+        // Menyortir aktivitas berdasarkan waktu (contoh: created_at)
+        $activities = $activities->sortByDesc('created_at');
+
+
+
+        $WoCount = workorder::where('cabang_id', '=', getUserCabang())->count();
+        $WoDoneCount = workorder::where('status', '=', 5)->where('cabang_id', '=', getUserCabang())->count();
+        $UserCount = User::where('cabang', '=', getUserCabang())->count();
+
 
         // $chart = Charts::create('bar', 'chartjs')
         //     ->title('Contoh Grafik')
         //     ->labels(['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'])
         //     ->values([50, 80, 30, 60, 20, 75]);
-        return view('Admin.dashboard', compact('WoCount', 'UserCount', 'WoDoneCount', 'PurchaseCount', 'Wo', 'items'));
+
+        return view('Admin.dashboard', compact('WoCount', 'UserCount', 'WoDoneCount', 'purchase', 'Wo', 'items', 'activities'));
     }
 
     public function Gallery()

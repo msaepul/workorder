@@ -140,16 +140,7 @@
                     </ul>
                 </li>
                 @if (Auth::user()->dept == 'EDP')
-                    <li class="nav-item">
-                        <a href="{{ route('calender') }}"
-                            @if (request()->route()->uri == 'calender') class="nav-link active"   @else
-            class="nav-link " @endif>
-                            <i class="nav-icon far fa-calendar-alt"></i>
-                            <p>
-                                Kalender
-                            </p>
-                        </a>
-                    </li>
+
                     <li class="nav-header">MANAGE PERANGKAT</li>
 
                     <li class="nav-item">

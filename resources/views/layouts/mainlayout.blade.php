@@ -27,17 +27,18 @@
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
     <!-- DataTables -->
-    {{-- <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.2/css/dataTables.bootstrap4.min.css"> --}}
-    <!-- fullCalendar -->
-    <link rel="stylesheet" href="{{ asset('plugins/fullcalendar/main.css') }}" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.2/css/dataTables.bootstrap4.min.css">
 
     <!-- Select2 -->
     <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
 
+    <link rel="stylesheet" href="{{ asset('plugins/fullcalendar/main.css') }}" />
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -333,6 +334,10 @@
         <script src="https://cdn.datatables.net/1.11.2/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.2/js/dataTables.bootstrap4.min.js"></script>
 
+        <!-- Select2 -->
+        <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+        <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
+
         <!-- Data Tables -->
         <script src="{{ asset('/') }}plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="{{ asset('/') }}plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -341,9 +346,6 @@
         <script src="{{ asset('/') }}plugins/select2/js/select2.full.min.js"></script> --}}
         <!-- AdminLTE App -->
         <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
-        <!-- Select2 -->
-        <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
-        <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
 
         {{-- calender --}}
         <!-- /.content-wrapper -->

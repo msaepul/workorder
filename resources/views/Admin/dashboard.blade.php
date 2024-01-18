@@ -68,7 +68,7 @@
 
                                 <div class="info-box-content">
                                     <span class="info-box-text">Purchases</span>
-                                    <span class="info-box-number">{{ $PurchaseCount }}</span>
+                                    <span class="info-box-number">{{ count($purchase) }}</span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
@@ -92,7 +92,7 @@
                     <!-- /.row -->
 
                     <div class="row">
-                        <div class="col-md-7">
+                        <div class="col-md-8">
                             <!-- BAR CHART -->
                             <div class="card card-success">
                                 <div class="card-header">
@@ -117,7 +117,7 @@
                             </div>
                             <!-- /.card -->
                         </div>
-                        <div class="col-md-5 ">
+                        <div class="col-md-4 ">
                             <!-- PRODUCT LIST -->
                             <div class="card">
                                 <div class="card-header">
@@ -135,26 +135,33 @@
                                 <!-- /.card-header -->
                                 <div class="card-body p-0">
                                     <ul class="products-list product-list-in-card pl-2 pr-2">
+                                        @foreach ($activities as $p)
+                                            <li class="item">
+                                                <div class="product-info">
+                                                    <a href="" class="product-title">
+                                                        @if ($p instanceof \App\Models\tambahstok)
+                                                            Sparepart Masuk ({{ $p->id_tx }})
+                                                            <span class="badge badge-success float-right">
+                                                                Rp. {{ $p->harga }}
+                                                            @elseif ($p instanceof \App\Models\keluarstok)
+                                                                Sparepart Keluar ({{ $p->id_tx }})
+                                                                <span class="badge badge-danger float-right">
+                                                                    Rp. {{ $p->harga }}
+                                                                @else
+                                                                    Aktivitas Tidak Diketahui
+                                                        @endif
 
-                                        <li class="item">
-                                            <div class="product-img">
-                                                <img src="dist/img/default-150x150.png" alt="Product Image"
-                                                    class="img-size-50">
-                                            </div>
-                                            <div class="product-info">
-                                                <a href="javascript:void(0)" class="product-title">
-                                                    Xbox One <span class="badge badge-danger float-right">
-                                                        $350
+                                                        </span>
+                                                    </a>
+                                                    <span class="product-description">
+                                                        {{ getNamesparepart($p->id_spr) }} x {{ $p->qty }}
                                                     </span>
-                                                </a>
-                                                <span class="product-description">
-                                                    Xbox One Console Bundle with Halo Master Chief Collection.
-                                                </span>
-                                            </div>
-                                        </li>
-                                        <!-- /.item -->
+                                                </div>
+                                            </li>
+                                        @endforeach
                                     </ul>
                                 </div>
+
                                 <!-- /.card-body -->
                                 <div class="card-footer text-center">
                                     <a href="javascript:void(0)" class="uppercase">View All Products</a>
@@ -380,7 +387,7 @@
                             start: new Date({{ $d->formatted_date_start }}),
                             end: {{ $d->formatted_date_end !== false ? 'new Date(' . $d->formatted_date_end . ')' : 'false' }},
                             backgroundColor: "{!! getStatusColor($d->status) !!}",
-                            borderColor: 'black',
+                            borderColor: 'white',
                             allDay: true,
                             url: "{{ route('Workorder_detail', ['id' => $d->id]) }}",
                             style: {
@@ -392,12 +399,12 @@
                     @endforeach
                     @foreach ($items as $i)
                         {
-                            title: "{{ 'Sparepart ' . $i->id_tx }}",
+                            title: "{{ 'Barang Keluar ' . $i->id_tx }}",
                             start: new Date(
                                 "{{ \Carbon\Carbon::parse($i->tgl_permintaan)->format('Y-m-d\TH:i:s') }}"
                             ),
-                            backgroundColor: "red",
-                            borderColor: 'black',
+                            backgroundColor: "#FF3F3F",
+                            borderColor: 'white',
                             allDay: true,
                             url: "{{ route('detailrequest_sparepart', ['id' => $i->id]) }}",
                             style: {
