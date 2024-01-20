@@ -112,7 +112,7 @@
                                     <div class="col-md-12">
                                         <div class="card card-info">
                                             <div class="card-header">
-                                                <h3 class="card-title">5 LPTS Berulang Tertinggi All Cabang</h3>
+                                                <h3 class="card-title">Work Order All Cabang</h3>
                                                 <div class="card-tools">
                                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                                         <i class="fas fa-minus"></i>
@@ -123,7 +123,7 @@
                                                 </div>
                                             </div>
                                             <div class="card-body">
-                                                <canvas id="berulang"></canvas>
+                                                <canvas id="perCabang"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -261,35 +261,37 @@
 
     <!-- Page specific script -->
     <script>
-        $(document).ready(function() {
-            var lineChartCanvas = $('#berulang').get(0).getContext('2d');
+        var ctx = document.getElementById('perCabang').getContext('2d');
 
-            var lineChartData = {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        // Set tinggi chart sesuai kebutuhan
+        var chartHeight = 300; // Ubah nilai ini sesuai kebutuhan
+
+        // Atur tinggi elemen canvas atau kontainer chart
+        ctx.canvas.height = chartHeight;
+
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'line',
+
+            // The data for our dataset
+            data: {
+                labels: ['PDL', 'CBL', 'JTW', 'TGL', 'MDO', 'MKS', 'KDR', 'BDJ', 'BWI', 'LPG', 'DMK', 'PLM',
+                    'BLI', 'PKU', 'MDN', 'LOM', 'PNK', 'LLG', 'PLU', 'KDI', 'AMQ'
+                ],
                 datasets: [{
-                    label: 'Digital Goods',
-                    borderColor: 'rgba(60,141,188,0.8)',
-                    pointRadius: 5,
-                    pointBackgroundColor: '#3b8bba',
-                    pointBorderColor: 'rgba(60,141,188,1)',
-                    pointBorderWidth: 2,
-                    pointHoverRadius: 8,
-                    pointHoverBackgroundColor: '#3b8bba',
-                    pointHoverBorderColor: 'rgba(60,141,188,1)',
-                    pointHoverBorderWidth: 2,
-                    pointLabelFontColor: '#000', // Warna font label titik
-                    pointLabelFontSize: 12, // Ukuran font label titik
-                    pointLabelFontStyle: 'bold', // Gaya font label titik
-                    data: [28, 48, 40, 19, 86, 27, 90]
+                    label: 'Jumlah LPTS',
+                    backgroundColor: 'lightblue',
+                    borderColor: 'black',
+                    data: [
+                        {{ $pdl . ',' . $cbl . ',' . $jtw . ',' . $tgl . ',' . $mdo . ',' . $mks . ',' . $kdr . ',' . $bdj . ',' . $bwi . ',' . $lpg . ',' . $dmk . ',' . $plm . ',' . $bli . ',' . $pku . ',' . $mdn . ',' . $lom . ',' . $pnk . ',' . $llg . ',' . $plu . ',' . $amq . ',' . $kdi }}
+                    ]
                 }]
-            };
+            },
 
-            var lineChartOptions = {
+            // Configuration options go here
+            options: {
                 maintainAspectRatio: false,
                 responsive: true,
-                legend: {
-                    display: true
-                },
                 scales: {
                     xAxes: [{
                         gridLines: {
@@ -299,24 +301,16 @@
                     yAxes: [{
                         gridLines: {
                             display: false
+                        },
+                        ticks: {
+                            beginAtZero: true
                         }
                     }]
                 }
-            };
-
-            var lineChart = new Chart(lineChartCanvas, {
-                type: 'line',
-                data: lineChartData,
-                options: lineChartOptions
-            });
+            }
         });
     </script>
 
-    {{-- <!-- fullCalendar 2.2.5 -->
-    <script src="../plugins/moment/moment.min.js"></script>
-    <script src="../plugins/fullcalendar/main.js"></script> --}}
-
-    <!-- Page specific script -->
     <script>
         $(function() {
             /* initialize the external events
@@ -365,7 +359,6 @@
                     right: "dayGridMonth,timeGridWeek,timeGridDay",
                 },
                 themeSystem: "bootstrap",
-                //Random default events
                 events: [
                     @foreach ($Wo as $d)
                         {
@@ -377,9 +370,8 @@
                             allDay: true,
                             url: "{{ route('Workorder_detail', ['id' => $d->id]) }}",
                             style: {
-                                fontSize: '16px', // Adjust the font size as needed for the title
-                                padding: '100px', // Adjust the padding to increase/decrease the box size
-                                // You can add other CSS properties here
+                                fontSize: '16px',
+                                padding: '100px',
                             }
                         },
                     @endforeach
@@ -394,14 +386,12 @@
                             allDay: true,
                             url: "{{ route('detailrequest_sparepart', ['id' => $i->id]) }}",
                             style: {
-                                fontSize: '16px', // Adjust the font size as needed for the title
-                                padding: '100px', // Adjust the padding to increase/decrease the box size
-                                // You can add other CSS properties here
+                                fontSize: '16px',
+                                padding: '100px',
                             }
                         },
                     @endforeach
                 ],
-
 
                 editable: true,
                 droppable: true, // this allows things to be dropped onto the calendar !!!
@@ -418,6 +408,7 @@
             // $('#calendar').fullCalendar()
 
             /* ADDING EVENTS */
+            calendarEl.style.height = "700px"; // Sesuaikan dengan tinggi yang diinginkan
             var currColor = "#3c8dbc"; //Red by default
             // Color chooser button
             $("#color-chooser > li > a").click(function(e) {

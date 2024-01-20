@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Charts;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Cabang;
 use App\Models\perangkat;
 use App\Models\workorder;
 use App\Models\keluarstok;
 use App\Models\tambahstok;
-use Illuminate\Http\Request;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,8 +35,6 @@ class AdminController extends Controller
 
 
         $purchase = tambahstok::where('id_cabang', '=', getUserCabang())->get();
-
-
         // Menggabungkan dua koleksi
         $activities = $purchase->merge($items);
 
@@ -47,14 +46,30 @@ class AdminController extends Controller
         $WoCount = workorder::where('cabang_id', '=', getUserCabang())->count();
         $WoDoneCount = workorder::where('status', '=', 5)->where('cabang_id', '=', getUserCabang())->count();
         $UserCount = User::where('cabang', '=', getUserCabang())->count();
-
-
-        // $chart = Charts::create('bar', 'chartjs')
-        //     ->title('Contoh Grafik')
-        //     ->labels(['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'])
-        //     ->values([50, 80, 30, 60, 20, 75]);
-
-        return view('Admin.dashboard', compact('WoCount', 'UserCount', 'WoDoneCount', 'purchase', 'Wo', 'items', 'activities'));
+        $datacabang = [
+            'pdl'   =>  workorder::where('cabang_id', '101')->where('status', '!=', '7')->count(),
+            'tgl'   =>  workorder::where('cabang_id', '102')->where('status', '!=', '7')->count(),
+            'mdo'   =>  workorder::where('cabang_id', '103')->where('status', '!=', '7')->count(),
+            'mks'   =>  workorder::where('cabang_id', '104')->where('status', '!=', '7')->count(),
+            'kdr'   =>  workorder::where('cabang_id', '105')->where('status', '!=', '7')->count(),
+            'bdj'   =>  workorder::where('cabang_id', '106')->where('status', '!=', '7')->count(),
+            'bwi'   =>  workorder::where('cabang_id', '107')->where('status', '!=', '7')->count(),
+            'lpg'   =>  workorder::where('cabang_id', '108')->where('status', '!=', '7')->count(),
+            'dmk'   =>  workorder::where('cabang_id', '109')->where('status', '!=', '7')->count(),
+            'plm'   =>  workorder::where('cabang_id', '110')->where('status', '!=', '7')->count(),
+            'bli'   =>  workorder::where('cabang_id', '111')->where('status', '!=', '7')->count(),
+            'pku'   =>  workorder::where('cabang_id', '112')->where('status', '!=', '7')->count(),
+            'mdn'   =>  workorder::where('cabang_id', '116')->where('status', '!=', '7')->count(),
+            'lom'   =>  workorder::where('cabang_id', '117')->where('status', '!=', '7')->count(),
+            'pnk'   =>  workorder::where('cabang_id', '118')->where('status', '!=', '7')->count(),
+            'llg'   =>  workorder::where('cabang_id', '119')->where('status', '!=', '7')->count(),
+            'cbl'   =>  workorder::where('cabang_id', '121')->where('status', '!=', '7')->count(),
+            'jtw'   =>  workorder::where('cabang_id', '122')->where('status', '!=', '7')->count(),
+            'plu'   =>  workorder::where('cabang_id', '123')->where('status', '!=', '7')->count(),
+            'amq'   =>  workorder::where('cabang_id', '124')->where('status', '!=', '7')->count(),
+            'kdi'   =>  workorder::where('cabang_id', '125')->where('status', '!=', '7')->count(),
+        ];
+        return view('Admin.dashboard', $datacabang, compact('WoCount', 'UserCount', 'WoDoneCount', 'purchase', 'Wo', 'items', 'activities'));
     }
 
     public function Gallery()
