@@ -90,143 +90,165 @@
                         <!-- /.col -->
                     </div>
                     <!-- /.row -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title" style="margin-left: 40%">
+                                Grafik LPTS || Periode :
+                            </h3>
 
-                    <div class="row">
-                        <div class="col-md-8">
-                            <!-- BAR CHART -->
-                            <div class="card card-success">
-                                <div class="card-header">
-                                    <h3 class="card-title">Bar Chart</h3>
-
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart">
-                                        <canvas id="barChart"
-                                            style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                                    </div>
-                                </div>
-                                <!-- /.card-body -->
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
                             </div>
-                            <!-- /.card -->
                         </div>
-                        <div class="col-md-4 ">
-                            <!-- PRODUCT LIST -->
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Aktivitas Sparepart</h3>
+                        <div class="card-body">
+                            <div class="container-fluid">
+                                <div class="row">
 
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <!-- /.card-header -->
-                                <div class="card-body p-0">
-                                    <ul class="products-list product-list-in-card pl-2 pr-2">
-                                        @foreach ($activities as $p)
-                                            <li class="item">
-                                                <div class="product-info">
-                                                    <a href="" class="product-title">
-                                                        @if ($p instanceof \App\Models\tambahstok)
-                                                            Sparepart Masuk ({{ $p->id_tx }})
-                                                            <span class="badge badge-success float-right">
-                                                                Rp. {{ $p->harga }}
-                                                            @elseif ($p instanceof \App\Models\keluarstok)
-                                                                Sparepart Keluar ({{ $p->id_tx }})
-                                                                <span class="badge badge-danger float-right">
-                                                                    Rp. {{ $p->harga }}
-                                                                @else
-                                                                    Aktivitas Tidak Diketahui
-                                                        @endif
-
-                                                        </span>
-                                                    </a>
-                                                    <span class="product-description">
-                                                        {{ getNamesparepart($p->id_spr) }} x {{ $p->qty }}
-                                                    </span>
+                                    <div class="col-md-12">
+                                        <div class="card card-info">
+                                            <div class="card-header">
+                                                <h3 class="card-title">5 LPTS Berulang Tertinggi All Cabang</h3>
+                                                <div class="card-tools">
+                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
                                                 </div>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-
-                                <!-- /.card-body -->
-                                <div class="card-footer text-center">
-                                    <a href="javascript:void(0)" class="uppercase">View All Products</a>
-                                </div>
-                                <!-- /.card-footer -->
-                            </div>
-                            <!-- /.card -->
-                        </div>
-                        <div class="col-md-3">
-                            <!-- AREA CHART -->
-                            <div class="card card-primary" style=" display: none;">
-                                <div class="card-header">
-                                    <h3 class="card-title">Area Chart</h3>
-
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                            <i class="fas fa-times"></i>
-                                        </button>
+                                            </div>
+                                            <div class="card-body">
+                                                <canvas id="berulang"></canvas>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart">
-                                        <canvas id="areaChart"
-                                            style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+
+                                    <div class="col-md-4">
+                                        <div class="card card-success">
+                                            <div class="card-header">
+                                                <h3 class="card-title">Pie Chart</h3>
+                                                <div class="card-tools">
+                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="chart">
+                                                    <canvas id="pieChart"
+                                                        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                                </div>
+                                            </div>
+                                            <!-- /.card-body -->
+                                        </div>
                                     </div>
+                                    <div class="col-md-4">
+                                        <div class="card card-success">
+                                            <div class="card-header">
+                                                <h3 class="card-title">Bar Chart</h3>
+                                                <div class="card-tools">
+                                                    <button type="button" class="btn btn-tool"
+                                                        data-card-widget="collapse">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-tool"
+                                                        data-card-widget="remove">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="chart">
+                                                    <canvas id="barChart"
+                                                        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                                </div>
+                                            </div>
+                                            <!-- /.card-body -->
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h3 class="card-title">Aktivitas Sparepart</h3>
+
+                                                <div class="card-tools">
+                                                    <button type="button" class="btn btn-tool"
+                                                        data-card-widget="collapse">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-tool"
+                                                        data-card-widget="remove">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <!-- /.card-header -->
+                                            <div class="card-body p-0">
+                                                <ul class="products-list product-list-in-card pl-2 pr-2">
+                                                    @foreach ($activities as $p)
+                                                        <li class="item">
+                                                            <div class="product-info">
+                                                                <a href="" class="product-title">
+                                                                    @if ($p instanceof \App\Models\tambahstok)
+                                                                        Sparepart Masuk ({{ $p->id_tx }})
+                                                                        <span class="badge badge-success float-right">
+                                                                            Rp. {{ $p->harga }}
+                                                                        @elseif ($p instanceof \App\Models\keluarstok)
+                                                                            Sparepart Keluar ({{ $p->id_tx }})
+                                                                            <span class="badge badge-danger float-right">
+                                                                                Rp. {{ $p->harga }}
+                                                                            @else
+                                                                                Aktivitas Tidak Diketahui
+                                                                    @endif
+
+                                                                    </span>
+                                                                </a>
+                                                                <span class="product-description">
+                                                                    {{ getNamesparepart($p->id_spr) }} x
+                                                                    {{ $p->qty }}
+                                                                </span>
+                                                            </div>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="card card-primary">
+                                            <div class="card-header">
+                                                <h3 class="card-title">Kalender</h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <!-- THE CALENDAR -->
+                                                <div id="calendar" style="height: 300px;"></div>
+                                            </div>
+                                            <!-- /.card-body -->
+                                        </div>
+                                        <!-- /.card -->
+                                    </div>
+
                                 </div>
-                                <!-- /.card-body -->
-                            </div>
-                            <!-- /.card -->
-                        </div>
-
-
-                    </div>
-                    <!-- /.row -->
-                    <!-- /.row -->
-                </div>
-            </div><!-- /.container-fluid -->
-        </section>
-        <!-- /.content -->
-        <section class="content">
-            <div class="container-fluid">
-                <div class="row">
-
-                    <div class="col-md-12">
-                        <div class="card card-primary">
-                            <div class="card-body">
-                                <!-- THE CALENDAR -->
-                                <div id="calendar" style="height: 20%;"></div>
                             </div>
                             <!-- /.card-body -->
                         </div>
-                        <!-- /.card -->
                     </div>
-                    <!-- /.col -->
                 </div>
-                <!-- /.row -->
+
+
+
+
             </div>
-            <!-- /.container-fluid -->
-        </section>
-
-
-
     </div>
 
     <!-- jQuery -->
@@ -239,72 +261,57 @@
 
     <!-- Page specific script -->
     <script>
-        $(function() {
-            /* ChartJS
-             * -------
-             * Here we will create a few charts using ChartJS
-             */
+        $(document).ready(function() {
+            var lineChartCanvas = $('#berulang').get(0).getContext('2d');
 
-            //--------------
-            //- AREA CHART -
-            //--------------
-
-            // Get context with jQuery - using jQuery's .get() method.
-            var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
-
-            var areaChartData = {
+            var lineChartData = {
                 labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
                 datasets: [{
-                        label: 'Digital Goods',
-                        backgroundColor: 'rgba(60,141,188,0.9)',
-                        borderColor: 'rgba(60,141,188,0.8)',
-                        pointRadius: false,
-                        pointColor: '#3b8bba',
-                        pointStrokeColor: 'rgba(60,141,188,1)',
-                        pointHighlightFill: '#fff',
-                        pointHighlightStroke: 'rgba(60,141,188,1)',
-                        data: [28, 48, 40, 19, 86, 27, 90]
-                    },
-                    {
-                        label: 'Electronics',
-                        backgroundColor: 'rgba(210, 214, 222, 1)',
-                        borderColor: 'rgba(210, 214, 222, 1)',
-                        pointRadius: false,
-                        pointColor: 'rgba(210, 214, 222, 1)',
-                        pointStrokeColor: '#c1c7d1',
-                        pointHighlightFill: '#fff',
-                        pointHighlightStroke: 'rgba(220,220,220,1)',
-                        data: [65, 59, 80, 81, 56, 55, 40]
-                    },
-                ]
-            }
+                    label: 'Digital Goods',
+                    borderColor: 'rgba(60,141,188,0.8)',
+                    pointRadius: 5,
+                    pointBackgroundColor: '#3b8bba',
+                    pointBorderColor: 'rgba(60,141,188,1)',
+                    pointBorderWidth: 2,
+                    pointHoverRadius: 8,
+                    pointHoverBackgroundColor: '#3b8bba',
+                    pointHoverBorderColor: 'rgba(60,141,188,1)',
+                    pointHoverBorderWidth: 2,
+                    pointLabelFontColor: '#000', // Warna font label titik
+                    pointLabelFontSize: 12, // Ukuran font label titik
+                    pointLabelFontStyle: 'bold', // Gaya font label titik
+                    data: [28, 48, 40, 19, 86, 27, 90]
+                }]
+            };
 
-
-
-            //-------------
-            //- BAR CHART -
-            //-------------
-            var barChartCanvas = $('#barChart').get(0).getContext('2d')
-            var barChartData = $.extend(true, {}, areaChartData)
-            var temp0 = areaChartData.datasets[0]
-            var temp1 = areaChartData.datasets[1]
-            barChartData.datasets[0] = temp1
-            barChartData.datasets[1] = temp0
-
-            var barChartOptions = {
-                responsive: true,
+            var lineChartOptions = {
                 maintainAspectRatio: false,
-                datasetFill: false
-            }
+                responsive: true,
+                legend: {
+                    display: true
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display: false
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            display: false
+                        }
+                    }]
+                }
+            };
 
-            new Chart(barChartCanvas, {
-                type: 'bar',
-                data: barChartData,
-                options: barChartOptions
-            })
-
-        })
+            var lineChart = new Chart(lineChartCanvas, {
+                type: 'line',
+                data: lineChartData,
+                options: lineChartOptions
+            });
+        });
     </script>
+
     {{-- <!-- fullCalendar 2.2.5 -->
     <script src="../plugins/moment/moment.min.js"></script>
     <script src="../plugins/fullcalendar/main.js"></script> --}}
@@ -350,27 +357,6 @@
             var containerEl = document.getElementById("external-events");
             var checkbox = document.getElementById("drop-remove");
             var calendarEl = document.getElementById("calendar");
-
-            // initialize the external events
-            // -----------------------------------------------------------------
-
-            // new Draggable(containerEl, {
-            //   itemSelector: ".external-event",
-            //   eventData: function (eventEl) {
-            //     return {
-            //       title: eventEl.innerText,
-            //       backgroundColor: window
-            //         .getComputedStyle(eventEl, null)
-            //         .getPropertyValue("background-color"),
-            //       borderColor: window
-            //         .getComputedStyle(eventEl, null)
-            //         .getPropertyValue("background-color"),
-            //       textColor: window
-            //         .getComputedStyle(eventEl, null)
-            //         .getPropertyValue("color"),
-            //     };
-            //   },
-            // });
 
             var calendar = new Calendar(calendarEl, {
                 headerToolbar: {
@@ -446,4 +432,78 @@
             });
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            var barChartCanvas = $('#barChart').get(0).getContext('2d');
+
+            var barChartData = {
+                labels: ['Category A', 'Category B', 'Category C', 'Category D'],
+                datasets: [{
+                    label: 'Data',
+                    backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef'],
+                    borderColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef'],
+                    borderWidth: 1,
+                    data: [30, 25, 20, 25],
+                }]
+            };
+
+            var barChartOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+                legend: {
+                    display: false,
+                },
+                scales: {
+                    xAxes: [{
+                        barPercentage: 0.5,
+                        categoryPercentage: 0.5,
+                        gridLines: {
+                            display: false,
+                        },
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            display: false,
+                        },
+                    }],
+                },
+            };
+
+            var barChart = new Chart(barChartCanvas, {
+                type: 'bar',
+                data: barChartData,
+                options: barChartOptions,
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            var pieChartCanvas = $('#pieChart').get(0).getContext('2d');
+
+            var pieChartData = {
+                labels: ['Category A', 'Category B', 'Category C', 'Category D'],
+                datasets: [{
+                    data: [30, 25, 20, 25],
+                    backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef'],
+                }]
+            };
+
+            var pieChartOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+                legend: {
+                    display: true,
+                    position: 'right',
+                },
+            };
+
+            var pieChart = new Chart(pieChartCanvas, {
+                type: 'pie',
+                data: pieChartData,
+                options: pieChartOptions
+            });
+        });
+    </script>
+
 @endsection
