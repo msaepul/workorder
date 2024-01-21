@@ -75,6 +75,7 @@ class WorkorderController extends Controller
 
         ]);
         $cabang = Auth::user()->cabang;
+        $dept = Auth::user()->dept;
         $generate = workorder::generateNomor();
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
@@ -100,6 +101,7 @@ class WorkorderController extends Controller
         $workorder->user_id = $request->input('user_id');
         $workorder->status = 1;
         $workorder->cabang_id = $cabang;
+        $workorder->dept = $dept;
         $workorder->lampiran = $lampiran;
 
         // Simpan $workorder ke database

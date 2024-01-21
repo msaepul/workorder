@@ -26,8 +26,6 @@ class AdminController extends Controller
             $Wo = workorder::where('cabang_id', '=', getUserCabang())->get();
             $items = keluarstok::where('cabang_id', '=', getUserCabang())->get();
         }
-
-
         foreach ($Wo as $d) {
             $d->formatted_date_start = Carbon::parse($d->date_start)->format('Y, n - 1, j, G, i');
             $d->formatted_date_end = $d->date_end !== null ? Carbon::parse($d->date_end)->format('Y, n - 1, j, G, i') : false;
@@ -35,10 +33,7 @@ class AdminController extends Controller
 
 
         $purchase = tambahstok::where('id_cabang', '=', getUserCabang())->get();
-        // Menggabungkan dua koleksi
         $activities = $purchase->merge($items);
-
-        // Menyortir aktivitas berdasarkan waktu (contoh: created_at)
         $activities = $activities->sortByDesc('created_at');
 
 
@@ -46,6 +41,19 @@ class AdminController extends Controller
         $WoCount = workorder::where('cabang_id', '=', getUserCabang())->count();
         $WoDoneCount = workorder::where('status', '=', 5)->where('cabang_id', '=', getUserCabang())->count();
         $UserCount = User::where('cabang', '=', getUserCabang())->count();
+
+
+        $datasparepart = [
+            'pembelian' => tambahstok::where('id_cabang', getUserCabang())->sum(\DB::raw('qty * harga')),
+            'pengeluaran' => keluarstok::where('cabang_id', getUserCabang())->sum(\DB::raw('qty * harga')),
+        ];
+        $dataworkorder = [
+            'draft' => workorder::where('cabang_id', getUserCabang())->where('status', '=', '1')->count(),
+            'confirm' => workorder::where('cabang_id', getUserCabang())->where('status', '=', '2')->count(),
+            'Onproses' => workorder::where('cabang_id', getUserCabang())->where('status', '=', '3')->count(),
+            'validasi' => workorder::where('cabang_id', getUserCabang())->where('status', '=', '4')->count(),
+            'selesai' => workorder::where('cabang_id', getUserCabang())->where('status', '=', '5')->count(),
+        ];
         $datacabang = [
             'pdl'   =>  workorder::where('cabang_id', '101')->where('status', '!=', '7')->count(),
             'tgl'   =>  workorder::where('cabang_id', '102')->where('status', '!=', '7')->count(),
@@ -69,7 +77,29 @@ class AdminController extends Controller
             'amq'   =>  workorder::where('cabang_id', '124')->where('status', '!=', '7')->count(),
             'kdi'   =>  workorder::where('cabang_id', '125')->where('status', '!=', '7')->count(),
         ];
-        return view('Admin.dashboard', $datacabang, compact('WoCount', 'UserCount', 'WoDoneCount', 'purchase', 'Wo', 'items', 'activities'));
+        $datawodept = [
+            'mkt' => workorder::where('dept', 'MKT')->where('cabang_id', getUserCabang())->count(),
+            'prc' => workorder::where('dept', 'PRC')->where('cabang_id', getUserCabang())->count(),
+            'pbl' => workorder::where('dept', 'PBL')->where('cabang_id', getUserCabang())->count(),
+            'gbb' => workorder::where('dept', 'GBB')->where('cabang_id', getUserCabang())->count(),
+            'pro' => workorder::where('dept', 'PRO')->where('cabang_id', getUserCabang())->count(),
+            'eng' => workorder::where('dept', 'ENG')->where('cabang_id', getUserCabang())->count(),
+            'qct' => workorder::where('dept', 'QCT')->where('cabang_id', getUserCabang())->count(),
+            'gpj' => workorder::where('dept', 'GPJ')->where('cabang_id', getUserCabang())->count(),
+            'eks' => workorder::where('dept', 'EKS')->where('cabang_id', getUserCabang())->count(),
+            'knd' => workorder::where('dept', 'KND')->where('cabang_id', getUserCabang())->count(),
+            'fin' => workorder::where('dept', 'FIN')->where('cabang_id', getUserCabang())->count(),
+            'acc' => workorder::where('dept', 'ACC')->where('cabang_id', getUserCabang())->count(),
+            'hrd' => workorder::where('dept', 'HRD')->where('cabang_id', getUserCabang())->count(),
+            'sis' => workorder::where('dept', 'SIS')->where('cabang_id', getUserCabang())->count(),
+            'edp' => workorder::where('dept', 'EDP')->where('cabang_id', getUserCabang())->count(),
+            'tax' => workorder::where('dept', 'TAX')->where('cabang_id', getUserCabang())->count(),
+            'grr' => workorder::where('dept', 'GRR')->where('cabang_id', getUserCabang())->count(),
+            'gsp' => workorder::where('dept', 'GSP')->where('cabang_id', getUserCabang())->count(),
+            'bm' => workorder::where('dept', 'BM')->where('cabang_id', getUserCabang())->count(),
+        ];
+
+        return view('Admin.dashboard', $datacabang, compact('WoCount', 'UserCount', 'WoDoneCount', 'purchase', 'Wo', 'items', 'activities'))->with($dataworkorder)->with($datasparepart)->with($datawodept);
     }
 
     public function Gallery()

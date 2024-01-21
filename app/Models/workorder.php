@@ -22,6 +22,7 @@ class workorder extends Model
         'keadaan',
         'lampiran',
         'user_id',
+        'dept',
         'userfix_id',
         'date_start',
         'date_end',
@@ -32,18 +33,18 @@ class workorder extends Model
     ];
     protected $attributes = [
         'status' => "draft",
-        
+
     ];
 
     public static function generateNomor()
     {
-        
+
         $currentMonth = date('m');
         $currentYear = date('Y');
         $cabang = cabang();
 
         // Ambil nomor terakhir dari bulan ini
-        $lastDocument = workorder::where('no_wo', 'like', 'WO'.'-'.$cabang.'/'. $currentYear  .'/'. tgl_id($currentMonth) .'/%')
+        $lastDocument = workorder::where('no_wo', 'like', 'WO' . '-' . $cabang . '/' . $currentYear  . '/' . tgl_id($currentMonth) . '/%')
             ->orderBy('no_wo', 'desc')
             ->first();
 
@@ -55,6 +56,6 @@ class workorder extends Model
             $newNumber = str_pad((int) $lastNumber + 1, 3, '0', STR_PAD_LEFT);
         }
 
-        return 'WO'.'-'.cabang().'/'. $currentYear  .'/'. tgl_id($currentMonth) .'/' . $newNumber;
+        return 'WO' . '-' . cabang() . '/' . $currentYear  . '/' . tgl_id($currentMonth) . '/' . $newNumber;
     }
 }

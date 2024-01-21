@@ -93,7 +93,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title" style="margin-left: 40%">
-                                Grafik LPTS || Periode :
+                                Grafik
                             </h3>
 
                             <div class="card-tools">
@@ -108,9 +108,8 @@
                         <div class="card-body">
                             <div class="container-fluid">
                                 <div class="row">
-
                                     <div class="col-md-12">
-                                        <div class="card card-info">
+                                        <div class="card">
                                             <div class="card-header">
                                                 <h3 class="card-title">Work Order All Cabang</h3>
                                                 <div class="card-tools">
@@ -127,11 +126,10 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="col-md-4">
-                                        <div class="card card-success">
+                                    <div class="col-md-12">
+                                        <div class="card ">
                                             <div class="card-header">
-                                                <h3 class="card-title">Pie Chart</h3>
+                                                <h3 class="card-title">Work Order by Departemen</h3>
                                                 <div class="card-tools">
                                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                                         <i class="fas fa-minus"></i>
@@ -142,7 +140,34 @@
                                                 </div>
                                             </div>
                                             <div class="card-body">
-                                                <div class="chart">
+                                                <canvas id="perdepartemen"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h3 class="card-title">Data Pie Chart</h3>
+                                                <div class="card-tools">
+                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-tool"
+                                                        data-card-widget="remove">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div>
+                                                    <label for="dataSelect">Pilih Data:</label>
+                                                    <select id="dataSelect" class="form-control">
+                                                        <option value="default">Data Work Order</option>
+                                                        <option value="alternative1">Perbandingan Sparepart</option>
+                                                        <option value="alternative2">Alternative Data 2</option>
+                                                    </select>
+                                                </div>
+                                                <div class="chart mt-3">
                                                     <canvas id="pieChart"
                                                         style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                                                 </div>
@@ -151,9 +176,9 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="card card-success">
+                                        <div class="card">
                                             <div class="card-header">
-                                                <h3 class="card-title">Bar Chart</h3>
+                                                <h3 class="card-title">Perangkat sering bermaslah</h3>
                                                 <div class="card-tools">
                                                     <button type="button" class="btn btn-tool"
                                                         data-card-widget="collapse">
@@ -195,7 +220,7 @@
                                             <!-- /.card-header -->
                                             <div class="card-body p-0">
                                                 <ul class="products-list product-list-in-card pl-2 pr-2">
-                                                    @foreach ($activities as $p)
+                                                    @foreach ($activities->take(5) as $p)
                                                         <li class="item">
                                                             <div class="product-info">
                                                                 <a href="" class="product-title">
@@ -263,23 +288,17 @@
     <script>
         var ctx = document.getElementById('perCabang').getContext('2d');
 
-        // Set tinggi chart sesuai kebutuhan
-        var chartHeight = 300; // Ubah nilai ini sesuai kebutuhan
-
-        // Atur tinggi elemen canvas atau kontainer chart
+        var chartHeight = 300;
         ctx.canvas.height = chartHeight;
 
         var chart = new Chart(ctx, {
-            // The type of chart we want to create
             type: 'line',
-
-            // The data for our dataset
             data: {
                 labels: ['PDL', 'CBL', 'JTW', 'TGL', 'MDO', 'MKS', 'KDR', 'BDJ', 'BWI', 'LPG', 'DMK', 'PLM',
                     'BLI', 'PKU', 'MDN', 'LOM', 'PNK', 'LLG', 'PLU', 'KDI', 'AMQ'
                 ],
                 datasets: [{
-                    label: 'Jumlah LPTS',
+                    label: 'Jumlah Work Order',
                     backgroundColor: 'lightblue',
                     borderColor: 'black',
                     data: [
@@ -288,7 +307,49 @@
                 }]
             },
 
-            // Configuration options go here
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display: false
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            display: false
+                        },
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+    <script>
+        var ctx = document.getElementById('perdepartemen').getContext('2d');
+
+        var chartHeight = 300;
+        ctx.canvas.height = chartHeight;
+
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['MKT', 'PRC', 'PBL', 'PRO', 'ENG', 'QCT', 'GPJ', 'EKS', 'KND', 'FIN', 'ACC', 'HRD', 'SIS',
+                    'EDP', 'TAX', 'GRR', 'GSP', 'BM'
+                ],
+                datasets: [{
+                    label: 'Jumlah Work Order',
+                    backgroundColor: 'pink',
+                    borderColor: 'black',
+                    data: [
+                        {{ $mkt . ',' . $prc . ',' . $pbl . ',' . $pro . ',' . $eng . ',' . $qct . ',' . $gpj . ',' . $eks . ',' . $knd . ',' . $fin . ',' . $acc . ',' . $hrd . ',' . $sis . ',' . $edp . ',' . $tax . ',' . $grr . ',' . $gsp . ',' . $bm }}
+                    ]
+                }]
+            },
+
             options: {
                 maintainAspectRatio: false,
                 responsive: true,
@@ -313,20 +374,13 @@
 
     <script>
         $(function() {
-            /* initialize the external events
-              -----------------------------------------------------------------*/
             function ini_events(ele) {
                 ele.each(function() {
-                    // create an Event Object (https://fullcalendar.io/docs/event-object)
-                    // it doesn't need to have a start or end
                     var eventObject = {
-                        title: $.trim($(this).text()), // use the element's text as the event title
+                        title: $.trim($(this).text()),
                     };
 
-                    // store the Event Object in the DOM element so we can get to it later
                     $(this).data("eventObject", eventObject);
-
-                    // make the event draggable using jQuery UI
                     $(this).draggable({
                         zIndex: 1070,
                         revert: true, // will cause the event to go back to its
@@ -428,13 +482,15 @@
             var barChartCanvas = $('#barChart').get(0).getContext('2d');
 
             var barChartData = {
-                labels: ['Category A', 'Category B', 'Category C', 'Category D'],
+                labels: ['Draft', 'confirm', 'On Proses', 'Menunggu Validasi Selesai', 'selesai'],
                 datasets: [{
                     label: 'Data',
                     backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef'],
                     borderColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef'],
                     borderWidth: 1,
-                    data: [30, 25, 20, 25],
+                    data: [
+                        {{ $draft . ',' . $confirm . ',' . $Onproses . ',' . $validasi . ',' . $selesai }}
+                    ],
                 }]
             };
 
@@ -471,30 +527,67 @@
     <script>
         $(document).ready(function() {
             var pieChartCanvas = $('#pieChart').get(0).getContext('2d');
-
-            var pieChartData = {
-                labels: ['Category A', 'Category B', 'Category C', 'Category D'],
+            var defaultData = {
+                labels: ['Draft', 'confirm', 'On Proses', 'Menunggu Validasi Selesai', 'selesai'],
                 datasets: [{
-                    data: [30, 25, 20, 25],
-                    backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef'],
+                    data: [
+                        {{ $draft . ',' . $confirm . ',' . $Onproses . ',' . $validasi . ',' . $selesai }}
+                    ],
+                    backgroundColor: ['#f56954', '#05c041s', '#00c0ef', '#f39c12', '#00a65a'],
                 }]
             };
 
-            var pieChartOptions = {
-                maintainAspectRatio: false,
-                responsive: true,
-                legend: {
-                    display: true,
-                    position: 'right',
-                },
+            var alternativeData1 = {
+                labels: ['Pembelian', 'Pengeluaran'],
+                datasets: [{
+                    data: [{{ $pembelian . ',' . $pengeluaran }}],
+                    backgroundColor: ['#00a65a', '#cc3300', '#339966', '#663399'],
+                }]
+            };
+
+            var alternativeData2 = {
+                labels: ['Option 2A', 'Option 2B', 'Option 2C', 'Option 2D'],
+                datasets: [{
+                    data: [10, 40, 20, 30],
+                    backgroundColor: ['#ff9900', '#009900', '#ff6666', '#3366cc'],
+                }]
             };
 
             var pieChart = new Chart(pieChartCanvas, {
                 type: 'pie',
-                data: pieChartData,
-                options: pieChartOptions
+                data: defaultData,
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    legend: {
+                        display: true,
+                        position: 'right',
+                    },
+                }
             });
+
+            $('#dataSelect').change(function() {
+                var selectedData = $(this).val();
+                var newData;
+
+                switch (selectedData) {
+                    case 'alternative1':
+                        newData = alternativeData1;
+                        break;
+                    case 'alternative2':
+                        newData = alternativeData2;
+                        break;
+                    default:
+                        newData = defaultData;
+                }
+
+                updateChart(newData);
+            });
+
+            function updateChart(newData) {
+                pieChart.data = newData;
+                pieChart.update();
+            }
         });
     </script>
-
 @endsection

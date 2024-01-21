@@ -187,7 +187,7 @@
             var jenisPerangkatField = document.getElementById('jenis');
             var jenisPerangkatLabel = document.getElementById('jenis_label');
 
-            if (selectedCategory === 'hardware') {
+            if (selectedCategory === 'perbaikan') {
                 jenisPerangkatField.style.display = 'block';
                 jenisPerangkatLabel.style.display = 'block';
             } else {

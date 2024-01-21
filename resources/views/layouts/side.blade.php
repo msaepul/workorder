@@ -53,7 +53,8 @@
                 </li>
 
                 <li class="nav-item  @if (request()->route()->getName() == 'Workorder_create' ||
-                        request()->route()->getName() == 'Dataworkorder') menu-open @endif">
+                        request()->route()->getName() == 'Dataworkorder' ||
+                        request()->route()->getName() == 'datawoall') menu-open @endif">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-clipboard-list"></i>
                         <p>
@@ -159,7 +160,7 @@
 
 
                     <li class="nav-item">
-                        <a href="user"
+                        <a href="{{ route('user') }}"
                             @if (request()->route()->uri == 'user') class="nav-link active"
               @else
               class="nav-link " @endif>

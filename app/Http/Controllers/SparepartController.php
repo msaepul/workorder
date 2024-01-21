@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Facades\Storage;
+
 class SparepartController extends Controller
 {
 
@@ -35,27 +36,27 @@ class SparepartController extends Controller
     {
 
         $sparepart = Sparepart::where('id_cabang', '=', getUserCabang())->get();
-    
+
         return view('Masterdata.sparepart.mastersparepart', compact('sparepart'));
     }
 
     public function masteredit(Request $request, $id)
-{
-    // Validate the request data as needed
-    $validatedData = $request->validate([
-        'nama_sparepart' => 'required|string|max:255',
-        'ket_sparepart' => 'nullable|string',
-        // Add other validation rules as needed
-    ]);
+    {
+        // Validate the request data as needed
+        $validatedData = $request->validate([
+            'nama_sparepart' => 'required|string|max:255',
+            'ket_sparepart' => 'nullable|string',
+            // Add other validation rules as needed
+        ]);
 
-    $sparepart = Sparepart::findOrFail($id);
+        $sparepart = Sparepart::findOrFail($id);
 
-    // Update the sparepart with the validated data
-    $sparepart->update($validatedData);
+        // Update the sparepart with the validated data
+        $sparepart->update($validatedData);
 
-    // Redirect to the sparepart list or wherever you need to go after the update
-    return redirect()->route('mastersparepart')->with('success', 'Data Sparepart Berhasil di Update');
-}
+        // Redirect to the sparepart list or wherever you need to go after the update
+        return redirect()->route('mastersparepart')->with('success', 'Data Sparepart Berhasil di Update');
+    }
 
 
     //Sparepart in
@@ -115,13 +116,13 @@ class SparepartController extends Controller
         return view('Masterdata.sparepart.outsparepart', compact('sparepart', 'users', 'cabang'));
     }
 
-   //Sparepart Request
+    //Sparepart Request
     public function requestsparepart()
     {
         $users = user::all();
         $sparepart = Sparepart::where('stok', '>', 0)
-        ->where('id_cabang', '=', getUserCabang())
-        ->get();
+            ->where('id_cabang', '=', getUserCabang())
+            ->get();
         $cabang = session('cabang');
         return view('Masterdata.sparepart.requestsparepart', compact('sparepart', 'users', 'cabang'));
     }
@@ -130,11 +131,10 @@ class SparepartController extends Controller
     public function historyrequest()
     {
 
-        if(getUserDept() == "EDP"){
+        if (getUserDept() == "EDP") {
             $items = keluarstok::where('cabang_id', '=', getUserCabang())->get();
-        }else{
+        } else {
             $items = keluarstok::where('user_id', '=', getUserId())->get();
-
         }
         $groupedHistory = $items->groupBy('id_tx');
         return view('Masterdata.sparepart.historyrequestsparepart', compact('items', 'groupedHistory'));
@@ -155,37 +155,36 @@ class SparepartController extends Controller
         return view('Masterdata.sparepart.detailrequestsparepart', compact('users', 'sparepart', 'cabang', 'data', 'groupedHistory'));
     }
 
-    public function updatestatus(Request $request, $id){
+    public function updatestatus(Request $request, $id)
+    {
         $status = $request->input('status');
         $data = keluarstok::findOrFail($id);
         $items = keluarstok::where('id_tx', $data->id_tx)->get();
         $groupedHistory = $items->groupBy('id_tx');
-        
+
         foreach ($groupedHistory as $idTx => $items) {
             if ($status == 2) {
                 // Lakukan aksi untuk status = 1
                 foreach ($items as $item) {
+                    $item->qty;
                     $item->status = 2;
                     $item->save();
                 }
             } elseif ($status == 0) {
-                // Lakukan aksi untuk status = 0
                 foreach ($items as $item) {
                     $item->status = 0;
                     $item->save();
                 }
-            }
-            elseif ($status == 3) {
-                // Lakukan aksi untuk status = 0
+            } elseif ($status == 3) {
                 foreach ($items as $item) {
+                    $item->qty;
                     $item->status = 3;
                     $item->save();
                 }
             }
         }
-        
-        return redirect()->route('detailrequest_sparepart', $id);
 
+        return redirect()->route('detailrequest_sparepart', $id);
     }
     //edit Sparepart Request
     public function editrequestsparepart($id)
@@ -193,8 +192,8 @@ class SparepartController extends Controller
 
         $users = user::all();
         $sparepart = Sparepart::where('stok', '>', 0)
-        ->where('id_cabang','=',getUserCabang())
-        ->get();
+            ->where('id_cabang', '=', getUserCabang())
+            ->get();
         $cabang = session('cabang');
 
         $data = keluarstok::findOrFail($id);
@@ -209,10 +208,10 @@ class SparepartController extends Controller
         $data = keluarstok::findOrFail($id);
         $items = keluarstok::where('id_tx', $data->id_tx)->get();
         $groupedHistory = $items->groupBy('id_tx');
-    
+
         $spareparts = $request->sparepart;
         $qtys = $request->qty;
-    
+
         foreach ($groupedHistory as $idTx => $group) {
             foreach ($group as $key => $item) {
                 $item->id_spr = $spareparts[$key];
@@ -221,10 +220,10 @@ class SparepartController extends Controller
                 $item->save();
             }
         }
-    
+
         return redirect()->route('detailrequest_sparepart', $id);
     }
-    
+
 
     //transaksi sparepart
     public function txsparepartoutproses(Request $request)
@@ -293,7 +292,7 @@ class SparepartController extends Controller
 
         return back()->with('success', 'Data sparepart berhasil ditambahkan.');
         // Redirect back and include success message
-        
+
     }
 
 
@@ -372,5 +371,4 @@ class SparepartController extends Controller
         return redirect()->route('sparepart')->with('success', 'Data sparepart berhasil ditambahkan.');
         // Melakukan redirect dan menyertakan pesan sukses
     }
-
 }
