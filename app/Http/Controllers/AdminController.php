@@ -22,9 +22,12 @@ class AdminController extends Controller
         if (getUserDept() == "EDP" &&  getUserCabang() == 100) {
             $Wo = workorder::all();
             $items = keluarstok::get();
-        } else {
+        } elseif ((getUserDept() == "EDP" &&  getUserCabang() != 100)) {
             $Wo = workorder::where('cabang_id', '=', getUserCabang())->get();
             $items = keluarstok::where('cabang_id', '=', getUserCabang())->get();
+        } else {
+            $Wo = workorder::where('cabang_id', '=', getUserCabang())->where('user_id', '=', getUserId())->get();
+            $items = keluarstok::where('cabang_id', '=', getUserCabang())->where('user_id', '=', getUserId())->get();
         }
         foreach ($Wo as $d) {
             $d->formatted_date_start = Carbon::parse($d->date_start)->format('Y, n - 1, j, G, i');
@@ -41,6 +44,7 @@ class AdminController extends Controller
         $WoCount = workorder::where('cabang_id', '=', getUserCabang())->count();
         $WoDoneCount = workorder::where('status', '=', 5)->where('cabang_id', '=', getUserCabang())->count();
         $UserCount = User::where('cabang', '=', getUserCabang())->count();
+        $Devicecount = perangkat::where('user_id', '=', getUserId())->count();
 
 
         $datasparepart = [
@@ -99,7 +103,7 @@ class AdminController extends Controller
             'bm' => workorder::where('dept', 'BM')->where('cabang_id', getUserCabang())->count(),
         ];
 
-        return view('Admin.dashboard', $datacabang, compact('WoCount', 'UserCount', 'WoDoneCount', 'purchase', 'Wo', 'items', 'activities'))->with($dataworkorder)->with($datasparepart)->with($datawodept);
+        return view('Admin.dashboard', $datacabang, compact('WoCount', 'UserCount', 'WoDoneCount', 'purchase', 'Wo', 'items', 'activities', 'Devicecount'))->with($dataworkorder)->with($datasparepart)->with($datawodept);
     }
 
     public function Gallery()
@@ -137,7 +141,10 @@ class AdminController extends Controller
         $perangkatprt = perangkat::where('user_id', $id)
             ->where('id_jenis', 23)
             ->get();
+
+        $workorders = workorder::where('user_id', '=', getUserId())->get();
+
         $user = user::all();
-        return view('Admin.profile', compact('user', 'perangkatcpu', 'perangkatmon', 'perangkatups', 'perangkatprt', 'hisparepart', 'id'));
+        return view('Admin.profile', compact('user', 'perangkatcpu', 'perangkatmon', 'perangkatups', 'perangkatprt', 'hisparepart', 'id', 'workorders'));
     }
 }

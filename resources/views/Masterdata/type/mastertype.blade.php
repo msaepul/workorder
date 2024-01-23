@@ -48,13 +48,9 @@
                                 @endif
 
                                 <table id="example1" class="table table-bordered table-striped">
-                                    <caption>Data Perangkat</caption>
+
                                     <thead>
-                                        <tr>
-                                            <th colspan="4" class="text-center">
-                                                Data Perangkat
-                                            </th>
-                                        </tr>
+
                                         <tr>
                                             <th style="width: 10%" class="text-center">No</th>
                                             <th class="text-center">Nama type</th>

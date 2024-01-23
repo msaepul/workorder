@@ -56,31 +56,30 @@
                                 @endif
 
                                 <table id="example1" class="table table-bordered table-striped">
-                                    <thead>
+                                    <thead class="text-center">
                                         <tr>
                                             <th>No</th>
                                             <th>Nama Sparepart</th>
-
                                             <th>Supplier</th>
                                             <th>Harga</th>
                                             <th>Stok</th>
                                             <th>Total Harga</th>
                                             <th>Pembelian Terakhir</th>
-
                                         </tr>
                                     </thead>
+
                                     <tbody>
                                         @foreach ($sparepart as $key => $part)
                                             <tr>
-                                                <td> {{ $loop->iteration }} </td>
+                                                <td class="text-center"> {{ $loop->iteration }} </td>
                                                 <td>{{ $part->nama_sparepart }}</td>
 
-                                                <td>{{ getSupplierName($part->supplier) }}</td>
-                                                <td>{{ 'Rp ' . number_format($part->harga) }}</td>
-                                                <td>{{ $part->stok }}</td>
-                                                <td>{{ 'Rp ' . number_format($results[$key]) }}</td>
+                                                <td class="text-center">{{ getSupplierName($part->supplier) }}</td>
+                                                <td class="text-center">{{ 'Rp ' . number_format($part->harga) }}</td>
+                                                <td class="text-center">{{ $part->stok }}</td>
+                                                <td class="text-center">{{ 'Rp ' . number_format($results[$key]) }}</td>
 
-                                                <td>{{ $part->tgl_pbl }}</td>
+                                                <td class="text-center">{{ $part->tgl_pbl }}</td>
 
                                             </tr>
                                         @endforeach

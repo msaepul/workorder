@@ -20,7 +20,7 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="../../index2.html"><b>Login</b>Page</a>
+
         </div>
         <!-- /.login-logo -->
         <div class="card">
@@ -34,8 +34,11 @@
                 @if (session('status'))
                     <p class="alert alert-success text-center">{{ session('status') }}</p>
                 @endif
-                <p class="login-box-msg">Sistem Operasional Work Order</p>
+                <img id="sidebar-logo" src="{{ asset('dist/img/arnonlogo.png') }}" alt="AdminLTE Logo"
+                    class="mx-auto d-block" style="width: 100px; height: 50px;">
+                <p class="login-box-msg">Sistem Pengelolaan Work Order</p>
 
+                <hr>
                 <form action="{{ route('authenticating') }}" method="post">
                     @csrf
                     <div class="input-group mb-3">
@@ -59,10 +62,7 @@
                     <div class="row">
                         <div class="col-8">
                             <div class="icheck-primary">
-                                <input type="checkbox" id="remember">
-                                <label for="remember">
-                                    Remember Me
-                                </label>
+
                             </div>
                         </div>
                         <!-- /.col -->
@@ -74,13 +74,7 @@
                 </form>
 
                 <div class="social-auth-links text-center mb-3">
-                    <p>- OR -</p>
-                    <a href="#" class="btn btn-block btn-primary">
-                        <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-                    </a>
-                    <a href="#" class="btn btn-block btn-danger">
-                        <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-                    </a>
+
                 </div>
                 <!-- /.social-auth-links -->
 

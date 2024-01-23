@@ -79,7 +79,7 @@ class MasterController extends Controller
             ->join('tb_type', 'tb_perangkat.id_type', '=', 'tb_type.id')
             ->join('tb_cabang', 'tb_perangkat.cabang_id', '=', 'tb_cabang.id')
             ->select('tb_perangkat.*', 'tb_brand.name_brand AS brand_name', 'tb_type.name_type AS type_name', 'tb_cabang.cabang AS cabang_name', 'tb_jenis.jenis_perangkat AS jenis_perangkat')
-            ->get();
+            ->where('cabang_id', '=', getUserCabang())->get();
         return view('Masterdata.perangkat.perangkat', compact('perangkat'));
     }
 
@@ -288,22 +288,22 @@ class MasterController extends Controller
 
     public function mastereditbrand(Request $request, $id)
     {
-            // Validate the request data as needed
-            $validatedData = $request->validate([
-                'name_brand' => 'required|string|max:255',
-                'ket_brand' => 'nullable|string',
-                // Add other validation rules as needed
-            ]);
+        // Validate the request data as needed
+        $validatedData = $request->validate([
+            'name_brand' => 'required|string|max:255',
+            'ket_brand' => 'nullable|string',
+            // Add other validation rules as needed
+        ]);
 
-            $brand = brand::findOrFail($id);
+        $brand = brand::findOrFail($id);
 
-            // Update the brand with the validated data
-            $brand->update($validatedData);
+        // Update the brand with the validated data
+        $brand->update($validatedData);
 
-            // Redirect to the brand list or wherever you need to go after the update
-            return redirect()
-                ->route('masterbrand')
-                ->with('success', 'Data brand Berhasil di Update');
+        // Redirect to the brand list or wherever you need to go after the update
+        return redirect()
+            ->route('masterbrand')
+            ->with('success', 'Data brand Berhasil di Update');
     }
 
 
@@ -450,7 +450,7 @@ class MasterController extends Controller
     }
 
 
-     // Master Data jenis
+    // Master Data jenis
 
     public function masterjenis()
     {
@@ -510,14 +510,14 @@ class MasterController extends Controller
     // Master Data Type Perangkat
 
     public function mastertype()
-        {
-            // $perangkat = perangkat::with('type', 'type','user.cabang')->get();
-            $type = type::all();
-            $jeniss = Jenis::all();
-            return view('Masterdata.type.mastertype', compact('type','jeniss',));
-        }
+    {
+        // $perangkat = perangkat::with('type', 'type','user.cabang')->get();
+        $type = type::all();
+        $jeniss = Jenis::all();
+        return view('Masterdata.type.mastertype', compact('type', 'jeniss',));
+    }
 
-      //Master Data Type  Proses
+    //Master Data Type  Proses
     public function typeproses(Request $request)
     {
         $validatedData = $request->validate(
@@ -550,13 +550,13 @@ class MasterController extends Controller
 
         return back()->with('success', 'Data berhasil dihapus');
     }
-    
+
     public function masteredittype(Request $request, $id)
     {
         // Validate the request data as needed
         $validatedData = $request->validate([
             'nama_type' => 'required|string|max:255',
-            'id_jenis' => 'required',       
+            'id_jenis' => 'required',
         ]);
 
         $type = type::findOrFail($id);

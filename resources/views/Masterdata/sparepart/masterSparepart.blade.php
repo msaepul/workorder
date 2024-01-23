@@ -60,7 +60,7 @@
                                             <tr>
                                                 <td class="text-center"> {{ $loop->iteration }} </td>
                                                 <td>{{ $part->nama_sparepart }}</td>
-                                                <td>
+                                                <td class="text-center">
                                                     {{-- <form action="{{ route('destroy_sparepart', $part->id) }}"
                                                         method="POST" class="d-inline">
                                                         @csrf
@@ -68,7 +68,8 @@
                                                         <button type="submit" class="btn btn-warning"> <i
                                                                 class="nav-icon fas fa-pencil-alt"></i>permintaan</button>
                                                     </form> --}}
-                                                    <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                    <button type="button" class="btn btn-sm btn-warning"
+                                                        data-toggle="modal"
                                                         data-target="#myModaleditsparepart{{ $part->id }}">
                                                         <i class="fas fa-pencil-alt"></i> Edit
                                                     </button>
@@ -79,7 +80,7 @@
                                                         method="POST" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger"
+                                                        <button type="submit" class="btn btn-sm btn-danger"
                                                             onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
                                                             <i class="fas fa-trash"></i> Hapus
                                                         </button>
@@ -110,18 +111,18 @@
         <!-- Main content -->
         <!-- /.content -->
     </div>
-    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+
     <script>
         $(document).ready(function() {
-            $('#example1').DataTable({
-                autoWidth: true,
-                responsive: true,
-                pageLength: 10, // Menampilkan 10 baris per halaman
-                dom: 'Bfrtip',
+            var table = $('#example1').DataTable({
+                // 'ajax': 'https://gyrocode.github.io/files/jquery-datatables/arrays.json',
+                'rowsGroup': [2]
             });
         });
     </script>
-
 
     <!-- /.content-wrapper -->
 @endsection

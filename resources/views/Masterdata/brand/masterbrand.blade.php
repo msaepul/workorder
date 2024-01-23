@@ -62,7 +62,7 @@
                                                 <td class="text-center"> {{ $loop->iteration }} </td>
                                                 <td>{{ $b->name_brand }}</td>
                                                 <td>{{ $b->ket_brand }}</td>
-                                                <td>
+                                                <td class="text-center">
                                                     {{-- <form action="{{ route('destroy_sparepart', $part->id) }}"
                                                         method="POST" class="d-inline">
                                                         @csrf
@@ -70,7 +70,8 @@
                                                         <button type="submit" class="btn btn-warning"> <i
                                                                 class="nav-icon fas fa-pencil-alt"></i>permintaan</button>
                                                     </form> --}}
-                                                    <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                    <button type="button" class="btn btn-sm btn-warning"
+                                                        data-toggle="modal"
                                                         data-target="#myModaleditbrand{{ $b->id }}">
                                                         <i class="fas fa-pencil-alt"></i> Edit
                                                     </button>
@@ -81,7 +82,7 @@
                                                         class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger"
+                                                        <button type="submit" class="btn btn-sm btn-danger"
                                                             onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
                                                             <i class="fas fa-trash"></i> Hapus
                                                         </button>

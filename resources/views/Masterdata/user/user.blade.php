@@ -39,9 +39,9 @@
 
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="example2" class="table table-bordered table-striped">
+                                <table id="example" class="table table-bordered table-striped">
                                     <thead>
-                                        <tr>
+                                        <tr class="text-center">
                                             <th>No</th>
                                             <th>Nama Lengkap</th>
                                             <th>Username</th>
@@ -53,15 +53,16 @@
                                     <tbody>
                                         @foreach ($users as $user)
                                             <tr>
-                                                <td>{{ $loop->iteration }}</td>
+                                                <td class="text-center">{{ $loop->iteration }}</td>
                                                 <td>{{ $user->nama_lengkap }}</td>
                                                 <td>{{ $user->email }}</td>
-                                                <td>{{ $user->cabang }}</td>
-                                                <td>{{ $user->dept }}</td>
-                                                <td> <button type="button" class="btn btn-success" data-toggle="modal"
+                                                <td class="text-center">{{ $user->cabang }}</td>
+                                                <td class="text-center">{{ $user->dept }}</td>
+                                                <td class="text-center"> <button type="button"
+                                                        class="btn btn-sm btn-warning" data-toggle="modal"
                                                         data-target="#modal-edit{{ $user->id }}">
                                                         <i class="nav-icon fas fa-pen"></i>Edit
-                                                    </button> <button type="button" class="btn btn-danger"
+                                                    </button> <button type="button" class="btn btn-sm btn-danger"
                                                         data-toggle="modal" data-target="#modal-delete{{ $user->id }}">
                                                         <i class="nav-icon fas fa-trash"></i> hapus
                                                     </button>
@@ -86,17 +87,19 @@
         <!-- /.content -->
     </div>
 
-    <script src="plugins/jquery/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+
     <script>
         $(document).ready(function() {
-            $('#example1').DataTable({
-                autoWidth: true,
-                responsive: true,
-                pageLength: 10, // Menampilkan 10 baris per halaman
-                dom: 'Bfrtip',
+            var table = $('#example').DataTable({
+                // 'ajax': 'https://gyrocode.github.io/files/jquery-datatables/arrays.json',
+                'rowsGroup': [2]
             });
         });
     </script>
+
 
     <!-- /.content-wrapper -->
 @endsection

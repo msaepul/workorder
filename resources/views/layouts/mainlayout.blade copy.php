@@ -5,33 +5,200 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SIEDP | @yield('title')</title>
+    <link rel="icon" href="{{ asset('dist/img/arnonlogo.png') }}" type="image/png">
     <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Tempusdominus Bootstrap 4 -->
-    <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <link rel="stylesheet" href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css') }}">
     <!-- iCheck -->
-    <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
     <!-- JQVMap -->
-    <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
+    <link rel="stylesheet" href="{{ asset('plugins/jqvmap/jqvmap.min.css') }}">
     <!-- Theme style -->
-    <link rel="stylesheet" href="dist/css/adminlte.min.css">
-    <!-- overlayScrollbars -->
-    <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-    <!-- Daterange picker -->
-    <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+
     <!-- summernote -->
-    <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
+    <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
     <!-- DataTables -->
-    <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-    <link rel="stylesheet" href="plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.2/css/dataTables.bootstrap4.min.css">
+
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('plugins/fullcalendar/main.css') }}" />
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="path/to/magnific-popup.css">
+    <style>
+        .gradient-custom {
+            /* fallback for old browsers */
+            background: #f6d365;
+
+            /* Chrome 10-25, Safari 5.1-6 */
+            background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));
+
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))
+        }
+    </style>
+    <style>
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+
+        }
+
+        .lampiran-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .hapus-lampiran {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 4px 8px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+    </style>
+
+
+    <style>
+        .circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #ff0000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .circle:hover {
+            background-color: #0056b3;
+        }
+
+        .tooltip {
+            background-color: #000;
+            color: #fff;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .card-body-a {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            height: 60px;
+        }
+
+        .status-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 30px;
+            color: #ffffff;
+            background-color: gray;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            /* Menambahkan efek shadow */
+            border-radius: 5px;
+            /* Melenkung elemen */
+            transform: perspective(200px) rotateX(5deg);
+            /* Memberikan efek 3D dengan rotasi pada sumbu X */
+        }
+
+        .box2 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 20px;
+            color: #ffffff;
+            background-color: gray;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            /* Menambahkan efek shadow */
+            border-radius: 5px;
+            /* Melenkung elemen */
+            transform: perspective(200px) rotateX(5deg);
+            /* Memberikan efek 3D dengan rotasi pada sumbu X */
+        }
+
+        .status {
+            font-size: 12px;
+        }
+
+        .arrow {
+            width: 10px;
+            height: 10px;
+            border-top: 3px solid gray;
+            border-right: 3px solid gray;
+            transform: rotate(45deg);
+            margin-left: 5px;
+            margin-right: 5px;
+            /* Tambahkan margin-right di sini */
+        }
+
+
+        .card-body-a {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .left-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .right-status {
+            display: flex;
+            align-items: center;
+        }
+
+        .disabled-input {
+            background-color: #ffffff;
+            /* Atur warna latar belakang */
+            color: #696767;
+            /* Atur warna teks */
+            cursor: not-allowed;
+            /* Atur kursor saat diarahkan ke elemen */
+        }
+
+        .gambar-kecil {
+            max-width: 300px;
+            max-height: 200px;
+        }
+
+        /* Your custom CSS file */
+        .close-white {
+            color: #fff !important;
+            /* Use !important to override any conflicting styles */
+        }
+    </style>
 </head>
 
 
@@ -39,23 +206,18 @@
     <div class="wrapper">
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="120">
+            <img class="animation__shake" src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="AdminLTELogo" height="120">
+
         </div>
 
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+        <nav class="main-header navbar navbar-expand navbar-dark navbar-light">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
-                            class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="Admin" class="nav-link">Work Order</a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="Adminspr" class="nav-link">Sparepart</a>
-                </li>
+
             </ul>
 
             <!-- Right navbar links -->
@@ -68,8 +230,7 @@
                     <div class="navbar-search-block">
                         <form class="form-inline">
                             <div class="input-group input-group-sm">
-                                <input class="form-control form-control-navbar" type="search" placeholder="Search"
-                                    aria-label="Search">
+                                <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
                                 <div class="input-group-append">
                                     <button class="btn btn-navbar" type="submit">
                                         <i class="fas fa-search"></i>
@@ -83,69 +244,7 @@
                     </div>
                 </li>
 
-                <!-- Messages Dropdown Menu -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="far fa-comments"></i>
-                        <span class="badge badge-danger navbar-badge">3</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
-                            <div class="media">
-                                <img src="dist/img/user1-128x128.jpg" alt="User Avatar"
-                                    class="img-size-50 mr-3 img-circle">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        Brad Diesel
-                                        <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                                    </h3>
-                                    <p class="text-sm">Call me whenever you can...</p>
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                </div>
-                            </div>
-                            <!-- Message End -->
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
-                            <div class="media">
-                                <img src="dist/img/user8-128x128.jpg" alt="User Avatar"
-                                    class="img-size-50 img-circle mr-3">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        John Pierce
-                                        <span class="float-right text-sm text-muted"><i
-                                                class="fas fa-star"></i></span>
-                                    </h3>
-                                    <p class="text-sm">I got your message bro</p>
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                </div>
-                            </div>
-                            <!-- Message End -->
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
-                            <div class="media">
-                                <img src="dist/img/user3-128x128.jpg" alt="User Avatar"
-                                    class="img-size-50 img-circle mr-3">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        Nora Silvester
-                                        <span class="float-right text-sm text-warning"><i
-                                                class="fas fa-star"></i></span>
-                                    </h3>
-                                    <p class="text-sm">The subject goes here</p>
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                </div>
-                            </div>
-                            <!-- Message End -->
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-                    </div>
-                </li>
+
                 <!-- Notifications Dropdown Menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
@@ -181,7 +280,7 @@
                     <div class="dropdown-menu dropdown-menu dropdown-menu-right">
 
                         <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
+                        <a href="{{ route('profile') }}" class="dropdown-item">
                             <i class="fas fa-User mr-2"></i> Profile
                         </a>
                         <div class="dropdown-divider"></div>
@@ -221,45 +320,34 @@
             $.widget.bridge('uibutton', $.ui.button)
         </script>
         <!-- Scripts -->
-        <script src="/js/app.js"></script>
+        <script src="{{ asset('js/app.js') }}"></script>
         <!-- jQuery -->
-        <script src="plugins/jquery/jquery.min.js"></script>
+        <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
         <!-- Bootstrap 4 -->
-        <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <!-- DataTables  & Plugins -->
-        <script src="plugins/datatables/jquery.dataTables.min.js"></script>
-        <script src="plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-        <script src="plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-        <script src="plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-        <script src="plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-        <script src="plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-        <script src="plugins/jszip/jszip.min.js"></script>
-        <script src="plugins/pdfmake/pdfmake.min.js"></script>
-        <script src="plugins/pdfmake/vfs_fonts.js"></script>
-        <script src="plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-        <script src="plugins/datatables-buttons/js/buttons.print.min.js"></script>
-        <script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+        <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <script src="https://cdn.datatables.net/1.11.2/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.11.2/js/dataTables.bootstrap4.min.js"></script>
+
+        <!-- Select2 -->
+        <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
+        <script src="{{ asset('dist/js/pages/dashboard.js') }}"></script>
+
+        <!-- Data Tables -->
+        <script src="{{ asset('/') }}plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="{{ asset('/') }}plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+
+        {{-- <script src="{{ asset('/') }}plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+        <script src="{{ asset('/') }}plugins/select2/js/select2.full.min.js"></script> --}}
         <!-- AdminLTE App -->
-        <script src="dist/js/adminlte.min.js"></script>
-        <!-- Memuat library Select2 -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+        <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
 
-
-
-        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-        <script src="dist/js/pages/dashboard.js"></script>
-        <script>
-            $(function() {
-                //Initialize Select2 Elements
-                $('.select2').select2()
-
-                //Initialize Select2 Elements
-                $('.select2bs4').select2({
-                    theme: 'bootstrap4'
-                })
-            });
-        </script>
+        {{-- calender --}}
+        <!-- /.content-wrapper -->
+        <!-- fullCalendar 2.2.5 -->
+        <script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
+        <script src="{{ asset('plugins/fullcalendar/main.js') }}"></script>
         <script>
             function disableperangkat(that) {
                 console.log(that.value);
@@ -276,7 +364,31 @@
                 bsCustomFileInput.init();
             });
         </script>
-        
+
+        <script>
+            $(function() {
+                //Initialize Select2 Elements
+                $('.select2').select2()
+
+                //Initialize Select2 Elements
+                $('.select2bs4').select2({
+                    theme: 'bootstrap4'
+                })
+            });
+        </script>
+        <script>
+            // Menghilangkan pesan alert setelah 5 detik
+            setTimeout(function() {
+                document.getElementById('myAlert').remove();
+            }, 10000);
+        </script>
+
+        <script>
+            setTimeout(function() {
+                document.getElementById('success-alert').style.display = 'none';
+            }, 5000);
+        </script>
+
 
 </body>
 

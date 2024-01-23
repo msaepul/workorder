@@ -76,14 +76,25 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-12 col-sm-6 col-md-3">
-                            <div class="info-box mb-3">
-                                <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
 
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Total User</span>
-                                    <span class="info-box-number">{{ $UserCount }}</span>
-                                </div>
-                                <!-- /.info-box-content -->
+                            <div class="info-box mb-3">
+                                @if (getUserDept() == 'EDP')
+                                    <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Total User</span>
+                                        <span class="info-box-number">{{ $UserCount }}</span>
+                                    </div>
+                                    <!-- /.info-box-content -->
+                                @else
+                                    <span class="info-box-icon bg-warning elevation-1"><i
+                                            class="fas fa-computer"></i></span>
+
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Jumlah Perangkat</span>
+                                        <span class="info-box-number">{{ $Devicecount }}</span>
+                                    </div>
+                                @endif
                             </div>
                             <!-- /.info-box -->
                         </div>
@@ -108,147 +119,158 @@
                         <div class="card-body">
                             <div class="container-fluid">
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h3 class="card-title">Work Order All Cabang</h3>
-                                                <div class="card-tools">
-                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                                        <i class="fas fa-minus"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                                        <i class="fas fa-times"></i>
-                                                    </button>
+                                    @if ((getUserCabang() == 100) & (getUserDept() == 'EDP'))
+                                        <div class="col-md-12">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h3 class="card-title">Work Order All Cabang</h3>
+                                                    <div class="card-tools">
+                                                        <button type="button" class="btn btn-tool"
+                                                            data-card-widget="collapse">
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-tool"
+                                                            data-card-widget="remove">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <canvas id="perCabang"></canvas>
+                                                <div class="card-body">
+                                                    <canvas id="perCabang"></canvas>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="card ">
-                                            <div class="card-header">
-                                                <h3 class="card-title">Work Order by Departemen</h3>
-                                                <div class="card-tools">
-                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                                        <i class="fas fa-minus"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                                        <i class="fas fa-times"></i>
-                                                    </button>
+                                    @endif
+                                    @if (getUserDept() == 'EDP' || getUserDept() == 'BM')
+                                        <div class="col-md-12">
+                                            <div class="card ">
+                                                <div class="card-header">
+                                                    <h3 class="card-title">Work Order by Departemen</h3>
+                                                    <div class="card-tools">
+                                                        <button type="button" class="btn btn-tool"
+                                                            data-card-widget="collapse">
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-tool"
+                                                            data-card-widget="remove">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <canvas id="perdepartemen"></canvas>
+                                                <div class="card-body">
+                                                    <canvas id="perdepartemen"></canvas>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h3 class="card-title">Data Pie Chart</h3>
-                                                <div class="card-tools">
-                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                                        <i class="fas fa-minus"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-tool"
-                                                        data-card-widget="remove">
-                                                        <i class="fas fa-times"></i>
-                                                    </button>
+
+                                        <div class="col-md-4">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h3 class="card-title">Data Pie Chart</h3>
+                                                    <div class="card-tools">
+                                                        <button type="button" class="btn btn-tool"
+                                                            data-card-widget="collapse">
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-tool"
+                                                            data-card-widget="remove">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                    </div>
                                                 </div>
+                                                <div class="card-body">
+                                                    <div>
+                                                        <label for="dataSelect">Pilih Data:</label>
+                                                        <select id="dataSelect" class="form-control">
+                                                            <option value="default">Data Work Order</option>
+                                                            <option value="alternative1">Perbandingan Sparepart</option>
+                                                            <option value="alternative2">Alternative Data 2</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="chart mt-3">
+                                                        <canvas id="pieChart"
+                                                            style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                                    </div>
+                                                </div>
+                                                <!-- /.card-body -->
                                             </div>
-                                            <div class="card-body">
-                                                <div>
-                                                    <label for="dataSelect">Pilih Data:</label>
-                                                    <select id="dataSelect" class="form-control">
-                                                        <option value="default">Data Work Order</option>
-                                                        <option value="alternative1">Perbandingan Sparepart</option>
-                                                        <option value="alternative2">Alternative Data 2</option>
-                                                    </select>
-                                                </div>
-                                                <div class="chart mt-3">
-                                                    <canvas id="pieChart"
-                                                        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-                                                </div>
-                                            </div>
-                                            <!-- /.card-body -->
                                         </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h3 class="card-title">Perangkat sering bermaslah</h3>
-                                                <div class="card-tools">
-                                                    <button type="button" class="btn btn-tool"
-                                                        data-card-widget="collapse">
-                                                        <i class="fas fa-minus"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-tool"
-                                                        data-card-widget="remove">
-                                                        <i class="fas fa-times"></i>
-                                                    </button>
+                                        <div class="col-md-4">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h3 class="card-title">Perangkat sering bermaslah</h3>
+                                                    <div class="card-tools">
+                                                        <button type="button" class="btn btn-tool"
+                                                            data-card-widget="collapse">
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-tool"
+                                                            data-card-widget="remove">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="chart">
-                                                    <canvas id="barChart"
-                                                        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                                <div class="card-body">
+                                                    <div class="chart">
+                                                        <canvas id="barChart"
+                                                            style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                                    </div>
                                                 </div>
+                                                <!-- /.card-body -->
                                             </div>
-                                            <!-- /.card-body -->
                                         </div>
-                                    </div>
 
 
-                                    <div class="col-md-4">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h3 class="card-title">Aktivitas Sparepart</h3>
+                                        <div class="col-md-4">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h3 class="card-title">Aktivitas Sparepart</h3>
 
-                                                <div class="card-tools">
-                                                    <button type="button" class="btn btn-tool"
-                                                        data-card-widget="collapse">
-                                                        <i class="fas fa-minus"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-tool"
-                                                        data-card-widget="remove">
-                                                        <i class="fas fa-times"></i>
-                                                    </button>
+                                                    <div class="card-tools">
+                                                        <button type="button" class="btn btn-tool"
+                                                            data-card-widget="collapse">
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-tool"
+                                                            data-card-widget="remove">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <!-- /.card-header -->
-                                            <div class="card-body p-0">
-                                                <ul class="products-list product-list-in-card pl-2 pr-2">
-                                                    @foreach ($activities->take(5) as $p)
-                                                        <li class="item">
-                                                            <div class="product-info">
-                                                                <a href="" class="product-title">
-                                                                    @if ($p instanceof \App\Models\tambahstok)
-                                                                        Sparepart Masuk ({{ $p->id_tx }})
-                                                                        <span class="badge badge-success float-right">
-                                                                            Rp. {{ $p->harga }}
-                                                                        @elseif ($p instanceof \App\Models\keluarstok)
-                                                                            Sparepart Keluar ({{ $p->id_tx }})
-                                                                            <span class="badge badge-danger float-right">
+                                                <!-- /.card-header -->
+                                                <div class="card-body p-0">
+                                                    <ul class="products-list product-list-in-card pl-2 pr-2">
+                                                        @foreach ($activities->take(5) as $p)
+                                                            <li class="item">
+                                                                <div class="product-info">
+                                                                    <a href="" class="product-title">
+                                                                        @if ($p instanceof \App\Models\tambahstok)
+                                                                            Sparepart Masuk ({{ $p->id_tx }})
+                                                                            <span class="badge badge-success float-right">
                                                                                 Rp. {{ $p->harga }}
-                                                                            @else
-                                                                                Aktivitas Tidak Diketahui
-                                                                    @endif
+                                                                            @elseif ($p instanceof \App\Models\keluarstok)
+                                                                                Sparepart Keluar ({{ $p->id_tx }})
+                                                                                <span
+                                                                                    class="badge badge-danger float-right">
+                                                                                    Rp. {{ $p->harga }}
+                                                                                @else
+                                                                                    Aktivitas Tidak Diketahui
+                                                                        @endif
 
+                                                                        </span>
+                                                                    </a>
+                                                                    <span class="product-description">
+                                                                        {{ getNamesparepart($p->id_spr) }} x
+                                                                        {{ $p->qty }}
                                                                     </span>
-                                                                </a>
-                                                                <span class="product-description">
-                                                                    {{ getNamesparepart($p->id_spr) }} x
-                                                                    {{ $p->qty }}
-                                                                </span>
-                                                            </div>
-                                                        </li>
-                                                    @endforeach
-                                                </ul>
+                                                                </div>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endif
                                     <div class="col-md-12">
                                         <div class="card card-primary">
                                             <div class="card-header">

@@ -1,22 +1,29 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="#" class="brand-link">
-        <img id="sidebar-logo" src="{{ asset('dist/img/arnonlogo.png') }}" alt="AdminLTE Logo"
-            class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light text-sm">SP Work Order</span>
-    </a>
+
 
 
 
     <!-- Sidebar -->
     <div class="sidebar sidebar-dark-primary">
+
+
         <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex justify-content-center align-items-center">
+            <div class="info">
+                <img id="sidebar-logo" src="{{ asset('dist/img/arnonlogo.png') }}" alt="AdminLTE Logo" class=""
+                    style=" width: 110px; height: 55px;">
+            </div>
+        </div>
+
+
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
                 <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{ Auth::user()->nama_lengkap }}</a>
+
+                <a href="{{ route('profile') }}" class="d-block">{{ Auth::user()->nama_lengkap }}</a>
             </div>
         </div>
 
@@ -118,16 +125,18 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ route('sparepart') }}"
-                                @if (request()->is('sparepart')) class="nav-link active" @else class="nav-link" @endif>
-                                <i class="fas fa-ellipsis-h nav-icon"></i>
+                        @if (Auth::user()->dept == 'EDP')
+                            <li class="nav-item">
+                                <a href="{{ route('sparepart') }}"
+                                    @if (request()->is('sparepart')) class="nav-link active" @else class="nav-link" @endif>
+                                    <i class="fas fa-ellipsis-h nav-icon"></i>
 
-                                <p>
-                                    Stok Sparepart
-                                </p>
-                            </a>
-                        </li>
+                                    <p>
+                                        Stok Sparepart
+                                    </p>
+                                </a>
+                            </li>
+                        @endif
                         <li class="nav-item">
                             <a href="{{ route('history_sparepart') }}"
                                 @if (request()->is('sparepart/history')) class="nav-link active" @else class="nav-link" @endif>
@@ -138,6 +147,7 @@
                                 </p>
                             </a>
                         </li>
+
                     </ul>
                 </li>
                 @if (Auth::user()->dept == 'EDP')

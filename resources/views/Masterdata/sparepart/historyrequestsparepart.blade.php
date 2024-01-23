@@ -30,7 +30,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <a href="add-perangkat" type="button" class="btn btn-primary">
+                                <a href="{{ route('request_sparepart') }}" type="button" class="btn btn-primary">
                                     <i class="nav-icon fas fa-plus"></i> Minta Sparepart
                                 </a>
 
@@ -122,6 +122,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
 
     <script>
         $(document).ready(function() {
@@ -131,4 +132,5 @@
             });
         });
     </script>
+
 @endsection

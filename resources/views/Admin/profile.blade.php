@@ -187,34 +187,65 @@
                                             <div class="col-md-12">
                                                 <div class="card-body">
                                                     <center>
-                                                        <h6 class="bold">Data Permintaan Sparepart</h6>
+                                                        <h6 class="bold">Data Riwayat Work Order</h6>
                                                     </center>
                                                     <hr class="mt-0 mb-4">
 
                                                     <table id="tableperbaikan" class="table table-bordered table-striped">
-                                                        <thead class="garis-bawah">
-                                                            <tr>
-                                                                <th>No</th>
-                                                                <th>ID Transaksi</th>
-                                                                <th>Nama Sparepart</th>
-                                                                <th>Qty</th>
-                                                                <th>Tgl Permintaan</th>
-                                                                <th>Keterangan</th>
-
+                                                        <thead>
+                                                            <tr class="text-center">
+                                                                <th>No WO</th>
+                                                                <th>Jenis WO</th>
+                                                                <th>Obyek</th>
+                                                                <th>Kendala</th>
+                                                                <th>WO dibuat</th>
+                                                                <th>Status</th>
+                                                                <th>Dibuat oleh</th>
+                                                                <th>Action</th>
                                                             </tr>
+
                                                         </thead>
                                                         <tbody>
-                                                            @foreach ($hisparepart as $his)
+                                                            @foreach ($workorders as $wo)
                                                                 <tr>
-                                                                    <td>No</td>
-                                                                    <td>ID Transaksi</td>
-                                                                    <td>Nama Sparepart</td>
-                                                                    <td>Qty</td>
-                                                                    <td>Tgl Permintaan</td>
-                                                                    <td>Keterangan</th>
+                                                                    <td class="text-center">{{ $wo->no_wo }}</td>
+                                                                    <td class="text-center">{{ $wo->kategori_wo }}
+                                                                    </td>
+                                                                    <td>{{ $wo->obyek }}</td>
+                                                                    <td>{{ $wo->keadaan }}</td>
+                                                                    <td class="text-center">{{ $wo->wo_create }}</td>
+                                                                    <td class="text-center">
+                                                                        @if ($wo->status == 0)
+                                                                            <button
+                                                                                class="btn btn-danger btn-xs">Cancel</button>
+                                                                        @elseif ($wo->status == 1)
+                                                                            <button
+                                                                                class="btn btn-secondary btn-xs">Draft</button>
+                                                                        @elseif ($wo->status == 2)
+                                                                            <button
+                                                                                class="btn btn-primary btn-xs">Confirm</button>
+                                                                        @elseif ($wo->status == 3 || $wo->status == 4)
+                                                                            <button class="btn btn-warning btn-xs">On
+                                                                                Progress</button>
+                                                                        @elseif ($wo->status == 5)
+                                                                            <button
+                                                                                class="btn btn-success btn-xs">Done</button>
+                                                                        @endif
 
+
+                                                                    </td>
+
+                                                                    <td class="text-center">
+                                                                        {{ getFullName($wo->user_id) }}</td>
+                                                                    <td class="text-center"> <a
+                                                                            href="{{ route('Workorder_detail', $wo->id) }}"
+                                                                            class="btn btn-sm btn-primary">
+                                                                            <i class="fas fa-eye"></i> Lihat
+                                                                        </a>
+                                                                    </td>
                                                                 </tr>
                                                             @endforeach
+
                                                         </tbody>
                                                     </table>
 
