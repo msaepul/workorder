@@ -19,11 +19,18 @@
 
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+                <a href="{{ asset('dist/img/user2-160x160.jpg') }}" class="fancybox" data-fancybox="profile"
+                    data-caption="{{ Auth::user()->nama_lengkap }}">
+                    <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="rounded-circle shadow-4-strong"
+                        alt="User Image" style="margin-top: 40%; height: 45px; width: 45px">
+                </a>
             </div>
             <div class="info">
 
                 <a href="{{ route('profile') }}" class="d-block">{{ Auth::user()->nama_lengkap }}</a>
+                <span data-toggle="tooltip" data-placement="bottom" title="{{ Auth::user()->dept }}"
+                    style="color:#c2c7d0;">{{ Auth::user()->dept }}</span><br>
+                <a href="{{ route('logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
             </div>
         </div>
 
