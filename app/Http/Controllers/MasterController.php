@@ -9,8 +9,9 @@ use App\Models\User;
 use App\Models\brand;
 use App\Models\Jenis;
 use App\Models\Cabang;
-use App\Models\perangkat;
 use App\Models\supplier;
+use App\Models\perangkat;
+use App\Models\workorder;
 use App\Models\Departemen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -175,6 +176,31 @@ class MasterController extends Controller
         return view('masterdata.perangkat.editperangkat', compact('users', 'jeniss', 'depts', 'brands', 'types', 'data'));
     }
 
+    public function detailperangkat($id)
+    {
+        $jeniss = Jenis::all();
+        $depts = Dept::all();
+        $brands = Brand::all();
+        $types = Type::all();
+        $cabang = session('cabang');
+        $users = DB::table('tb_login')
+            ->where('cabang', $cabang)
+            ->get();
+
+
+        if (getUserdept() == 'EDP') {
+            $workorders = workorder::where('cabang_id', '=', $cabang)->get();
+        } else {
+            $workorders = workorder::where('user_id', '=', $user)->get();
+        }
+        $users = User::all()->first();
+        // Mengambil data berdasarkan ID
+        $data = perangkat::findOrFail($id);
+
+        // Menampilkan form edit dengan data yang sudah ada
+        return view('masterdata.perangkat.detailperangkat', compact('users', 'jeniss', 'depts', 'brands', 'types', 'data', 'workorders'));
+    }
+
     public function updateperangkat(Request $request, $id)
     {
         // Validasi inputan
@@ -328,6 +354,43 @@ class MasterController extends Controller
         $supplier->save();
 
         return redirect()->back();
+    }
+    public function mastersupplier()
+    {
+        // $perangkat = perangkat::with('type', 'supplier','user.cabang')->get();
+        $supplier = supplier::all();
+        return view('Masterdata.supplier.mastersupplier', compact('supplier'));
+    }
+
+    public function hapussupplier($id)
+    {
+        $data = supplier::findOrFail($id);
+        $data->delete();
+
+        // Setelah menghapus data, Anda dapat melakukan tindakan lainnya,
+        // seperti mengirimkan respon atau mengalihkan pengguna ke halaman lain.
+
+        return back()->with('success', 'Data berhasil dihapus');
+    }
+
+    public function mastereditsupplier(Request $request, $id)
+    {
+        // Validate the request data as needed
+        $validatedData = $request->validate([
+            'nama_supplier' => 'required|string|max:255',
+            'alamat' => 'nullable|string',
+            // Add other validation rules as needed
+        ]);
+
+        $supplier = supplier::findOrFail($id);
+
+        // Update the supplier with the validated data
+        $supplier->update($validatedData);
+
+        // Redirect to the supplier list or wherever you need to go after the update
+        return redirect()
+            ->route('mastersupplier')
+            ->with('success', 'Data supplier Berhasil di Update');
     }
 
     // Master Data Cabang

@@ -89,6 +89,7 @@ Route::middleware('auth')->group(function () {
         Route::post('proses', [MasterController::class, 'perangkatproses'])->name('perangkat_proses');
         Route::get('add', [MasterController::class, 'tambahperangkat'])->name('add_perangkat');
         Route::get('edit/{id}', [MasterController::class, 'editperangkat'])->name('edit_perangkat');
+        Route::get('detail/{id}', [MasterController::class, 'detailperangkat'])->name('detail_perangkat');
         Route::put('{id}', [MasterController::class, 'updateperangkat'])->name('update_perangkat');
         Route::delete('{id}', [MasterController::class, 'hapusperangkat'])->name('destroy_perangkat');
     });
@@ -139,6 +140,10 @@ Route::middleware('auth')->group(function () {
 
     //Master Data Supplier
     Route::post('supplier-proses', [MasterController::class, 'supplierproses'])->name('supplier_proses');
+    //Master Data brand ke db
+    Route::get('supplier', [MasterController::class, 'mastersupplier'])->name('mastersupplier');
+    Route::put('editsupplier/{id}', [MasterController::class, 'mastereditsupplier'])->name('mastereditsupplier');
+    Route::delete('supplier/{id}', [MasterController::class, 'hapussupplier'])->name('destory_supplier');
 
 
     // Master Data Departemen

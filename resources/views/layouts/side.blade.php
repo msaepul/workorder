@@ -19,18 +19,11 @@
 
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <a href="{{ asset('dist/img/user2-160x160.jpg') }}" class="fancybox" data-fancybox="profile"
-                    data-caption="{{ Auth::user()->nama_lengkap }}">
-                    <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="rounded-circle shadow-4-strong"
-                        alt="User Image" style="margin-top: 40%; height: 45px; width: 45px">
-                </a>
+                <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
 
                 <a href="{{ route('profile') }}" class="d-block">{{ Auth::user()->nama_lengkap }}</a>
-                <span data-toggle="tooltip" data-placement="bottom" title="{{ Auth::user()->dept }}"
-                    style="color:#c2c7d0;">{{ Auth::user()->dept }}</span><br>
-                <a href="{{ route('logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
             </div>
         </div>
 
@@ -201,7 +194,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('masterdepartemen') }}"
-                                @if (request()->route()->uri == 'masterdepartemen') class="nav-link active"
+                                @if (request()->route()->uri == 'departemen') class="nav-link active"
               @else
               class="nav-link " @endif>
                                 <i class="nav-icon fas fa-book"></i>
@@ -221,6 +214,17 @@
                             <i class="nav-icon fas fa-book"></i>
                             <p>
                                 Master Sparepart
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('mastersupplier') }}"
+                            @if (request()->route()->uri == 'mastersupplier') class="nav-link active"
+              @else
+              class="nav-link " @endif>
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>
+                                Master Supplier
                             </p>
                         </a>
                     </li>
@@ -270,7 +274,7 @@
                             <i class="nav-icon fas fa-tools"></i>
                             <p>
                                 Work Order
-                                <i class="fas fa-angle-left right"></i>
+
                             </p>
                         </a>
                     </li>

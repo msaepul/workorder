@@ -14,9 +14,9 @@
                 <!-- Konten Modal -->
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="name">Nama Type perangkat:</label>
+                        <label for="name">Nama Jenis Perangkat perangkat:</label>
                         <select class="form-control select2" id="id_jenis" name="id_jenis" style="width: 100%;">
-                            <option value="">Pilih Jenis</option>
+                            <option value="">Pilih Jenis Perangkat</option>
                             @foreach ($jeniss as $jenis)
                                 <option value="{{ $jenis->id }}" @if ($jenis->id == $t->id_jenis) selected @endif>
                                     {{ $jenis->jenis_perangkat }}

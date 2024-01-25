@@ -31,7 +31,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <a href="tambah-perangkat" type="button" class="btn btn-primary">
-                                    <i class="nav-icon fas fa-plus"></i> Tambah Perangkat
+                                    <i class="nav-icon fas fa-plus"></i> Tambah Pengguna
                                 </a>
 
                             </div>

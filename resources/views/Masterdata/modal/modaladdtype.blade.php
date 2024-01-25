@@ -5,7 +5,7 @@
             <div class="modal-content">
                 <!-- Header Modal -->
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Type Perangkat</h5>
+                    <h5 class="modal-title">Pilih Jenis Perangkat</h5>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 

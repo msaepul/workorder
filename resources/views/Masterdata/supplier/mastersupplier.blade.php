@@ -1,6 +1,6 @@
 @extends('layouts.mainlayout')
 
-@section('title', 'Master Data brand')
+@section('title', 'Master Data supplier')
 
 @section('content')
     <!-- Content Wrapper. Contains page content -->
@@ -13,7 +13,7 @@
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1>
-                            MASTER DATA brand
+                            MASTER DATA supplier
                         </h1>
                     </div>
                     <div class="col-sm-6">
@@ -31,7 +31,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header ">
-                                <a href="#myModalbrand" data-toggle="modal" data-toggle="tooltip" title="Tambah Cavabg"
+                                <a href="#myModal" data-toggle="modal" data-toggle="tooltip" title="Tambah Cavabg"
                                     class="btn btn-success">
                                     <i class="nav-icon fas fa-plus"></i> Tambah Data
                                 </a>
@@ -51,17 +51,17 @@
                                     <thead>
                                         <tr>
                                             <th style="width: 10%" class="text-center">No</th>
-                                            <th class="text-center">Nama brand</th>
-                                            <th class="text-center"style="width: 40%">Keterangan</th>
+                                            <th class="text-center">Nama supplier</th>
+                                            <th class="text-center"style="width: 40%">Alamat / Keterangan</th>
                                             <th style="width: 20%" class="text-center">Action </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($brand as $key => $b)
+                                        @foreach ($supplier as $key => $s)
                                             <tr>
                                                 <td class="text-center"> {{ $loop->iteration }} </td>
-                                                <td>{{ $b->name_brand }}</td>
-                                                <td>{{ $b->ket_brand }}</td>
+                                                <td>{{ $s->nama_supplier }}</td>
+                                                <td>{{ $s->alamat }}</td>
                                                 <td class="text-center">
                                                     {{-- <form action="{{ route('destroy_sparepart', $part->id) }}"
                                                         method="POST" class="d-inline">
@@ -72,13 +72,13 @@
                                                     </form> --}}
                                                     <button type="button" class="btn btn-sm btn-warning"
                                                         data-toggle="modal"
-                                                        data-target="#myModaleditbrand{{ $b->id }}">
+                                                        data-target="#myModaleditsupplier{{ $s->id }}">
                                                         <i class="fas fa-pencil-alt"></i> Edit
                                                     </button>
 
 
 
-                                                    <form action="{{ route('destory_brand', $b->id) }}" method="POST"
+                                                    <form action="{{ route('destory_supplier', $s->id) }}" method="POST"
                                                         class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
@@ -91,7 +91,7 @@
                                                 </td>
 
                                             </tr>
-                                            @include('Masterdata.modal.modaleditbrand')
+                                            @include('Masterdata.modal.modaleditsupplier')
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -107,7 +107,7 @@
                 <!-- /.row -->
             </div>
             <!-- /.container-fluid -->
-            @include('Masterdata.modal.modaladdbrand')
+            @include('Masterdata.modal.modaladdsupplier')
 
         </section>
         <!-- Main content -->

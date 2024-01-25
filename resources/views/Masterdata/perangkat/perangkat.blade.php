@@ -70,7 +70,9 @@
                                         @foreach ($perangkat as $device)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $device->nama_perangkat }}</td>
+                                                <td><a href="{{ route('detail_perangkat', $device->id) }}"
+                                                        style="color: black;">{{ $device->nama_perangkat }}</a></td>
+
                                                 <td>{{ $device->jenis_perangkat }}</td>
                                                 <td>{{ $device->spesifikasi }}</td>
                                                 <td>{{ $device->brand_name }} / {{ $device->type_name }}</td>
@@ -78,22 +80,21 @@
                                                 <td>{{ $device->cabang_name }}</td>
                                                 <td>{{ $device->status }}</td>
                                                 <td>
-                                                    {{-- <a href="{{ route('edit_perangkat', $device->id) }}"
-                                                        class="btn btn-sm btn-primary">Detail</a> --}}
                                                     <a href="{{ route('edit_perangkat', $device->id) }}"
-                                                        class="btn btn-sm btn-warning"> <i class="nav-icon fas fa-pen"></i>
-                                                        Edit</a>
+                                                        class="btn btn-sm btn-warning">
+                                                        <i class="nav-icon fas fa-pen"></i> Edit
+                                                    </a>
 
                                                     <form action="{{ route('destroy_perangkat', $device->id) }}"
                                                         method="POST" class="d-inline">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-sm btn-danger"
-                                                            onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"><i
-                                                                class="nav-icon fas fa-trash"></i> Hapus</button>
+                                                            onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                                            <i class="nav-icon fas fa-trash"></i> Hapus
+                                                        </button>
                                                     </form>
                                                 </td>
-
                                             </tr>
                                         @endforeach
                                     </tbody>
