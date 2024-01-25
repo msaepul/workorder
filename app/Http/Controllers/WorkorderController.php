@@ -235,7 +235,6 @@ class WorkorderController extends Controller
     public function updateStatus(Request $request, $id)
     {
 
-
         $status = $request->input('status');
         // Lakukan pembaruan status sesuai dengan nilai yang dikirimkan
         $data = Workorder::find($id); // Ganti dengan logika Anda untuk mendapatkan data yang sesuai
