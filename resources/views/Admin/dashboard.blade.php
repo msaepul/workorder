@@ -195,6 +195,7 @@
                                                 <!-- /.card-body -->
                                             </div>
                                         </div>
+
                                         <div class="col-md-4">
                                             <div class="card">
                                                 <div class="card-header">
@@ -247,17 +248,18 @@
                                                                         @if ($p instanceof \App\Models\tambahstok)
                                                                             Sparepart Masuk ({{ $p->id_tx }})
                                                                             <span class="badge badge-success float-right">
-                                                                                Rp. {{ $p->harga }}
-                                                                            @elseif ($p instanceof \App\Models\keluarstok)
-                                                                                Sparepart Keluar ({{ $p->id_tx }})
-                                                                                <span
-                                                                                    class="badge badge-danger float-right">
-                                                                                    Rp. {{ $p->harga }}
-                                                                                @else
-                                                                                    Aktivitas Tidak Diketahui
+                                                                                Rp.
+                                                                                {{ number_format($p->harga * $p->qty, 0, ',', '.') }}
+                                                                            </span>
+                                                                        @elseif ($p instanceof \App\Models\keluarstok)
+                                                                            Sparepart Keluar ({{ $p->id_tx }})
+                                                                            <span class="badge badge-danger float-right">
+                                                                                Rp.
+                                                                                {{ number_format($p->harga * $p->qty, 0, ',', '.') }}
+                                                                            </span>
+                                                                        @else
+                                                                            Aktivitas Tidak Diketahui
                                                                         @endif
-
-                                                                        </span>
                                                                     </a>
                                                                     <span class="product-description">
                                                                         {{ getNamesparepart($p->id_spr) }} x
@@ -266,6 +268,8 @@
                                                                 </div>
                                                             </li>
                                                         @endforeach
+
+
                                                     </ul>
                                                 </div>
                                             </div>
@@ -504,17 +508,24 @@
             var barChartCanvas = $('#barChart').get(0).getContext('2d');
 
             var barChartData = {
-                labels: ['Draft', 'confirm', 'On Proses', 'Menunggu Validasi Selesai', 'selesai'],
+                labels: [
+                    @foreach ($wocountbydevice as $count)
+                        {{ $count->perangkat_id }},
+                    @endforeach
+                ],
                 datasets: [{
                     label: 'Data',
-                    backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef'],
-                    borderColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef'],
+                    backgroundColor: ['#f56954', '#00a65a', '#f39c12'],
+                    borderColor: ['#f56954', '#00a65a', '#f39c12'],
                     borderWidth: 1,
                     data: [
-                        {{ $draft . ',' . $confirm . ',' . $Onproses . ',' . $validasi . ',' . $selesai }}
+                        @foreach ($wocountbydevice as $count)
+                            {{ $count->total }},
+                        @endforeach
                     ],
                 }]
             };
+
 
             var barChartOptions = {
                 maintainAspectRatio: false,

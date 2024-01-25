@@ -42,6 +42,16 @@ class AdminController extends Controller
 
 
         $WoCount = workorder::where('cabang_id', '=', getUserCabang())->count();
+        $wocountbydevice = workorder::where('cabang_id', '=', getUserCabang())
+            ->whereNotNull('perangkat_id') // Hanya ambil work order dengan perangkat_id tidak null
+            ->select('perangkat_id', DB::raw('COUNT(*) as total'))
+            ->groupBy('perangkat_id')
+            ->orderByDesc('total')
+            ->take(5)
+            ->get();
+
+
+
         $WoDoneCount = workorder::where('status', '=', 5)->where('cabang_id', '=', getUserCabang())->count();
         $UserCount = User::where('cabang', '=', getUserCabang())->count();
         $Devicecount = perangkat::where('user_id', '=', getUserId())->count();
@@ -103,7 +113,7 @@ class AdminController extends Controller
             'bm' => workorder::where('dept', 'BM')->where('cabang_id', getUserCabang())->count(),
         ];
 
-        return view('Admin.dashboard', $datacabang, compact('WoCount', 'UserCount', 'WoDoneCount', 'purchase', 'Wo', 'items', 'activities', 'Devicecount'))->with($dataworkorder)->with($datasparepart)->with($datawodept);
+        return view('Admin.dashboard', $datacabang, compact('WoCount', 'UserCount', 'WoDoneCount', 'purchase', 'Wo', 'items', 'activities', 'Devicecount', 'wocountbydevice'))->with($dataworkorder)->with($datasparepart)->with($datawodept);
     }
 
     public function Gallery()

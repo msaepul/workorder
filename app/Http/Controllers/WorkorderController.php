@@ -3,19 +3,20 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Dompdf\Dompdf;
 use App\Models\User;
 use App\Models\perangkat;
 use App\Models\Sparepart;
 use App\Models\workorder;
 use App\Models\keluarstok;
-use Dompdf\Dompdf;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Input;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\WorkordersExport;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use App\Services\WhatsAppService;
+use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Input;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\FromCollection;
 
 
 class WorkorderController extends Controller
@@ -245,6 +246,11 @@ class WorkorderController extends Controller
             $item = Workorder::find($id);
             // Ganti dengan logika Anda untuk mendapatkan item yang sesuai
             $item->status = 2;
+            $response = WhatsAppService::sendMessage(
+                "083820073252",
+                "Your Message",
+                "https://file-url.com"
+            );
             $item->save();
         } elseif ($status == 0) {
             // Lakukan aksi untuk status = 0
@@ -305,7 +311,7 @@ class WorkorderController extends Controller
             $item->save();
         }
         // Kembalikan respon atau lakukan pengalihan (redirect) ke halaman yang sesuai
-        return redirect()->route('Workorder_detail', $id);
+        return redirect()->route('Workorder_detail', $id)->with($response);
     }
 
 
