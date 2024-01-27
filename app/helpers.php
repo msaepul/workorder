@@ -117,7 +117,13 @@ if (!function_exists('getNamejenis')) {
     }
 }
 
-
+if (!function_exists('formatTanggalIndonesia')) {
+    function formatTanggalIndonesia($date)
+    {
+        $dateTime = new DateTime($date);
+        return $dateTime->format('j F Y H:i:s');
+    }
+}
 if (!function_exists(function: 'cabangs')) {
     function cabangs()
     {

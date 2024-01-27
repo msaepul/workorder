@@ -21,11 +21,19 @@ class AdminController extends Controller
     {
         if (getUserDept() == "EDP" &&  getUserCabang() == 100) {
             $Wo = workorder::all();
+            $WoCount = workorder::where('cabang_id', '=', getUserCabang())->count();
+            $WoDoneCount = workorder::where('status', '=', 5)->where('cabang_id', '=', getUserCabang())->count();
             $items = keluarstok::get();
         } elseif ((getUserDept() == "EDP" &&  getUserCabang() != 100)) {
             $Wo = workorder::where('cabang_id', '=', getUserCabang())->get();
+
+            $WoCount = workorder::where('cabang_id', '=', getUserCabang())->count();
+            $WoDoneCount = workorder::where('status', '=', 5)->where('cabang_id', '=', getUserCabang())->count();
             $items = keluarstok::where('cabang_id', '=', getUserCabang())->get();
         } else {
+
+            $WoCount = workorder::where('cabang_id', '=', getUserCabang())->where('user_id', '=', getUserId())->count();
+            $WoDoneCount = workorder::where('status', '=', 5)->where('cabang_id', '=', getUserCabang())->where('user_id', '=', getUserId())->count();
             $Wo = workorder::where('cabang_id', '=', getUserCabang())->where('user_id', '=', getUserId())->get();
             $items = keluarstok::where('cabang_id', '=', getUserCabang())->where('user_id', '=', getUserId())->get();
         }
@@ -39,10 +47,6 @@ class AdminController extends Controller
         $activities = $purchase->merge($items);
         $activities = $activities->sortByDesc('created_at');
 
-
-
-        $WoCount = workorder::where('cabang_id', '=', getUserCabang())->count();
-        $WoDoneCount = workorder::where('status', '=', 5)->where('cabang_id', '=', getUserCabang())->count();
         $wocountbydevice = workorder::where('cabang_id', '=', getUserCabang())
             ->whereNotNull('perangkat_id') // Hanya ambil work order dengan perangkat_id tidak null
             ->select('perangkat_id', DB::raw('COUNT(*) as total'))

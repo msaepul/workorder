@@ -344,7 +344,77 @@
                                             </div>
                                             <!-- Add more tab content as needed -->
                                         </div>
-                                        <h6>(Dibuat Oleh: {{ getFullName($workorders->user_id) }})</h6>
+                                        @if ($workorders->status >= 1)
+                                            <table class="table" style="width: 100%; border-collapse: collapse;">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="col-4"
+                                                            style="border: 1px solid #dddddd; text-align: center; padding: 8px;">
+                                                            Divalidasi,</th>
+                                                        <th class="col-4"
+                                                            style="border: 1px solid #dddddd; text-align: center; padding: 8px;">
+                                                            Diperbaiki oleh,</th>
+                                                        <th class="col-4"
+                                                            style="border: 1px solid #dddddd; text-align: center; padding: 8px;">
+                                                            Dibuat oleh,</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="col-4"
+                                                            style="border: 1px solid #dddddd; text-align: center; padding: 8px;">
+                                                            @if ($workorders->status == 5)
+                                                                <img class=""
+                                                                    src="{{ asset('/storage/approved.png') }}"
+                                                                    width="50%" style="opacity: 0.5;" />
+                                                                <p>
+                                                                <h6> {{ getFullName($workorders->user_id) }}</h6>
+                                                                </p>
+                                                            @endif
+                                                        </td>
+                                                        <td class="col-4"
+                                                            style="border: 1px solid #dddddd; text-align: center; padding: 8px;">
+
+                                                            @if ($workorders->status == 3)
+                                                                <img class=""
+                                                                    src="{{ asset('/storage/progress.png') }}"
+                                                                    width="50%" style="opacity: 0.5;" />
+                                                                <p>
+                                                                <h6>{{ getFullName($workorders->userfix_id) }} -
+                                                                    {{ formatTanggalIndonesia($workorders->date_start) }}
+                                                                </h6>
+                                                                </p>
+                                                            @elseif($workorders->status == 4)
+                                                                <img class=""
+                                                                    src="{{ asset('/storage/approved.png') }}"
+                                                                    width="50%" style="opacity: 0.5;" />
+                                                                <p>
+                                                                <h6>{{ getFullName($workorders->userfix_id) }} -
+                                                                    {{ formatTanggalIndonesia($workorders->date_actual) }}
+                                                                </h6>
+
+                                                                </p>
+                                                            @endif
+                                                        </td>
+                                                        <td class="col-4"
+                                                            style="border: 1px solid #dddddd; text-align: center; padding: 8px;">
+                                                            @if ($workorders->status = 2)
+                                                                <img class=""
+                                                                    src="{{ asset('/storage/approved.png') }}"
+                                                                    width="50%" style="opacity: 0.5;" />
+                                                                <p>
+                                                                <h6>{{ getFullName($workorders->user_id) }} -
+                                                                    {{ formatTanggalIndonesia($workorders->date_confirm) }}
+                                                                </h6>
+
+                                                                </p>
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        @endif
 
                                     </div>
                                 </div>

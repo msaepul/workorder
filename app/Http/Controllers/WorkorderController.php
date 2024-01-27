@@ -244,7 +244,7 @@ class WorkorderController extends Controller
 
         if ($status == 2) {
             $item = Workorder::find($id);
-            // Ganti dengan logika Anda untuk mendapatkan item yang sesuai
+            $item->date_confirm = now();
             $item->status = 2;
             $response = WhatsAppService::sendMessage(
                 "083820073252",
@@ -252,7 +252,6 @@ class WorkorderController extends Controller
                 "https://file-url.com"
             );
 
-            // dd($item);
             $item->save();
         } elseif ($status == 0) {
             $item = Workorder::find($id); // Ganti dengan logika Anda untuk mendapatkan item yang sesuai
@@ -315,6 +314,8 @@ class WorkorderController extends Controller
         } elseif ($status == 5) {
             $item = Workorder::find($id); // Ganti dengan logika Anda untuk mendapatkan item yang sesuai
             $item->status = 5;
+            $item->user_validsai = getUserId();
+            $item->date_validasi = now();
             $item->save();
             $response = WhatsAppService::sendMessage(
                 "083820073252",

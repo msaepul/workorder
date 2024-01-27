@@ -335,21 +335,26 @@
 
                                                             @if ($workorders->status == 3)
                                                                 <img class=""
-                                                                    src="{{ asset('/storage/approved.png') }}"
+                                                                    src="{{ asset('/storage/progress.png') }}"
                                                                     width="50%" style="opacity: 0.5;" />
                                                                 <p>
-                                                                <h6> {{ getFullName($workorders->user_id) }}</h6>
+                                                                <h6>as {{ getFullName($workorders->user_id) }}</h6>
                                                                 </p>
                                                             @endif
                                                         </td>
                                                         <td class="col-4"
                                                             style="border: 1px solid #dddddd; text-align: center; padding: 8px;">
-                                                            <img class=""
-                                                                src="{{ asset('/storage/approved.png') }}" width="50%"
-                                                                style="opacity: 0.5;" />
-                                                            <p>
-                                                            <h6> {{ getFullName($workorders->user_id) }}</h6>
-                                                            </p>
+                                                            @if ($workorders->date_confirm != null)
+                                                                <img class=""
+                                                                    src="{{ asset('/storage/approved.png') }}"
+                                                                    width="50%" style="opacity: 0.5;" />
+                                                                <p>
+                                                                <h6>{{ getFullName($workorders->user_id) }} -
+                                                                    {{ formatTanggalIndonesia($workorders->date_confirm) }}
+                                                                </h6>
+
+                                                                </p>
+                                                            @endif
                                                         </td>
                                                     </tr>
                                                 </tbody>
