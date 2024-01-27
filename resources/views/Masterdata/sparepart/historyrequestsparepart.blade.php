@@ -82,14 +82,15 @@
                                                             {{ getFullName($item->user_id) }}</td>
                                                         <td rowspan="{{ count($items) }}" class="align-middle text-center">
                                                             @if ($item->status == 0)
-                                                                <span class="text-danger">Cancel</span>
+                                                                <button class="btn btn-danger btn-xs">Cancel</button>
                                                             @elseif ($item->status == 1)
-                                                                <span class="text-secondary">Draft</span>
+                                                                <button class="btn btn-secondary btn-xs">Draft</button>
                                                             @elseif ($item->status == 2)
-                                                                <span class="text-primary">Confirm</span>
-                                                            @elseif ($item->status == 3)
-                                                                <span class="text-warning">Done </span>
+                                                                <button class="btn btn-primary btn-xs">Confirm</button>
+                                                            @elseif ($item->status == 3 || $item->status == 4)
+                                                                <button class="btn btn-success btn-xs">Done</button>
                                                             @endif
+
                                                         </td>
 
                                                         <td rowspan="{{ count($items) }}" class="align-middle text-center">

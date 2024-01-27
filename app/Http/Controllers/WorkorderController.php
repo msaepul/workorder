@@ -120,16 +120,18 @@ class WorkorderController extends Controller
         // Mengambil data berdasarkan ID
         $workorders = workorder::findOrFail($id);
 
+
+
         $data = $workorders->id_tx;
         $items = keluarstok::where('id_tx', $data)->get();
         $groupedHistory = $items->groupBy('id_tx');
 
 
-        $no_wo = $workorders->lampiran;
+
         $status = $workorders->status;
         $sparepart = Sparepart::where('id_cabang', '=', getUserCabang())->where('stok', '>', 0)->get();
 
-
+        $no_wo = $workorders->lampiran;
         if ($no_wo !== null) {
             // Pisahkan string berdasarkan delimiter '/'
             $parts = explode('/', $no_wo);
@@ -145,6 +147,8 @@ class WorkorderController extends Controller
         } else {
             $lampiran = "null";
         }
+
+
         if ($status >= 4) {
             return view('Workorder.result', compact('workorders', 'lampiran', 'dateTime', 'data', 'groupedHistory'));
         } elseif ($status > 2 && $status <= 3) {
@@ -162,7 +166,6 @@ class WorkorderController extends Controller
         $listperangkat = perangkat::where('user_id', '=', getUserID())->get();
 
         $no_wo = $workorders->lampiran;
-
         if ($no_wo !== null) {
             // Pisahkan string berdasarkan delimiter '/'
             $parts = explode('/', $no_wo);
@@ -226,7 +229,6 @@ class WorkorderController extends Controller
         $workorder->status = 1;
         $workorder->cabang_id = $cabang;
         $workorder->lampiran = $nama_lampiran;
-        // dd($lampiran);   
         // Simpan $workorder ke database
         $workorder->save();
         return redirect()->route('Workorder_detail', $id);
@@ -239,9 +241,8 @@ class WorkorderController extends Controller
         // Lakukan pembaruan status sesuai dengan nilai yang dikirimkan
         $data = Workorder::find($id); // Ganti dengan logika Anda untuk mendapatkan data yang sesuai
 
-        // Lakukan pembaruan status sesuai dengan nilai yang dikirimkan
+
         if ($status == 2) {
-            // Lakukan aksi untuk status = 1
             $item = Workorder::find($id);
             // Ganti dengan logika Anda untuk mendapatkan item yang sesuai
             $item->status = 2;
@@ -250,19 +251,23 @@ class WorkorderController extends Controller
                 "Your Message",
                 "https://file-url.com"
             );
+
+            // dd($item);
             $item->save();
         } elseif ($status == 0) {
-            // Lakukan aksi untuk status = 0
             $item = Workorder::find($id); // Ganti dengan logika Anda untuk mendapatkan item yang sesuai
             $item->status = 0;
             $item->save();
         } elseif ($status == 3) {
-            // Lakukan aksi untuk status = 0
             $item = Workorder::find($id); // Ganti dengan logika Anda untuk mendapatkan item yang sesuai
             $item->userfix_id = $request->input('userfix_id');
             $item->date_start = $request->input('date_start');
             $item->date_end = $request->input('date_end');
-
+            $response = WhatsAppService::sendMessage(
+                "083820073252",
+                "Your Message",
+                "https://file-url.com"
+            );
             $item->status = 3;
             $item->save();
         } elseif ($status == 4) {
@@ -271,7 +276,11 @@ class WorkorderController extends Controller
             $notx = keluarstok::generateNomor();
             $currentDateTime = now();
             $formattedDate = $currentDateTime->format('Y-m-d');
-            // dd(count($itemNames));
+            $response = WhatsAppService::sendMessage(
+                "083820073252",
+                "Your Message",
+                "https://file-url.com"
+            );
             if ($itemNames[0] === null) {
                 $item = Workorder::find($id);
                 $item->id_tx = null;
@@ -304,10 +313,14 @@ class WorkorderController extends Controller
                 $item->save();
             }
         } elseif ($status == 5) {
-            // Lakukan aksi untuk status = 5
             $item = Workorder::find($id); // Ganti dengan logika Anda untuk mendapatkan item yang sesuai
             $item->status = 5;
             $item->save();
+            $response = WhatsAppService::sendMessage(
+                "083820073252",
+                "Your Message",
+                "https://file-url.com"
+            );
         }
         // Kembalikan respon atau lakukan pengalihan (redirect) ke halaman yang sesuai
         return redirect()->route('Workorder_detail', $id)->with($response);
@@ -325,11 +338,6 @@ class WorkorderController extends Controller
         $data = $workorders->id_tx;
         $items = keluarstok::where('id_tx', $data)->get();
         $groupedHistory = $items->groupBy('id_tx');
-
-
-        $no_wo = $workorders->lampiran;
-        $status = $workorders->status;
-        $sparepart = Sparepart::where('id_cabang', '=', getUserCabang())->get();
 
 
         $html = '<style>';
@@ -393,153 +401,4 @@ class WorkorderController extends Controller
     {
         return Excel::download(new WorkordersExport, 'WO.xlsx');
     }
-
-    // public function generatePDF($id){
-
-    //     $now = Carbon::now()->tz('Asia/Jakarta');
-    //     $dateTime = $now->toDateTimeString();
-    //     // Mengambil data berdasarkan ID
-    //     $workorders = workorder::findOrFail($id);
-
-    //     $data = $workorders->id_tx;
-    //     $items = keluarstok::where('id_tx', $data)->get();
-    //     $groupedHistory = $items->groupBy('id_tx');
-
-
-    //     $no_wo = $workorders->lampiran;
-    //     $status = $workorders->status;
-    //     $sparepart = Sparepart::where('id_cabang', '=', getUserCabang())->get();
-
-
-    //     $html = '<style>';
-    //     $html .= 'body { border: 1px solid black; padding: 20px; }';
-    //     $html .= 'table { border-collapse: collapse; width: 100%; }';
-    //     $html .= 'th, td { border: 1px solid black; padding: 5px;  }';
-    //     $html .= 'th { background-color: #f2f2f2; }';
-    //     $html .= '.border-left { border :none; border-left: 1px solid black;  }';
-    //     $html .= '.border-right { border :none; border-right: 1px solid black; text-align: left;  padding-left: 40px; }';
-    //     $html .= '</style>';
-
-    //     $html .= '<table>';
-
-    //     $html .= '<tr>';
-    //     // $html .= '<th rowspan="2"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/2048px-Instagram_logo_2016.svg.png" style="width:20%;"></th>';
-    //     $html .= '<th rowspan="2">Logo</th>';
-
-
-    //     $html .= '<th rowspan="2" colspan="2">Form Work Order</th>';
-    //     $html .= '<th>'.$workorders->no_wo.'</th>'; 
-
-    //     $html .= '</tr>';
-    //     $html .= '<tr>';
-    //     $html .= '<th>'.$workorders->wo_create.'</th>';
-    //     $html .= '</tr>';
-
-    //     $html .= '<td colspan="4" style="text-align: center; border-bottom: 1px solid black; background-color: #f2f2f2;"> Informasi Work Order </td>';
-    //     $html .= '</tr>';
-
-    //     $html .= '<tr>';
-    //     $html .= '<td class="border-left"> Pembuat </td>';
-    //     $html .= '<td style="border: none;"> : '.getFullName($workorders->user_id).'</td>';
-    //     $html .= '<td style="border: none; text-align: right;">Pelaksana</td>';
-    //     $html .= '<td class="border-right"> : '.getFullName($workorders->userfix_id).'</td>';
-    //     $html .= '</tr>';
-
-    //     $html .= '<tr>';
-    //     $html .= '<td class="border-left"> Jenis WO </td>';
-    //     $html .= '<td style="border: none;"> : '.$workorders->kategori_wo.'</td>';
-    //     $html .= '<td style="border: none; text-align: right;">Target Selesai</td>';
-    //     $html .= '<td class="border-right"> : '.$workorders->date_end.'</td>';
-    //     $html .= '</tr>';
-
-    //     $html .= '<tr>';
-    //     $html .= '<td class="border-left"></td>';
-    //     $html .= '<td style="border: none;"></td>';
-    //     $html .= '<td style="border: none; text-align: right;">Aktual Selesai</td>';
-    //     $html .= '<td class="border-right"> : '.$workorders->date_actual.'</td>';
-    //     $html .= '</tr>';
-
-    //     $html .= '<tr>';
-    //     $html .= '<td colspan="4" style="text-align: center; border-bottom: 1px solid black; background-color: #f2f2f2;"> Informasi Masalah </td>';
-    //     $html .= '</tr>';
-
-    //     $html .= '<tr>';
-    //     $html .= '<td colspan="2" style="text-align: center; border-right: 1px solid black;  background-color: #f2f2f2;"> Objek </td>';
-    //     $html .= '<td colspan="2" style="text-align: center;  background-color: #f2f2f2;"> Keluhan </td>';
-    //     $html .= '</tr>';
-
-    //     $html .= '<tr>';
-    //     $html .= '<td colspan="2" style="text-align: center; border-right: 1px solid black; padding: 30px;">'.$workorders->obyek.'</td>';
-    //     $html .= '<td colspan="2" style="text-align: center; padding: 30px;">'.$workorders->keadaan.' </td>';
-    //     $html .= '</tr>';
-
-    //     $html .= '<tr>';
-    //     $html .= '<td colspan="4" style="text-align: center; border-bottom: 1px solid black; background-color: #f2f2f2;"> Informasi Pebaikan </td>';
-    //     $html .= '</tr>';
-
-    //     $html .= '<tr>';
-    //     $html .= '<td colspan="2" style="text-align: center; border-right: 1px solid black ;  background-color: #f2f2f2;"> Anlisa Kerusakan </td>';
-    //     $html .= '<td colspan="2" style="text-align: center;  background-color: #f2f2f2;"> Tindakan Perbaikan </td>';
-    //     $html .= '</tr>';
-
-    //     $html .= '<tr>';
-    //     $html .= '<td colspan="2" style="text-align: center; padding: 30px; border-right: 1px solid black;">'.$workorders->analisa.'</td>';
-    //     $html .= '<td colspan="2" style="text-align: center; padding: 30px;">'.$workorders->tindakan.' </td>';
-    //     $html .= '</tr>';
-
-    //       $html .= '<tr>';
-    //     $html .= '<td colspan="2" style="text-align: center; border-right: 1px solid black ;  background-color: #f2f2f2;">Waktu Mulai Mengerjakan </td>';
-    //     $html .= '<td colspan="2" style="text-align: center;  background-color: #f2f2f2;"> Sparepart/sukucadang</td>';
-    //     $html .= '</tr>';
-
-    //     if ($workorders->id_tx === null) {
-    //         $html .= '<tr>';
-    //         $html .= '<td colspan="2" style="text-align: center;">'.$workorders->date_start.'</td>';
-    //         $html .= '<td colspan="2" style="text-align: center;">Tidak ada sparepart yang digunakan</td>';
-    //         $html .= '</tr>';
-    //     } else {
-    //         foreach ($groupedHistory as $id_tx => $group) {
-    //             $groupSize = count($group);
-    //             foreach ($group as $key => $item) {
-    //                 $html .= '<tr>';
-    //                 if ($key === 0) {
-    //                     $html .= '<td class="align-middle text-center" style="text-align: center;" colspan="2" rowspan="' . $groupSize . '">';
-
-    //                     $html .= $workorders->date_start;
-    //                     $html .= '</td>';
-    //                 }
-    //                 $html .= '<td   >';
-    //                 $html .= getNameSparepart($item['id_spr']);
-    //                 $html .= '</td>';
-    //                 $html .= '<td style="text-align: center;">';
-    //                 $html .= $item['qty'];
-    //                 $html .= '</td>';
-    //                 $html .= '</tr>';
-    //             }
-    //         }
-    //     }
-
-    //     $html .= '</table>';
-
-
-
-    //       // foreach ($users as $user) {
-    //     //     $html .= '<tr><td>' . $user->nama_lengkap . '</td><td>' . $user->email . '</td></tr>';
-    //     // }
-    //     $dompdf = new Dompdf();
-    //     $dompdf->set_option('isRemoteEnabled', true);
-    //     $dompdf->loadHtml($html);
-    //     $dompdf -> setPaper ([ 0 , 0 , 685.98 , 515.85 ], 'lanskap' );
-
-    //     // Render HTML to PDF
-    //     $dompdf->render();
-
-    //     // Save or display the PDF
-    //     $dompdf->stream('output.pdf', ['Attachment' => false]);
-
-
-    //   }
-
-
-
 }

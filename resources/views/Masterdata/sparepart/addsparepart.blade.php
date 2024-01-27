@@ -161,8 +161,8 @@
                             <br>
 
                             <div class="form-group">
-                                <div class="card-footer">
-                                    <input type="button" class="btn btn-secondary float-start" value="Cancel"
+                                <div class="card-footer text-center">
+                                    <input type="button" class="btn btn-secondary float-start" value="Batal"
                                         onclick="window.history.back();">
 
                                     <input type="submit" class="btn btn-primary float-end" value="Tambah">

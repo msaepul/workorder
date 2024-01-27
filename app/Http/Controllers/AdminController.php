@@ -42,6 +42,7 @@ class AdminController extends Controller
 
 
         $WoCount = workorder::where('cabang_id', '=', getUserCabang())->count();
+        $WoDoneCount = workorder::where('status', '=', 5)->where('cabang_id', '=', getUserCabang())->count();
         $wocountbydevice = workorder::where('cabang_id', '=', getUserCabang())
             ->whereNotNull('perangkat_id') // Hanya ambil work order dengan perangkat_id tidak null
             ->select('perangkat_id', DB::raw('COUNT(*) as total'))
@@ -52,7 +53,7 @@ class AdminController extends Controller
 
 
 
-        $WoDoneCount = workorder::where('status', '=', 5)->where('cabang_id', '=', getUserCabang())->count();
+
         $UserCount = User::where('cabang', '=', getUserCabang())->count();
         $Devicecount = perangkat::where('user_id', '=', getUserId())->count();
 

@@ -20,7 +20,7 @@ class SparepartController extends Controller
 
     {
 
-        $sparepart = Sparepart::where('id_cabang', '=', getUserCabang())->get();
+        $sparepart = Sparepart::where('id_cabang', '=', getUserCabang())->where('stok', '>', 0)->get();
         $results = [];
 
         foreach ($sparepart as $part) {

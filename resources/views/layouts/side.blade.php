@@ -62,7 +62,9 @@
                 <li class="nav-item  @if (request()->route()->getName() == 'Workorder_create' ||
                         request()->route()->getName() == 'Dataworkorder' ||
                         request()->route()->getName() == 'datawoall') menu-open @endif">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link @if (request()->route()->getName() == 'Workorder_create' ||
+                            request()->route()->getName() == 'Dataworkorder' ||
+                            request()->route()->getName() == 'datawoall') active @endif ">
                         <i class="nav-icon fas fa-clipboard-list"></i>
                         <p>
                             Work Order
@@ -107,7 +109,7 @@
 
 
                 <li class="nav-item @if (request()->is('sparepart/request') || request()->is('sparepart') || request()->is('sparepart/history')) menu-open @endif">
-                    <a href="#" class="nav-link">
+                    <a href="#" class="nav-link @if (request()->is('sparepart/request') || request()->is('sparepart') || request()->is('sparepart/history')) active @endif">
                         <i class="fas fa-cogs nav-icon"></i>
                         <p>
                             Sparepart
@@ -183,7 +185,7 @@
                     @if (Auth::user()->cabang == 100)
                         <li class="nav-item">
                             <a href="{{ route('mastercabang') }}"
-                                @if (request()->route()->uri == 'mastercabang') class="nav-link active"
+                                @if (request()->route()->uri == 'cabang') class="nav-link active"
               @else
               class="nav-link " @endif>
                                 <i class="nav-icon fas fa-book"></i>
@@ -208,7 +210,7 @@
 
                     <li class="nav-item">
                         <a href="{{ route('mastersparepart') }}"
-                            @if (request()->route()->uri == 'mastersparepart') class="nav-link active"
+                            @if (request()->route()->uri == 'sparepart/master') class="nav-link active"
               @else
               class="nav-link " @endif>
                             <i class="nav-icon fas fa-book"></i>
@@ -219,7 +221,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('mastersupplier') }}"
-                            @if (request()->route()->uri == 'mastersupplier') class="nav-link active"
+                            @if (request()->route()->uri == 'supplier') class="nav-link active"
               @else
               class="nav-link " @endif>
                             <i class="nav-icon fas fa-book"></i>
@@ -230,7 +232,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="{{ route('masterbrand') }}"
-                            @if (request()->route()->uri == 'masterbrand') class="nav-link active"
+                            @if (request()->route()->uri == 'brand') class="nav-link active"
               @else
               class="nav-link " @endif>
                             <i class="nav-icon fas fa-book"></i>
@@ -243,7 +245,7 @@
                     @if (Auth::user()->cabang == 100)
                         <li class="nav-item">
                             <a href="{{ route('masterjenis') }}"
-                                @if (request()->route()->uri == 'masterjenis') class="nav-link active"
+                                @if (request()->route()->uri == 'jenis') class="nav-link active"
               @else
               class="nav-link " @endif>
                                 <i class="nav-icon fas fa-book"></i>
@@ -255,7 +257,7 @@
                     @endif
                     <li class="nav-item">
                         <a href="{{ route('mastertype') }}"
-                            @if (request()->route()->uri == 'mastertype') class="nav-link active"
+                            @if (request()->route()->uri == 'type') class="nav-link active"
               @else
               class="nav-link " @endif>
                             <i class="nav-icon fas fa-book"></i>

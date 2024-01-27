@@ -55,9 +55,25 @@
                         <div class="d-flex justify-content-center">
                             <div class="card card-secondary card-outline col-12 col-md-10">
                                 <div class="card-header">
-                                    <div class="d-flex align-items-center justify-content-center">
-                                        <h3 class="card-title font-weight-bold">Form Work Order</h3>
-                                    </div>
+                                    <table style="width: 100%;">
+                                        <tr>
+                                            <td style="width: 120px;">
+                                                <img src="{{ asset('images/logo_jordan.jpg') }}" alt="Nama Gambar"
+                                                    style="max-width: 130%;">
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center justify-content-center">
+                                                    <h1 class="card-title font-weight-bold " style="font-size: 2em;">Form
+                                                        Work Order</h1>
+
+                                                </div>
+                                            </td>
+                                            <td style="width: 120px;">
+                                                EDP-12 Rev.00
+                                            </td>
+                                        </tr>
+
+                                    </table>
                                 </div>
 
                                 <div class="card-body">
@@ -65,7 +81,7 @@
                                         <label for="nomor" class="col-sm-2 col-form-label">Nomor WO</label>
                                         <div class="col-sm-3">
                                             <input type="text" class="form-control form-control-border disabled-input"
-                                                name="no_wo" value="{{ $workorders->no_wo }}">
+                                                name="no_wo" value="{{ $workorders->no_wo }}" disabled>
                                         </div>
                                         <div class="col-sm-2"></div>
                                         <label for="kategori" class="col-sm-2 col-form-label">Kategori</label>
@@ -146,7 +162,8 @@
                                         @endif
 
                                         <div class="col-sm-10">
-                                            <input type="file" class="form-control-file" name="gambar" id="gambar">
+                                            <input type="file" class="form-control-file" name="gambar"
+                                                id="gambar">
                                         </div>
                                     </div>
                                     <h6>(Dibuat Oleh: {{ Auth::user()->nama_lengkap }})</h6>

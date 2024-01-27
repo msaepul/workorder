@@ -57,7 +57,7 @@
                                 <div class="card-body-a d-flex align-items-center">
 
                                     <div class="left-links">
-                                        <form action="{{ route('woupdate_status2', ['id' => $workorders->id]) }}"
+                                        <form action="{{ route('woupdate_status', ['id' => $workorders->id]) }}"
                                             method="POST">
                                             @csrf
                                             @if ($workorders->status == 0)
@@ -382,7 +382,60 @@
                                                 </div>
                                                 <!-- Add more tab content as needed -->
                                             </div>
+                                            @if ($workorders->status >= 1)
+                                                <table class="table" style="width: 100%; border-collapse: collapse;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="col-4"
+                                                                style="border: 1px solid #dddddd; text-align: center; padding: 8px;">
+                                                                Divalidasi,</th>
+                                                            <th class="col-4"
+                                                                style="border: 1px solid #dddddd; text-align: center; padding: 8px;">
+                                                                Diperbaiki oleh,</th>
+                                                            <th class="col-4"
+                                                                style="border: 1px solid #dddddd; text-align: center; padding: 8px;">
+                                                                Dibuat oleh,</th>
 
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="col-4"
+                                                                style="border: 1px solid #dddddd; text-align: center; padding: 8px;">
+                                                                @if ($workorders->status == 4)
+                                                                    <img class=""
+                                                                        src="{{ asset('/storage/approved.png') }}"
+                                                                        width="50%" style="opacity: 0.5;" />
+                                                                    <p>
+                                                                    <h6> {{ getFullName($workorders->user_id) }}</h6>
+                                                                    </p>
+                                                                @endif
+                                                            </td>
+                                                            <td class="col-4"
+                                                                style="border: 1px solid #dddddd; text-align: center; padding: 8px;">
+
+                                                                @if ($workorders->status == 3)
+                                                                    <img class=""
+                                                                        src="{{ asset('/storage/approved.png') }}"
+                                                                        width="50%" style="opacity: 0.5;" />
+                                                                    <p>
+                                                                    <h6> {{ getFullName($workorders->user_id) }}</h6>
+                                                                    </p>
+                                                                @endif
+                                                            </td>
+                                                            <td class="col-4"
+                                                                style="border: 1px solid #dddddd; text-align: center; padding: 8px;">
+                                                                <img class=""
+                                                                    src="{{ asset('/storage/approved.png') }}"
+                                                                    width="50%" style="opacity: 0.5;" />
+                                                                <p>
+                                                                <h6> {{ getFullName($workorders->user_id) }}</h6>
+                                                                </p>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            @endif
                                             <p style="font-size: 14px; color: #555; background-color: #f0f0f0; padding: 5px; border: 1px solid #ccc; margin: 5px 0;"
                                                 class="text-right">
                                                 <strong>Dibuat Oleh:</strong> {{ getFullName($workorders->user_id) }} -
@@ -396,120 +449,7 @@
 
                         </div>
 
-                        {{-- 
-                        <div class="d-flex justify-content-center">
-                            <div class="card card-secondary card-outline col-12 col-md-10">
-                                <div class="card-header">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <h3 class="card-title font-weight-bold">Form Perbaikan</h3>
-                                        <div class="ml-auto">
-                                            <button class="btn btn-link btn-toggle-collapse" type="button"
-                                                data-toggle="collapse" data-target="#collapseCard2" aria-expanded="false"
-                                                aria-controls="collapseCard">
-                                                <i class="fa fa-minus text-secondary"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="collapse show" id="collapseCard2">
-                                    <div class="card-body">
-                                        <div class="form-group row">
-                                            <label for="tgl" class="col-sm-2 col-form-label">Target
-                                                Selesai</label>
-                                            <div class="col-sm-3">
-                                                <input type="text"
-                                                    class="form-control form-control-border disabled-input"
-                                                    name="tgl_dibuat" value="{{ $workorders->date_end }}">
-                                            </div>
-                                            <div class="col-sm-2"></div>
-                                            <div class="col-sm-5">
-                                                <div id="countdown" class="countdown"></div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
 
-                                            <label for="analisa" class="col-sm-2 col-form-label">Analisa
-                                                Kerusakan</label>
-                                            <div class="col-sm-10">
-                                                <textarea class="form-control " name="analisa" rows="2" cols="42" placeholder="Analisa Kerusakan "
-                                                    @if (getUserDept() != 'EDP') disabled @endif required></textarea>
-
-                                            </div>
-
-                                            <label for="tindakan" class="col-sm-2 col-form-label">Tindakan Perbaikan /
-                                                Detail
-                                                Penanganan</label>
-                                            <div class="col-sm-10 mt-2">
-                                                <textarea class="form-control " name="tindakan" rows="4" cols="82" placeholder="Tindakan Perbaikan"
-                                                    @if (getUserDept() != 'EDP') disabled @endif required></textarea>
-
-                                            </div>
-                                        </div>
-                                        <hr>
-
-                                        @if ($workorders->status == 3 && getUserDept() == 'EDP')
-
-                                            <div
-                                                class="bg-danger rounded d-flex align-items-center justify-content-center">
-                                                <span class="text-white fw-bold fs-10">Suku Cadang / sparepart yang
-                                                    digunakan</span>
-                                            </div>
-                                            <table class="table table-bordered text-center pb-2" id="items_table">
-                                                <tr>
-                                                    <th>Nama Sparepart </th>
-                                                    <th>
-                                                        <bold>Stok</bold>
-                                                    </th>
-                                                    <th>
-                                                        <bold>qty</bold>
-                                                    </th>
-                                                    <th>
-                                                        <bold>+/-</bold>
-                                                    </th>
-                                                </tr>
-                                                <tr>
-
-                                                    <td>
-                                                        <select class="form-control select2" name="part[]"
-                                                            style="width: 100%;" onchange="showStok(this)">
-                                                            <option value="">Pilih Sparepart</option>
-                                                            @foreach ($sparepart as $part)
-                                                                <option value="{{ $part->id }}"
-                                                                    data-stok="{{ $part->stok }}"
-                                                                    style="text-align: left;">
-                                                                    {{ $part->nama_sparepart }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-
-                                                    </td>
-                                                    <td style="width: 200px;">
-                                                        <input type="text" class="form-control" name="stok[]"
-                                                            value="" disabled>
-                                                    </td>
-
-                                                    <td style="width: 200px;">
-                                                        <input type="text" class="form-control" name="qty[]"
-                                                            value="{{ old('qty') }}" onkeyup="calculateTotal(this)">
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-transparent"
-                                                            onclick="addRow()"><i class="fas fa-plus text-primary"></i>
-                                                        </button>
-
-
-                                                    </td>
-                                                </tr>
-
-                                            </table><br>
-                                        @endif
-
-                                        <h6>(Diperbaiki Oleh: {{ Auth::user()->nama_lengkap }})</h6>
-
-                                    </div>
-
-                                </div>
-                            </div> --}}
                     </form>
                 </div>
                 <!-- /.content -->

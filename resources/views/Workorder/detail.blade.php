@@ -33,7 +33,7 @@
                         </div>
                     @endif
                     @if ($errors->any())
-                        <div id="myAlert" class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <div id="mtlert" class="alert alert-danger alert-dismissible fade show" role="alert">
                             <strong>Error!</strong> Terdapat beberapa masalah dalam pengisian formulir:
                             <ul>
                                 @foreach ($errors->all() as $error)
@@ -301,7 +301,60 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        <h6>(Dibuat Oleh: {{ getFullName($workorders->user_id) }})</h6>
+                                        @if ($workorders->status == 2)
+                                            <table class="table" style="width: 100%; border-collapse: collapse;">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="col-4"
+                                                            style="border: 1px solid #dddddd; text-align: center; padding: 8px;">
+                                                            Divalidasi,</th>
+                                                        <th class="col-4"
+                                                            style="border: 1px solid #dddddd; text-align: center; padding: 8px;">
+                                                            Diperbaiki oleh,</th>
+                                                        <th class="col-4"
+                                                            style="border: 1px solid #dddddd; text-align: center; padding: 8px;">
+                                                            Dibuat oleh,</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="col-4"
+                                                            style="border: 1px solid #dddddd; text-align: center; padding: 8px;">
+                                                            @if ($workorders->status == 4)
+                                                                <img class=""
+                                                                    src="{{ asset('/storage/approved.png') }}"
+                                                                    width="50%" style="opacity: 0.5;" />
+                                                                <p>
+                                                                <h6> {{ getFullName($workorders->user_id) }}</h6>
+                                                                </p>
+                                                            @endif
+                                                        </td>
+                                                        <td class="col-4"
+                                                            style="border: 1px solid #dddddd; text-align: center; padding: 8px;">
+
+                                                            @if ($workorders->status == 3)
+                                                                <img class=""
+                                                                    src="{{ asset('/storage/approved.png') }}"
+                                                                    width="50%" style="opacity: 0.5;" />
+                                                                <p>
+                                                                <h6> {{ getFullName($workorders->user_id) }}</h6>
+                                                                </p>
+                                                            @endif
+                                                        </td>
+                                                        <td class="col-4"
+                                                            style="border: 1px solid #dddddd; text-align: center; padding: 8px;">
+                                                            <img class=""
+                                                                src="{{ asset('/storage/approved.png') }}" width="50%"
+                                                                style="opacity: 0.5;" />
+                                                            <p>
+                                                            <h6> {{ getFullName($workorders->user_id) }}</h6>
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        @endif
 
                                     </div>
                                 </div>

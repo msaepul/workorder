@@ -29,7 +29,7 @@ class workorder extends Model
         'cabang_id',
         'tindakan',
         'analisa',
-        'is_tx'
+        'id_tx'
     ];
     protected $attributes = [
         'status' => "draft",
