@@ -123,11 +123,16 @@
                                         <div class="col-sm-3">
                                             <select class="form-control form-control-border" name="perangkat_id"
                                                 id="jenis">
+                                                <option value="" disabled
+                                                    @if (old('list_id') == '') selected @endif>Pilih Perangkat
+                                                </option>
                                                 @foreach ($listperangkat as $list)
                                                     <option value="{{ $list->id }}"
                                                         @if (old('list_id') == $list->id) selected @endif>
                                                         {{ $list->nama_perangkat }}
+                                                    </option>
                                                 @endforeach
+
                                             </select>
                                         </div>
                                     </div>

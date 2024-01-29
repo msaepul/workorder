@@ -184,7 +184,7 @@
                                                         <select id="dataSelect" class="form-control">
                                                             <option value="default">Data Work Order</option>
                                                             <option value="alternative1">Perbandingan Sparepart</option>
-                                                            <option value="alternative2">Alternative Data 2</option>
+
                                                         </select>
                                                     </div>
                                                     <div class="chart mt-3">
@@ -510,9 +510,11 @@
             var barChartData = {
                 labels: [
                     @foreach ($wocountbydevice as $count)
-                        {{ $count->perangkat_id }},
+                        "{{ getNamePerangkat($count->perangkat_id) }}",
                     @endforeach
+                    "Label Default"
                 ],
+
                 datasets: [{
                     label: 'Data',
                     backgroundColor: ['#f56954', '#00a65a', '#f39c12'],
@@ -578,14 +580,6 @@
                 }]
             };
 
-            var alternativeData2 = {
-                labels: ['Option 2A', 'Option 2B', 'Option 2C', 'Option 2D'],
-                datasets: [{
-                    data: [10, 40, 20, 30],
-                    backgroundColor: ['#ff9900', '#009900', '#ff6666', '#3366cc'],
-                }]
-            };
-
             var pieChart = new Chart(pieChartCanvas, {
                 type: 'pie',
                 data: defaultData,
@@ -607,9 +601,7 @@
                     case 'alternative1':
                         newData = alternativeData1;
                         break;
-                    case 'alternative2':
-                        newData = alternativeData2;
-                        break;
+
                     default:
                         newData = defaultData;
                 }

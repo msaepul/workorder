@@ -314,7 +314,7 @@ class WorkorderController extends Controller
         } elseif ($status == 5) {
             $item = Workorder::find($id); // Ganti dengan logika Anda untuk mendapatkan item yang sesuai
             $item->status = 5;
-            $item->user_validsai = getUserId();
+            $item->user_validasi = getUserId();
             $item->date_validasi = now();
             $item->save();
             $response = WhatsAppService::sendMessage(
@@ -401,5 +401,14 @@ class WorkorderController extends Controller
     public function export()
     {
         return Excel::download(new WorkordersExport, 'WO.xlsx');
+    }
+
+    public function exportWOCabang()
+    {
+        $cabang = caricabang(@$_GET['cabang']);
+        $bulan = strtoupper(bln(@$_GET['bulan']));
+        $jenis = @$_GET['jenis'];
+
+        return Excel::download(new WorkordersExport, 'WO - ' . $bulan . $cabang . '.xlsx');
     }
 }

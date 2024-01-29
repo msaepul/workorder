@@ -4,42 +4,18 @@ namespace App\Exports;
 
 use App\Models\workorder;
 
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithHeadings;
+
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
 
-class WorkordersExport implements FromCollection, WithHeadings
+class WorkordersExport implements WithMultipleSheets
 {
 
-   
-    public function collection()
-    {
-        return workorder::all();
-    }
-    public function headings(): array
+
+    public function sheets(): array
     {
         return [
-            'ID',
-            'No WO',
-            'WO Created',
-            'Kategori WO',
-            'Perangkat ID',
-            'Lokasi',
-            'Obyek',
-            'Keadaan',
-            'Status',
-            'Lampiran',
-            'User ID',
-            'User Fix ID',
-            'Cabang ID',
-            'Created At',
-            'Updated At',
-            'Analisa',
-            'Tindakan',
-            'ID TX',
-            'Date Start',
-            'Date End',
-            'Date Actual',
+            new Sheet1(),
         ];
     }
 }

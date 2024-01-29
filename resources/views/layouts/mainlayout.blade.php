@@ -313,6 +313,106 @@
         <!-- /.navbar -->
         @include('layouts.side')
         @yield('content')
+
+        {{-- Modal --}}
+        <div id="exportwo" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-info">
+                        <h4 class="modal-title">REKAP WORK ORDER </h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="GET" id="insert_form" action="{{ route('exportWOCabang') }}">
+                            <label>Pilih Cabang </label>
+                            <select name="cabang" id="cabang" class="form-control" required>
+                                <option style="opacity: 10%;" value="" selected disabled>....</option>
+                                <option value="101" @if (cabang() != 'HO' && cabang() != 'PDL') hidden @endif required>PDL
+                                </option>
+                                <option value="102" @if (cabang() != 'HO' && cabang() != 'TGL') hidden @endif required>TGL
+                                </option>
+                                <option value="103" @if (cabang() != 'HO' && cabang() != 'MDO') hidden @endif required>MDO
+                                </option>
+                                <option value="104" @if (cabang() != 'HO' && cabang() != 'MKS') hidden @endif required>MKS
+                                </option>
+                                <option value="105" @if (cabang() != 'HO' && cabang() != 'KDR') hidden @endif required>KDR
+                                </option>
+                                <option value="106" @if (cabang() != 'HO' && cabang() != 'BDJ') hidden @endif required>BDJ
+                                </option>
+                                <option value="107" @if (cabang() != 'HO' && cabang() != 'BWI') hidden @endif required>BWI
+                                </option>
+                                <option value="108" @if (cabang() != 'HO' && cabang() != 'LPG') hidden @endif required>LPG
+                                </option>
+                                <option value="109" @if (cabang() != 'HO' && cabang() != 'DMK') hidden @endif required>DMK
+                                </option>
+                                <option value="110" @if (cabang() != 'HO' && cabang() != 'PLM') hidden @endif required>PLM
+                                </option>
+                                <option value="111" @if (cabang() != 'HO' && cabang() != 'BLI') hidden @endif required>BLI
+                                </option>
+                                <option value="112" @if (cabang() != 'HO' && cabang() != 'PKU') hidden @endif required>PKU
+                                </option>
+                                <option value="116" @if (cabang() != 'HO' && cabang() != 'MDN') hidden @endif required>MDN
+                                </option>
+                                <option value="117" @if (cabang() != 'HO' && cabang() != 'LOM') hidden @endif required>LOM
+                                </option>
+                                <option value="118" @if (cabang() != 'HO' && cabang() != 'PNK') hidden @endif required>PNK
+                                </option>
+                                <option value="119" @if (cabang() != 'HO' && cabang() != 'LLG') hidden @endif required>LLG
+                                </option>
+                                <option value="121" @if (cabang() != 'HO' && cabang() != 'CBL') hidden @endif required>CBL
+                                </option>
+                                <option value="122" @if (cabang() != 'HO' && cabang() != 'JTW') hidden @endif required>JTW
+                                </option>
+                                <option value="123" @if (cabang() != 'HO' && cabang() != 'PLU') hidden @endif required>PLU
+                                </option>
+                                <option value="124" @if (cabang() != 'HO' && cabang() != 'AMQ') hidden @endif required>AMQ
+                                </option>
+                                <option value="125" @if (cabang() != 'HO' && cabang() != 'KDI') hidden @endif required>KDI
+                                </option>
+                            </select>
+                            <label>Pilih Bulan</label>
+
+
+                            <select name="bulan" id="bulan" class="form-control" required>
+
+                                <option value="{{ now()->format('m') }}" selected disabled>.....</option>
+                                @for ($i = 1; $i <= 12; $i++)
+                                    <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}"
+                                        @if ($i == now()->month) selected @endif>
+                                        {{ \Carbon\Carbon::create(null, $i, 1)->format('F') }}
+                                    </option>
+                                @endfor
+
+                            </select>
+                            <label>Pilih Tahun</label>
+                            <select name="tahun" id="tahun" class="form-control" required>
+
+                                <option value="{{ now()->year }}" selected disabled>.....</option>
+                                @for ($year = now()->year; $year >= 2022; $year--)
+                                    <option value="{{ $year }}"
+                                        @if ($year == now()->year) selected @endif>
+                                        {{ $year }}
+                                    </option>
+                                @endfor
+                            </select>
+                            {{-- <label>Pilih Work Order</label>
+                            <select name="jenis" id="jenis" class="form-control" required>
+                                <option value="1">Work Order On progress</option>
+                            </select> --}}
+                            <br>
+
+                    </div>
+                    <div class="modal-footer text-center">
+                        <input type="submit" name="insert" id="insert" value="Export Data"
+                            class="btn btn-success" />
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
         <footer class="main-footer">
             <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
             All rights reserved.

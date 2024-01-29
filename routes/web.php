@@ -64,7 +64,11 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('datawo', [WorkorderController::class, 'datawo'])->name('Dataworkorder');
     Route::get('datawoall', [WorkorderController::class, 'datawoall'])->name('datawoall');
+
+
+
     Route::get('/export', [WorkorderController::class, 'export'])->name('export_wo');
+    Route::get('/exportwo', [WorkorderController::class, 'exportWOCabang'])->name('exportWOCabang');
 
 
     Route::prefix('TPM')->group(function () {

@@ -33,6 +33,22 @@ if (!function_exists('getUserId')) {
     }
 }
 
+if (!function_exists(function: 'bln')) {
+    function bln($tanggal)
+    {
+        if ($tanggal == null) {
+            return '-';
+        } elseif ($tanggal == '') {
+            return '-';
+        } else {
+            $bulan = [01 => 'Januari', 'Febuari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            $hasil_tgl = $bulan[(int) $tanggal];
+
+            return $hasil_tgl;
+        }
+    }
+}
+
 if (!function_exists('getUserDept')) {
     function getUserDept()
     {

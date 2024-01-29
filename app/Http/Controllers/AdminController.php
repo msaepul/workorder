@@ -20,10 +20,10 @@ class AdminController extends Controller
     public function index()
     {
         if (getUserDept() == "EDP" &&  getUserCabang() == 100) {
-            $Wo = workorder::all();
+            $Wo = workorder::where('cabang_id', '=', getUserCabang())->get();
             $WoCount = workorder::where('cabang_id', '=', getUserCabang())->count();
             $WoDoneCount = workorder::where('status', '=', 5)->where('cabang_id', '=', getUserCabang())->count();
-            $items = keluarstok::get();
+            $items = keluarstok::where('cabang_id', '=', getUserCabang())->get();
         } elseif ((getUserDept() == "EDP" &&  getUserCabang() != 100)) {
             $Wo = workorder::where('cabang_id', '=', getUserCabang())->get();
 
@@ -54,9 +54,6 @@ class AdminController extends Controller
             ->orderByDesc('total')
             ->take(5)
             ->get();
-
-
-
 
         $UserCount = User::where('cabang', '=', getUserCabang())->count();
         $Devicecount = perangkat::where('user_id', '=', getUserId())->count();

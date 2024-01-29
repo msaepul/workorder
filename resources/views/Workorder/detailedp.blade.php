@@ -382,7 +382,8 @@
                                                 </div>
                                                 <!-- Add more tab content as needed -->
                                             </div>
-                                            @if ($workorders->status >= 1)
+                                            <hr>
+                                            @if ($workorders->status >= 3)
                                                 <table class="table" style="width: 100%; border-collapse: collapse;">
                                                     <thead>
                                                         <tr>
@@ -402,42 +403,43 @@
                                                         <tr>
                                                             <td class="col-4"
                                                                 style="border: 1px solid #dddddd; text-align: center; padding: 8px;">
-                                                                @if ($workorders->status == 4)
+                                                                @if ($workorders->status == 5 && $workorders->date_validasi != null)
                                                                     <img class=""
                                                                         src="{{ asset('/storage/approved.png') }}"
                                                                         width="50%" style="opacity: 0.5;" />
                                                                     <p>
-                                                                    <h6> {{ getFullName($workorders->user_id) }}</h6>
+                                                                    <h6>
+                                                                        {{ getFullName($workorders->user_validasi) }}-{{ formatTanggalIndonesia($workorders->date_validasi) }}
+                                                                    </h6>
                                                                     </p>
                                                                 @endif
                                                             </td>
                                                             <td class="col-4"
                                                                 style="border: 1px solid #dddddd; text-align: center; padding: 8px;">
 
-                                                                @if ($workorders->status == 3)
+                                                                @if ($workorders->status == 3 && $workorders->date_start != null)
                                                                     <img class=""
                                                                         src="{{ asset('/storage/progress.png') }}"
                                                                         width="50%" style="opacity: 0.5;" />
                                                                     <p>
-                                                                    <h6>{{ getFullName($workorders->userfix_id) }} -
+                                                                    <h6> {{ getFullName($workorders->userfix_id) }}-
                                                                         {{ formatTanggalIndonesia($workorders->date_start) }}
                                                                     </h6>
                                                                     </p>
-                                                                @elseif($workorders->status == 4)
+                                                                @elseif ($workorders->status >= 4 && $workorders->date_actual != null)
                                                                     <img class=""
                                                                         src="{{ asset('/storage/approved.png') }}"
                                                                         width="50%" style="opacity: 0.5;" />
                                                                     <p>
-                                                                    <h6>{{ getFullName($workorders->user_id) }} -
-                                                                        {{ formatTanggalIndonesia($workorders->date_confirm) }}
+                                                                    <h6> {{ getFullName($workorders->userfix_id) }} -
+                                                                        {{ formatTanggalIndonesia($workorders->date_actual) }}
                                                                     </h6>
-
                                                                     </p>
                                                                 @endif
                                                             </td>
                                                             <td class="col-4"
                                                                 style="border: 1px solid #dddddd; text-align: center; padding: 8px;">
-                                                                @if ($workorders->status = 2)
+                                                                @if ($workorders->date_confirm != null)
                                                                     <img class=""
                                                                         src="{{ asset('/storage/approved.png') }}"
                                                                         width="50%" style="opacity: 0.5;" />

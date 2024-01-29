@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class workorder extends Model
 {
@@ -59,5 +60,13 @@ class workorder extends Model
         }
 
         return 'WO' . '-' . cabang() . '/' . $currentYear  . '/' . tgl_id($currentMonth) . '/' . $newNumber;
+    }
+    public static function formatTime($datetime)
+    {
+        return Carbon::parse($datetime)->format(' H:i:s');
+    }
+    public static function formatDate($datetime)
+    {
+        return Carbon::parse($datetime)->format('j F Y ');
     }
 }
