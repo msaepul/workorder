@@ -460,7 +460,6 @@
                                                 <strong>Dibuat Oleh:</strong> {{ getFullName($workorders->user_id) }} -
                                                 {{ date('l, F j, Y H:i', strtotime($workorders->wo_create)) }}
                                             </p>
-
                                     </div>
                                 </div>
                             </div>

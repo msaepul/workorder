@@ -29,7 +29,7 @@ class WhatsAppService
             CURLOPT_POSTFIELDS => json_encode($pesan),
             CURLOPT_HTTPHEADER => array(
                 'Content-Type:application/json',
-                'Authorization: 1527458ab5ae96bb107f0e31113d029b6e79a5d3'
+                'Authorization: 3c6e1bf44afaf296ce941feb4d91da009facecd1'
             ),
         ));
 
