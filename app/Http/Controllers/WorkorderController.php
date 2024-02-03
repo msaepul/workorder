@@ -246,11 +246,21 @@ class WorkorderController extends Controller
             $item = Workorder::find($id);
             $item->date_confirm = now();
             $item->status = 2;
+            $EDP = User::where('cabang', $item->cabang_id)->where('dept', "EDP")->where('no_wa', '!=', '0')->first();
+
             $response = WhatsAppService::sendMessage(
-                "083820073252",
-                "Your Message",
+                getNoUser($item->user_id),
+                "Halo " . getFullName($item->user_id) . ", Work Order yang Anda buat dengan detail:\nNomor: *$item->no_wo*\nStatus saat ini: *CONFIRM*\nPada tanggal: $item->date_confirm.\n\nIni adalah pesan otomatis BOT Arnon Bakery",
                 "https://file-url.com"
             );
+            $response = WhatsAppService::sendMessage(
+                $EDP->no_wa,
+                "Halo " . getFullName($item->user_id) . ", Work Order yang Anda buat dengan detail:\nNomor: *$item->no_wo*\nStatus saat ini: *CONFIRM*\nPada tanggal: $item->date_confirm.\n\nIni adalah pesan otomatis BOT Arnon Bakerya asfafasfas",
+                "https://file-url.com"
+
+            );
+
+
 
             $item->save();
         } elseif ($status == 0) {
@@ -263,7 +273,7 @@ class WorkorderController extends Controller
             $item->date_start = $request->input('date_start');
             $item->date_end = $request->input('date_end');
             $response = WhatsAppService::sendMessage(
-                "083820073252",
+                "08112131669",
                 "Your Message",
                 "https://file-url.com"
             );
@@ -276,7 +286,7 @@ class WorkorderController extends Controller
             $currentDateTime = now();
             $formattedDate = $currentDateTime->format('Y-m-d');
             $response = WhatsAppService::sendMessage(
-                "083820073252",
+                "08112131669",
                 "Your Message",
                 "https://file-url.com"
             );
@@ -318,7 +328,7 @@ class WorkorderController extends Controller
             $item->date_validasi = now();
             $item->save();
             $response = WhatsAppService::sendMessage(
-                "083820073252",
+                "08112131669",
                 "Your Message",
                 "https://file-url.com"
             );

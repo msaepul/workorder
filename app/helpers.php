@@ -91,6 +91,19 @@ if (!function_exists('getFullName')) {
         return null; // Atau nilai default yang sesuai jika pengguna dengan ID tersebut tidak ditemukan
     }
 }
+if (!function_exists('getNoUser')) {
+    function getNoUser($userId)
+    {
+        $user = User::find($userId);
+
+        if ($user) {
+            $nama_lengkap = $user->no_wa;
+            return $nama_lengkap;
+        }
+
+        return null; // Atau nilai default yang sesuai jika pengguna dengan ID tersebut tidak ditemukan
+    }
+}
 
 if (!function_exists('getNamePerangkat')) {
     function getNamePerangkat($id)

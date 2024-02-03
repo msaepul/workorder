@@ -88,7 +88,7 @@
                 @else class="nav-link" @endif>
                                 <i class="fas fa-ellipsis-h nav-icon"></i>
                                 <p>
-                                    Data Work Order
+                                    Work Order {{ cabang() }}
                                 </p>
                             </a>
                         </li>
@@ -99,7 +99,7 @@
                 @else class="nav-link" @endif>
                                     <i class="fas fa-ellipsis-h nav-icon"></i>
                                     <p>
-                                        Seluruh Data WOrk Order
+                                        Work Order Cabang
                                     </p>
                                 </a>
                             </li>
