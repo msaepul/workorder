@@ -1,6 +1,7 @@
 <table border="1">
     @php
         use App\Models\Workorder;
+        $cabang = @$_GET['cabang'];
     @endphp
 
     <thead>
@@ -8,7 +9,7 @@
         </tr>
         <tr>
             <th colspan="9" style="font-weight: bold; background-color: yellow; text-align: center;">WORK ORDER EDP
-                Cabang {{ cabang($cabang) }}
+                Cabang {{ caricabangs($cabang) }}
             </th>
 
 

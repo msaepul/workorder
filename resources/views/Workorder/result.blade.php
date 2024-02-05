@@ -68,11 +68,11 @@
                                                 @if (getUserDept() == 'EDP')
                                                     <button type="submit" name="status" value="0"
                                                         class="btn btn-danger mr-2"
-                                                        onclick="return confirm('Apakah anda ingin membatalkan WO nya?')">Cancel</button>
+                                                        onclick="return confirm('Apakah anda ingin membatalkan WO?')">Cancel</button>
                                                 @else
                                                     <button type="submit" name="status" value="2"
                                                         class="btn btn-danger mr-2"
-                                                        onclick="return confirm('Apakah anda ingin mengkonfirmasi WO nya?')">Confirm</button>
+                                                        onclick="return confirm('Apakah anda ingin mengkonfirmasi WO?')">Confirm</button>
                                                     <a href="{{ route('Workorder_edit', ['id' => $workorders->id]) }}"
                                                         class="btn btn-warning">Edit</a>
                                                 @endif
@@ -80,7 +80,7 @@
                                                 @if (getUserDept() == 'EDP')
                                                     <button type="submit" name="status" value="3"
                                                         class="btn btn-success mr-2"
-                                                        onclick="return confirm('Apakah anda ingin membatalkan WO nya?')">Confirm
+                                                        onclick="return confirm('Apakah anda ingin Mengkonfirmasi WO?')">Confirm
                                                         EDP</button>
                                                 @endif
                                             @elseif ($workorders->status == 3)
@@ -99,6 +99,10 @@
                                                     <button type="submit" name="status" value="5"
                                                         class="btn btn-success mr-2"
                                                         onclick="return confirm('Apakah anda ingin Validasi WO?')">Validasi
+                                                        WO</button>
+                                                    <button type="submit" name="status" value="3"
+                                                        class="btn btn-danger mr-2"
+                                                        onclick="return confirm('Apakah anda ingin Menolak WO?')">Tolak
                                                         WO</button>
                                                 @else
                                                     <span class="btn btn-secondary mr-2 disabled" data-toggle="modal"

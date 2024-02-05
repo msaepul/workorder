@@ -11,7 +11,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Request Sparepart </h1>
+                        <h1>Permintaan Sparepart </h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -32,7 +32,7 @@
                         <div class="card-header">
                             <h3 class="card-title">
                                 <i class="fas fa-edit"></i>
-                                Tx sparepart Keluar
+                                Transaksi sparepart Keluar
                             </h3>
                         </div>
                         <div class="card-body pad table-responsive">

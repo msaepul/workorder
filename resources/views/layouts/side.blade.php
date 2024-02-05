@@ -145,7 +145,7 @@
                                 <i class="fas fa-ellipsis-h nav-icon"></i>
 
                                 <p>
-                                    History Permintaan
+                                    Data Permintaan
                                 </p>
                             </a>
                         </li>

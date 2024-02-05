@@ -25,6 +25,7 @@ class workorder extends Model
         'user_id',
         'dept',
         'userfix_id',
+        'user_confirm',
         'date_confirm',
         'date_start',
         'date_validasi',

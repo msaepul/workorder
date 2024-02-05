@@ -537,8 +537,27 @@
             var i = row.parentNode.parentNode.rowIndex;
             document.getElementById("items_table").deleteRow(i);
         }
-    </script>
-    <script>
+
+        function calculateTotal(inputElement) {
+            var row = inputElement.parentNode.parentNode;
+            var stokInput = row.querySelector('input[name="stok[]"]');
+            var qtyInput = row.querySelector('input[name="qty[]"]');
+            var stok = parseInt(stokInput.value, 10);
+            var qty = parseInt(qtyInput.value, 10);
+
+            // Check if quantity exceeds stock
+            if (qty > stok) {
+                alert('Warning: Quantity yang dimasukan Melebihi stok yang ada');
+                // You can customize the warning display (e.g., show a Bootstrap modal)
+                // and prevent further processing if needed.
+                // Example: $('#warningModal').modal('show');
+                // Example: qtyInput.value = stok; // Set qty to stock value
+            }
+
+            // Your existing logic for calculating total can go here
+            // ...
+        }
+
         function showStok(selectElement) {
             var selectedIndex = selectElement.selectedIndex;
             var stok = selectElement.options[selectedIndex].getAttribute('data-stok');
@@ -547,6 +566,7 @@
             stokInput.value = stok;
         }
     </script>
+
 
     <script>
         // Hide jenis_perangkat field and its label initially

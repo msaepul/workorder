@@ -138,10 +138,6 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('brand/{id}', [MasterController::class, 'hapusbrand'])->name('destory_brand');
 
-
-
-
-
     //Master Data Supplier
     Route::post('supplier-proses', [MasterController::class, 'supplierproses'])->name('supplier_proses');
     //Master Data brand ke db
@@ -149,9 +145,7 @@ Route::middleware('auth')->group(function () {
     Route::put('editsupplier/{id}', [MasterController::class, 'mastereditsupplier'])->name('mastereditsupplier');
     Route::delete('supplier/{id}', [MasterController::class, 'hapussupplier'])->name('destory_supplier');
 
-
     // Master Data Departemen
-
     Route::get('departemen', [MasterController::class, 'masterdepartemen'])->name('masterdepartemen');
     Route::post('departemen-proses', [MasterController::class, 'departemenproses'])->name('departemen_proses');
     Route::put('editdepartemen/{id}', [MasterController::class, 'mastereditdepartemen'])->name('mastereditdepartemen');

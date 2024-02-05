@@ -104,12 +104,24 @@ class WorkorderController extends Controller
         $workorder->cabang_id = $cabang;
         $workorder->dept = $dept;
         $workorder->lampiran = $lampiran;
+        $EDP = User::where('cabang', $workorder->cabang_id)->where('dept', "EDP")->where('no_wa', '!=', '0')->first();
 
+        // dd($EDP);
+        $response = WhatsAppService::sendMessage(
+            getNoUser($workorder->user_id),
+            "Halo " . getFullName($workorder->user_id) . ", Work Order Berhasil anda buat detail:\nNomor: *$workorder->no_wo* \nTanggal Dibuat: $workorder->wo_create.\nDetail Kendala: $workorder->keadaan\n\nIni adalah pesan otomatis BOT Arnon Bakery",
+            null
+        );
+        $response = WhatsAppService::sendMessage(
+            $EDP->no_wa,
+            "Halo " . getFullName($workorder->id) . ", Anda mendapatkan Permintaan Work Order, detail :\nNomor: *$workorder->no_wo* \nTanggal Dibuat: $workorder->wo_create.\nDibuat Oleh: " . getFullName($workorder->user_id) . "\nDetail Kendala: $workorder->keadaan\n\n\nIni adalah pesan otomatis BOT Arnon Bakery",
+            null
+        );
         // Simpan $workorder ke database
         $workorder->save();
 
         $idwo = workorder::where('no_wo', $generate)->max('id');
-        return redirect()->route('Workorder_detail', $idwo);
+        return redirect()->route('Workorder_detail', $idwo)->with($response);
     }
 
 
@@ -245,18 +257,19 @@ class WorkorderController extends Controller
         if ($status == 2) {
             $item = Workorder::find($id);
             $item->date_confirm = now();
+            $item->user_confirm = Auth::user()->id;
             $item->status = 2;
             $EDP = User::where('cabang', $item->cabang_id)->where('dept', "EDP")->where('no_wa', '!=', '0')->first();
 
             $response = WhatsAppService::sendMessage(
                 getNoUser($item->user_id),
-                "Halo " . getFullName($item->user_id) . ", Work Order yang Anda buat dengan detail:\nNomor: *$item->no_wo*\nStatus saat ini: *CONFIRM*\nPada tanggal: $item->date_confirm.\n\nIni adalah pesan otomatis BOT Arnon Bakery",
-                "https://file-url.com"
+                "Halo " . getFullName($item->user_id) . ", Work Order yang Anda buat dengan detail:\nNomor: *$item->no_wo*\nTelah Dikonfirmasi oleh *" . getFullName($item->user_confirm) . "* \nPada tanggal: $item->date_confirm.\n\nIni adalah pesan otomatis BOT Arnon Bakery",
+                null
             );
             $response = WhatsAppService::sendMessage(
                 $EDP->no_wa,
-                "Halo " . getFullName($item->user_id) . ", Work Order yang Anda buat dengan detail:\nNomor: *$item->no_wo*\nStatus saat ini: *CONFIRM*\nPada tanggal: $item->date_confirm.\n\nIni adalah pesan otomatis BOT Arnon Bakerya asfafasfas",
-                "https://file-url.com"
+                "Halo " . getFullName($item->user_confirm) . ", Work Order berhasil anda konfirmasi detail:\nNomor: *$item->no_wo*\nStatus saat ini: *CONFIRM*\nPada tanggal: $item->date_confirm.\nSegera Proses Work Order dan Masukan Target selesai pengerjaan\n\nIni adalah pesan otomatis BOT Arnon Bakery",
+                null
 
             );
 
@@ -272,11 +285,19 @@ class WorkorderController extends Controller
             $item->userfix_id = $request->input('userfix_id');
             $item->date_start = $request->input('date_start');
             $item->date_end = $request->input('date_end');
+
             $response = WhatsAppService::sendMessage(
-                "08112131669",
-                "Your Message",
-                "https://file-url.com"
+                getNoUser($item->user_id),
+                "Halo " . getFullName($item->user_id) . ", Work Order yang Anda buat dengan detail:\nNomor: *$item->no_wo*\nTelah Mulai diproses oleh *" . getFullName($item->user_confirm) . "* \nTarget Selesai: $item->date_end.\n\nIni adalah pesan otomatis BOT Arnon Bakery",
+                null
             );
+            $response = WhatsAppService::sendMessage(
+                getNoUser($item->user_confirm),
+                "Halo " . getFullName($item->user_confirm) . ", Work Order berhasil anda proses detail:\nNomor: *$item->no_wo*\nStatus saat ini: *On Proses*\nPada tanggal: $item->date_start.\nSegera Pilih *Proses WO Selesai* setelah selesai pengerjaan\n\nIni adalah pesan otomatis BOT Arnon Bakery",
+                null
+
+            );
+
             $item->status = 3;
             $item->save();
         } elseif ($status == 4) {
@@ -285,11 +306,6 @@ class WorkorderController extends Controller
             $notx = keluarstok::generateNomor();
             $currentDateTime = now();
             $formattedDate = $currentDateTime->format('Y-m-d');
-            $response = WhatsAppService::sendMessage(
-                "08112131669",
-                "Your Message",
-                "https://file-url.com"
-            );
             if ($itemNames[0] === null) {
                 $item = Workorder::find($id);
                 $item->id_tx = null;
@@ -297,6 +313,17 @@ class WorkorderController extends Controller
                 $item->tindakan = $request->input('tindakan');
                 $item->date_actual = $request->input('date_actual');
                 $item->status = 4;
+                $response = WhatsAppService::sendMessage(
+                    getNoUser($item->user_id),
+                    "Halo " . getFullName($item->user_id) . ", Work Order yang Anda buat dengan detail:\nNomor: *$item->no_wo*\nTelah Selesai diproses oleh *" . getFullName($item->userfix_id) . "* \nAktual Selesai: $item->date_actual.\nSegera Segera Validasi WO Jika sudah sesuai\n\nIni adalah pesan otomatis BOT Arnon Bakery",
+                    null
+                );
+                $response = WhatsAppService::sendMessage(
+                    getNoUser($item->userfix_id),
+                    "Halo " . getFullName($item->userfix_id) . ", Work Order Selesai anda proses detail:\nNomor: *$item->no_wo*\nStatus saat ini: *Menunggu Validasi User*\n\n\nIni adalah pesan otomatis BOT Arnon Bakery",
+                    null
+
+                );
                 $item->save();
             } else {
                 foreach ($itemNames as $index => $itemName) {
@@ -319,6 +346,17 @@ class WorkorderController extends Controller
                 $item->tindakan = $request->input('tindakan');
                 $item->date_actual = $request->input('date_actual');
                 $item->status = 4;
+                $response = WhatsAppService::sendMessage(
+                    getNoUser($item->user_id),
+                    "Halo " . getFullName($item->user_id) . ", Work Order yang Anda buat dengan detail:\nNomor: *$item->no_wo*\nTelah Selesai diproses oleh *" . getFullName($item->userfix_id) . "* \nAktual Selesai: $item->date_actual.\nSegera Segera Validasi WO Jika sudah sesuai\n\nIni adalah pesan otomatis BOT Arnon Bakery",
+                    null
+                );
+                $response = WhatsAppService::sendMessage(
+                    getNoUser($item->userfix_id),
+                    "Halo " . getFullName($item->userfix_id) . ", Work Order Selesai anda proses detail:\nNomor: *$item->no_wo*\nStatus saat ini: *Menunggu Validasi User*\n\n\nIni adalah pesan otomatis BOT Arnon Bakery",
+                    null
+
+                );
                 $item->save();
             }
         } elseif ($status == 5) {
@@ -328,9 +366,15 @@ class WorkorderController extends Controller
             $item->date_validasi = now();
             $item->save();
             $response = WhatsAppService::sendMessage(
-                "08112131669",
-                "Your Message",
-                "https://file-url.com"
+                getNoUser($item->user_id),
+                "Halo " . getFullName($item->user_id) . ", Work Order yang Anda buat dengan detail:\nNomor: *$item->no_wo*\nBerhasil Anda Validasi \nPada Tanggal: $item->date_validasi.\n\nIni adalah pesan otomatis BOT Arnon Bakery",
+                null
+            );
+            $response = WhatsAppService::sendMessage(
+                getNoUser($item->userfix_id),
+                "Halo " . getFullName($item->userfix_id) . ", Work Order Yang anda kerjakan dengan detail:\nNomor: *$item->no_wo*\nStatus saat ini: *Sudah di Vlidasi*\n\n\nIni adalah pesan otomatis BOT Arnon Bakery",
+                null
+
             );
         }
         // Kembalikan respon atau lakukan pengalihan (redirect) ke halaman yang sesuai

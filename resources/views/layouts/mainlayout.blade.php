@@ -291,7 +291,7 @@
                         <a href="#" class="dropdown-item">
                             <i class="fas fa-gear mr-2"></i> Setting
                             <div class="dropdown-divider"></div>
-                            <a href="logout" class="dropdown-item">
+                            <a href="{{ route('logout') }}" class="dropdown-item">
                                 <i class="fas fa-sign-out mr-2"></i>Logout
 
                             </a>
