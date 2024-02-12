@@ -11,12 +11,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Request Sparepart</h1>
+                        <h1>Detail Permintaan Sparepart</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Contact us</li>
+                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Detail Permintaan</li>
                         </ol>
                     </div>
                 </div>
@@ -56,7 +56,11 @@
                                             </button>
                                             <a href="{{ route('editrequest_sparepart', $data->id) }}"
                                                 class="btn btn-secondary "> <i class="nav-icon fas fa-edit"></i>
-                                                Edit</a>
+                                                Edit</a> &nbsp;&nbsp;
+                                            <button type="submit" name="status" value="0" class="btn btn-danger "
+                                                onclick="return confirm('Apakah anda ingin membatalkan Permintaan Sparepart?')">
+                                                Cancel
+                                            </button>
                                         @else
                                             <span class="btn btn-secondary mr-2 disabled" data-toggle="modal"
                                                 data-target="#confirmModal">Menunggu EDP Mengeluarkan Sparepart</span>
@@ -66,26 +70,37 @@
 
                                 </div>
                             </div>
-                            <div class="right-status">
-                                <div class="status-container">
-                                    <div class="box{{ $data->status == 1 ? ' bg-primary' : '' }}">
-                                        <span class="status">Draft</span>
+                            @if ($data->status != 0)
+                                <div class="right-status">
+                                    <div class="status-container">
+                                        <div class="box{{ $data->status == 1 ? ' bg-primary' : '' }}">
+                                            <span class="status">Draft</span>
+                                        </div>
+                                        <div class="arrow"></div>
                                     </div>
-                                    <div class="arrow"></div>
-                                </div>
-                                <div class="status-container">
-                                    <div class="box x{{ $data->status == 2 ? ' bg-primary' : '' }}">
-                                        <span class="status">Confirm</span>
+                                    <div class="status-container">
+                                        <div class="box x{{ $data->status == 2 ? ' bg-primary' : '' }}">
+                                            <span class="status">Confirm</span>
+                                        </div>
+                                        <div class="arrow"></div>
                                     </div>
-                                    <div class="arrow"></div>
-                                </div>
-                                <div class="status-container">
-                                    <div class="box x{{ $data->status == 3 ? ' bg-primary' : '' }}">
-                                        <span class="status">Done</span>
+                                    <div class="status-container">
+                                        <div class="box x{{ $data->status == 3 ? ' bg-primary' : '' }}">
+                                            <span class="status">Done</span>
+                                        </div>
                                     </div>
-                                </div>
 
-                            </div>
+                                </div>
+                            @else
+                                <div class="right-status">
+                                    <div class="status-container">
+                                        <div class="box{{ $data->status == 1 ? ' bg-primary' : '' }}">
+                                            <span class="status">Cancel</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -97,7 +112,7 @@
                         <div class="card-header">
                             <h3 class="card-title">
                                 <i class="fas fa-edit"></i>
-                                Tx sparepart request {{ $data->id_tx }}
+                                Transaksi Permintaan Sparepart {{ $data->id_tx }}
                             </h3>
                         </div>
                         <div class="card-body pad table-responsive">

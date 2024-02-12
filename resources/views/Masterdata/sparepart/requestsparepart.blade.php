@@ -59,7 +59,7 @@
                                 <div class="col-md-4">
                                     <label for="tgl_permintaan">Tanggal Permintaan</label>
                                     <input type="date" class="form-control" name="tgl_permintaan"
-                                        value="{{ old('tgl_permintaan') }}" required min="{{ date('Y-m-d') }}">
+                                        value="{{ old('tgl_permintaan') }}" required max="{{ date('Y-m-d') }}">
 
                                 </div>
                                 <div class="col-md-3">

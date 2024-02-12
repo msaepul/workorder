@@ -76,7 +76,7 @@
                                                 <td>{{ $device->jenis_perangkat }}</td>
                                                 <td>{{ $device->spesifikasi }}</td>
                                                 <td>{{ $device->brand_name }} / {{ $device->type_name }}</td>
-                                                <td>{{ $device->user->nama_lengkap }}</td>
+                                                <td>{{ getFullName($device->user_id) }}</td>
                                                 <td>{{ $device->cabang_name }}</td>
                                                 <td>{{ $device->status }}</td>
                                                 <td>

@@ -79,11 +79,15 @@ Route::middleware('auth')->group(function () {
 
     // Routing Master Data User
     Route::prefix('user')->group(function () {
+        Route::get('create', [MasterController::class, 'addUser'])->name('tambah_user');
         Route::get('', [MasterController::class, 'user'])->name('user');
-        Route::post('', [MasterController::class, 'userProses'])->name('user_proses');
-        Route::patch('/{id}', ['as' => 'user.update', 'uses' => 'App\Http\Controllers\MasterController@updateUser']);
-        Route::delete('/delete/{id}', ['as' => 'user.delete', 'uses' => 'App\Http\Controllers\MasterController@deleteUser']);
-        Route::delete('/{id}', [MasterController::class, 'delete']);
+        Route::post('', [MasterController::class, 'add_action'])->name('user_proses');
+        Route::get('edit/{id}', [MasterController::class, 'edituser'])->name('edit_user');
+        Route::put('/user/{id}', [MasterController::class, 'updateuser'])->name('user.update');
+
+        // Route::patch('/{id}', ['as' => 'user.update', 'uses' => 'App\Http\Controllers\MasterController@updateUser']);
+        // Route::delete('/delete/{id}', ['as' => 'user.delete', 'uses' => 'App\Http\Controllers\MasterController@deleteUser']);
+        Route::delete('/user/{id}',  [MasterController::class, 'destroy'])->name('user.destroy');
     });
 
 
@@ -153,7 +157,7 @@ Route::middleware('auth')->group(function () {
 
     //  Master Data Cabang
     Route::get('cabang', [MasterController::class, 'mastercabang'])->name('mastercabang');
-    Route::post('cabang-proses', [MasterController::class, 'cabangproses'])->name('cabang_proses');
+    Route::post('cabang', [MasterController::class, 'cabangproses'])->name('cabang_proses');
     Route::put('editcabang/{id}', [MasterController::class, 'mastereditcabang'])->name('mastereditcabang');
     Route::delete('cabang/{id}', [MasterController::class, 'hapuscabang'])->name('destory_cabang');
 

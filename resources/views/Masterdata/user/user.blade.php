@@ -12,9 +12,11 @@
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1>
-                            MASTER DATA User
+                            MASTER DATA USER
                         </h1>
                     </div>
+
+
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -30,12 +32,12 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <a href="tambah-perangkat" type="button" class="btn btn-primary">
+                                <a href="{{ route('tambah_user') }}" type="button" class="btn btn-primary">
                                     <i class="nav-icon fas fa-plus"></i> Tambah Pengguna
                                 </a>
 
                             </div>
-                            {{-- @include('Masterdata.perangkat.modaladdperangkat') --}}
+
 
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -58,15 +60,22 @@
                                                 <td>{{ $user->email }}</td>
                                                 <td class="text-center">{{ $user->cabang }}</td>
                                                 <td class="text-center">{{ $user->dept }}</td>
-                                                <td class="text-center"> <button type="button"
-                                                        class="btn btn-sm btn-warning" data-toggle="modal"
-                                                        data-target="#modal-edit{{ $user->id }}">
-                                                        <i class="nav-icon fas fa-pen"></i>Edit
-                                                    </button> <button type="button" class="btn btn-sm btn-danger"
-                                                        data-toggle="modal" data-target="#modal-delete{{ $user->id }}">
-                                                        <i class="nav-icon fas fa-trash"></i> hapus
-                                                    </button>
+                                                <td class="text-center">
+                                                    <a href="{{ route('edit_user', ['id' => $user->id]) }}"
+                                                        class="btn btn-sm btn-warning">
+                                                        <i class="nav-icon fas fa-pen"></i> Edit
+                                                    </a>
+                                                    <form action="{{ route('user.destroy', ['id' => $user->id]) }}"
+                                                        method="POST" style="display: inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-sm btn-danger"
+                                                            onclick="return confirm('Are you sure you want to delete this user?')">
+                                                            <i class="nav-icon fas fa-trash"></i> Hapus
+                                                        </button>
+                                                    </form>
                                                 </td>
+
                                             </tr>
                                         @endforeach
 

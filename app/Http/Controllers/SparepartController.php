@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\keluarstok;
+use Dompdf\Dompdf;
 use App\Models\User;
 use App\Models\supplier;
-use App\Models\tambahstok;
 use App\Models\Sparepart;
-use Dompdf\Dompdf;
+use App\Models\keluarstok;
+use App\Models\tambahstok;
 use Illuminate\Http\Request;
+use App\Services\WhatsAppService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Facades\Storage;
@@ -183,7 +184,6 @@ class SparepartController extends Controller
                 }
             }
         }
-
         return redirect()->route('detailrequest_sparepart', $id);
     }
     //edit Sparepart Request
@@ -261,7 +261,29 @@ class SparepartController extends Controller
 
         if ($status == 1) {
             $idwo = keluarstok::where('id_tx', $notx)->max('id');
-            return redirect()->route('detailrequest_sparepart', $idwo)->with('success', 'Data Permintaan Berhasil Ditambahkan, mohon menunggu EDP menyetujui Permintaan.');
+            $EDP = User::where('cabang', $cabangs)->where('dept', "EDP")->where('no_wa', '!=', '0')->first();
+            $items = keluarstok::where('id_tx', $notx)->get();
+            $item = keluarstok::where('id_tx', $notx)->first();
+            $groupedHistory = $items->groupBy('id_tx');
+            $barangNames = $groupedHistory->map(function ($group) {
+                return $group->pluck('id_spr')->map(function ($id_spr) {
+                    return getNamesparepart($id_spr);
+                })->toArray();
+            });
+            $response = WhatsAppService::sendMessage(
+                getNoUser(getUserId()),
+                "Halo " . getFullName(getUserId()) . ", Permintaan Sparepart anda telah dibuat dengan detail:\nNomor Transaksi: *$notx* \nTanggal Dibuat: $tgls.\nDetail Barang: " . implode(', ', $barangNames->first()) . "\n\nIni adalah pesan otomatis BOT Arnon Bakery",
+                null
+            );
+
+            $response = WhatsAppService::sendMessage(
+                $EDP->no_wa,
+                "Halo " . getFullName($EDP->id) . ", Terdapat Permintaan Sparepart anda telah dibuat dengan detail:\nNomor Transaksi: *$notx* \nDiminta oleh:" . getFullName($item->user_id) . "\nTanggal Dibuat: $tgls.\nDetail Barang: " . implode(', ', $barangNames->first()) . "\n\nIni adalah pesan otomatis BOT Arnon Bakery",
+                null
+            );
+
+
+            return redirect()->route('detailrequest_sparepart', $idwo)->with('success', 'Data Permintaan Berhasil Ditambahkan.')->with($response);
             // Melakukan redirect dan menyertakan pesan sukses
 
         } else {
@@ -274,7 +296,6 @@ class SparepartController extends Controller
     {
         $request->validate([
             'nama_sparepart' => 'required',
-
         ]);
 
 
@@ -305,8 +326,6 @@ class SparepartController extends Controller
             'harga' => 'required',
             'tgl_pbl' => 'required|date',
         ]);
-
-
         $sparepart = Sparepart::find($id);
         $sparepart->nama_sparepart = $request->input('nama_sparepart');
         $sparepart->supplier = $request->input('supplier');
@@ -314,13 +333,12 @@ class SparepartController extends Controller
         $sparepart->harga = $request->input('harga');
         $sparepart->tgl_pbl = $request->input('tgl_pbl');
         $sparepart->id_cabang = $request->input('id_cabang');
-
         $sparepart->save();
 
         // Sparepart::create($request->all());
         // // Membuat data sparepart baru berdasarkan data yang diambil dari request
 
-        return redirect()->route('sparepart')->with('success', 'Data sparepart berhasil ditambahkan.');
+        return redirect()->route('sparepart')->with('success', 'Data sparepart berhasil Dirubah.');
         // Melakukan redirect dan menyertakan pesan sukses
     }
 
@@ -338,10 +356,7 @@ class SparepartController extends Controller
         $data = Sparepart::findOrFail($id);
         $data->delete();
 
-        // Setelah menghapus data, Anda dapat melakukan tindakan lainnya,
-        // seperti mengirimkan respon atau mengalihkan pengguna ke halaman lain.
-
-        return redirect()->route('sparepart')->with('success', 'Data berhasil dihapus');
+        return redirect()->back()->with('success', 'Data berhasil dihapus');
     }
 
     public function updates(Request $request)

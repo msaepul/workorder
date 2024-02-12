@@ -26,49 +26,167 @@ class MasterController extends Controller
         $users = DB::table('tb_login')
             ->join('tb_cabang', 'tb_login.cabang', '=', 'tb_cabang.id')
             ->select('tb_login.*', 'tb_cabang.ket', 'tb_cabang.cabang')
+            ->where('tb_login.cabang', '=', getUserCabang())
             ->get();
 
         // $users = User::with('cabang')->get();
         return view('Masterdata.user.user', compact('users'));
     }
-    public function userProses(Request $request)
+    public function add_action(Request $r)
     {
-        $validated = $request->validate([
-            'nama_lengkap' => 'required|max:100',
-            'username' => 'required|email|max:255|unique:users',
-            'password' => 'required|max:255',
-            'cabang_id' => 'required',
-            'departemen_id' => 'required',
+        $gender     = $r->gender != 1 ? 0 : 1;
+        // $marital    = $r->marital != 1 ? 0 : 1;
+        // $pic        = $r->pic != 1 ? 0 : 1;
+
+        $getid          = User::all()->max('id');
+        $lastid         = $getid + 1;
+
+        $id             = $r->id;
+        $dept           = $r->dept;
+        $cabang         = $r->cabang;
+        $nama_lengkap   = $r->nama_lengkap;
+        $birth_date     = $r->birth_date;
+        $twitter        = $r->twitter;
+        $instagram      = $r->instagram;
+        $email          = $r->email;
+        $password       = $r->password;
+        $spassword      = $r->spassword;
+        $no_telegram    = $r->no_telegram;
+        $no_wa          = $r->no_wa;
+        $id_kirim       = 5;
+        $foto           = 'default.jpg';
+
+        $validateData = $r->validate(
+            [
+                'dept'          =>  'required',
+                'cabang'        =>  'required',
+                'nama_lengkap'  =>  'required',
+                'birth_date'    =>  'required',
+                'twitter'       =>  'required',
+                'instagram'     =>  'required',
+                'email'         =>  'required|unique:tb_login,email',
+                'password'      =>  'required',
+                'no_telegram'   =>  'required',
+                'no_wa'         =>  'required',
+
+            ],
+            [
+                'dept.required'         =>  'Kolom Departemen Tidak Boleh Kosong',
+                'cabang.required'       =>  'Kolom Cabang Tidak Boleh Kosong',
+                'nama_lengkap.required' =>  'Kolom nama_lengkap Tidak Boleh Kosong',
+                'birth_date.required'   =>  'Kolom birth_date Tidak Boleh Kosong',
+                'twitter.required'      =>  'Kolom twitter Tidak Boleh Kosong',
+                'instagram.required'    =>  'Kolom instagram Tidak Boleh Kosong',
+                'email.required'        =>  'Nama Lengkap Tidak Boleh Kosong',
+                'email.unique'          =>  'Nama Anda Sudah Terdaftar di Sistem',
+                'password.required'     =>  'Kolom password Tidak Boleh Kosong',
+                'no_telegram.required'  =>  'Kolom no_telegram Tidak Boleh Kosong',
+                'no_wa.required'        =>  'Kolom no_wa Tidak Boleh Kosong',
+                'id_kirim.required'     =>  'Kolom id_kirim Tidak Boleh Kosong',
+            ]
+        );
+
+
+        $adduser                = new User;
+        $adduser->id            = $id;
+        $adduser->dept          = $dept;
+        $adduser->cabang        = $cabang;
+        $adduser->nama_lengkap  = $nama_lengkap;
+        $adduser->gender        = $gender;
+        $adduser->marital       = 0;
+        $adduser->pic           = 0;
+        $adduser->level = (getUserCabang() == 100) ? 'ho' : 'cabang';
+        $adduser->birth_date    = $birth_date;
+        $adduser->twitter       = $twitter;
+        $adduser->instagram     = $instagram;
+        $adduser->email         = $email;
+        $adduser->password      = Hash::make($password);
+        $adduser->spassword     = $password;
+        $adduser->no_telegram   = $no_telegram;
+        $adduser->no_wa         = $no_wa;
+        $adduser->id_kirim      = $id_kirim;
+        $adduser->foto          = $foto;
+
+        $adduser->save();
+        return redirect("/user/create")->with('success', 'Sukses, Akun ' . $nama_lengkap . ' Berhasil dibuat');
+    }
+    public function addUser()
+    {
+        $data = [
+            // 'dataKategori' => Modelkategori::all()->where('ket', "kategori"), 
+            'dataDept' => Dept::all()->sortBy('dept'),
+            'dataCabang' => Cabang::all(),
+
+        ];
+        return View('Masterdata.user.adduser', $data);
+    }
+
+    public function edituser($id)
+    {
+        $utama = User::find($id);
+        $utama->id = $id;
+
+        $data = [
+            'utama'         => $utama,
+            'id'            => $id,
+            'dept'          => $utama->dept,
+            'cabang'        => $utama->cabang,
+            'nama_lengkap'  => $utama->nama_lengkap,
+            'gender'        => $utama->gender,
+            'birth_date'    => $utama->birth_date,
+            'marital'       => $utama->marital,
+            'twitter'       => $utama->twitter,
+            'instagram'     => $utama->instagram,
+            'email'         => $utama->email,
+            'password'      => $utama->password,
+            'spassword'     => $utama->spassword,
+            'no_telegram'   => $utama->no_telegram,
+            'no_wa'         => $utama->no_wa,
+            'level'         => $utama->level,
+            'id_kirim'      => $utama->id_kirim,
+            'pic'           => $utama->pic,
+            'foto'          => $utama->foto,
+            'dataDept'      => Dept::all()->sortBy('dept'),
+            'dataCabang'    => Cabang::all(),
+
+        ];
+        return View('Masterdata.user.edituser', $data, compact('utama'));
+    }
+    public function updateuser(Request $request, $id)
+    {
+
+        // Find the user by ID
+        $user = User::find($id);
+
+        // Update the user properties
+        $user->update([
+            'nama_lengkap'  => $request->input('nama_lengkap'),
+            'gender'        => $request->input('gender'),
+            'birth_date'    => $request->input('birth_date'),
+            'marital'       => $request->input('marital'),
+            'twitter'       => $request->input('twitter'),
+            'instagram'     => $request->input('instagram'),
+            'email'         => $request->input('email'),
+            'no_telegram'   => $request->input('no_telegram'),
+            'dept'   => $request->input('dept'),
+            'cabang'   => $request->input('cabang'),
+            'no_wa'         => $request->input('no_wa'),
+            'level'         => (getUserCabang() == 100) ? 'ho' : 'cabang',
+            'id_kirim'      => 0,
+            'pic'           => 0,
         ]);
 
-        $request['password'] = Hash::make($request->password);
-
-        $user = User::create($request->all());
-
-        $users = User::with('Cabang')->get();
-        return view('Masterdata.user.user', compact('users'));
+        // Redirect back with a success message
+        return redirect()->route('user')->with('success', 'User ' . $user->nama_lengkap . ' updated successfully.');
     }
 
-    public function updateUser(Request $request, $id)
+    public function destroy($id)
     {
         $user = User::find($id);
-        $input = $request->all();
-        $user->fill($input)->save();
 
-        return redirect('user');
-    }
-    public function deleteUser($id)
-    {
-        $user = User::find($id);
         $user->delete();
 
-        return redirect('user');
-    }
-
-    public function hapusUser($id)
-    {
-        $user = User::find($id);
-        $user->delete();
+        return redirect()->route('user')->with('success', 'User ' . $user->nama_lengkap . ' deleted successfully.');
     }
 
     // Master Data Perangkat
@@ -191,7 +309,7 @@ class MasterController extends Controller
         if (getUserdept() == 'EDP') {
             $workorders = workorder::where('cabang_id', '=', $cabang)->get();
         } else {
-            $workorders = workorder::where('user_id', '=', $user)->get();
+            $workorders = workorder::where('user_id', '=', $users)->get();
         }
         $users = User::all()->first();
         // Mengambil data berdasarkan ID
@@ -405,11 +523,11 @@ class MasterController extends Controller
     {
         $validatedData = $request->validate(
             [
-                'cabang ' => 'required',
+                'cabang' => 'required',
             ],
             [
-                'nama_perangkat.required' => 'Kolom Nama Perangkat harus diisi.',
-            ],
+                'cabang.required' => 'Kolom Nama Perangkat harus diisi.',
+            ]
         );
 
         $cabang = new Cabang();
@@ -421,6 +539,7 @@ class MasterController extends Controller
 
         return redirect()->back();
     }
+
 
     public function hapuscabang($id)
     {

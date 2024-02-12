@@ -19,7 +19,7 @@
 
                     <div class="form-group">
                         <label for="description">Keterangan:</label>
-                        <textarea class="form-control" id="description" name="ket" value="{{ old('cabang') }}"></textarea>
+                        <textarea class="form-control" id="description" name="ket" value="{{ old('ket') }}"></textarea>
                     </div>
 
                 </div>

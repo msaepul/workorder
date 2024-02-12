@@ -114,7 +114,7 @@ class WorkorderController extends Controller
         );
         $response = WhatsAppService::sendMessage(
             $EDP->no_wa,
-            "Halo " . getFullName($workorder->id) . ", Anda mendapatkan Permintaan Work Order, detail :\nNomor: *$workorder->no_wo* \nTanggal Dibuat: $workorder->wo_create.\nDibuat Oleh: " . getFullName($workorder->user_id) . "\nDetail Kendala: $workorder->keadaan\n\n\nIni adalah pesan otomatis BOT Arnon Bakery",
+            "Halo " . getFullName($EDP->id) . ", Anda mendapatkan Permintaan Work Order, detail :\nNomor: *$workorder->no_wo* \nTanggal Dibuat: $workorder->wo_create.\nDibuat Oleh: " . getFullName($workorder->user_id) . "\nDetail Kendala: $workorder->keadaan\n\n\nIni adalah pesan otomatis BOT Arnon Bakery",
             null
         );
         // Simpan $workorder ke database
